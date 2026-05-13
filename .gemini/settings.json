@@ -1,0 +1,13 @@
+{
+  "theme": "Default",
+  "contextFileName": "GEMINI.md",
+  "enableAgents": true,
+  "autoAccept": false,
+  "coreTools": [
+    "GoogleWebSearch",
+    "ReadFile",
+    "WriteFile",
+    "RunShellCommand",
+    "WebFetch"
+  ]
+}
