@@ -25,7 +25,7 @@ export default function Register({
     })
 
     if (error) {
-      return redirect('/register?message=Could not authenticate user')
+      return redirect(`/register?message=${encodeURIComponent(error.message)}`)
     }
 
     return redirect('/register?message=Check email to continue sign in process')

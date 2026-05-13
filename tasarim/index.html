@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Araştır - High-conversion landing page</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Montserrat:wght@600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#bfc7d8",
+                        "on-secondary-container": "#00311f",
+                        "error-container": "#93000a",
+                        "surface-container-high": "#2a2a2b",
+                        "on-primary-fixed-variant": "#3f4755",
+                        "on-surface": "#e4e2e3",
+                        "primary": "#bfc7d8",
+                        "on-background": "#e4e2e3",
+                        "tertiary-container": "#021225",
+                        "surface-container": "#1f1f20",
+                        "tertiary": "#b7c8e1",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#005236",
+                        "inverse-primary": "#575f6d",
+                        "on-surface-variant": "#c5c6cc",
+                        "inverse-surface": "#e4e2e3",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-tertiary-fixed-variant": "#38485d",
+                        "surface-container-highest": "#353536",
+                        "surface-tint": "#bfc7d8",
+                        "on-tertiary-container": "#6e7e96",
+                        "primary-container": "#0a121e",
+                        "surface-variant": "#353536",
+                        "surface": "#131314",
+                        "on-secondary": "#003824",
+                        "on-tertiary-fixed": "#0b1c30",
+                        "on-primary": "#29313e",
+                        "tertiary-fixed-dim": "#b7c8e1",
+                        "tertiary-fixed": "#d3e4fe",
+                        "surface-container-low": "#1b1b1c",
+                        "inverse-on-surface": "#303031",
+                        "primary-fixed": "#dbe3f4",
+                        "outline": "#8f9096",
+                        "surface-dim": "#131314",
+                        "on-secondary-fixed": "#002113",
+                        "surface-bright": "#39393a",
+                        "surface-container-lowest": "#0e0e0f",
+                        "on-primary-fixed": "#141c28",
+                        "on-error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#4edea3",
+                        "on-tertiary": "#213145",
+                        "on-error": "#690005",
+                        "background": "#131314",
+                        "secondary": "#4edea3",
+                        "on-primary-container": "#767d8d",
+                        "secondary-container": "#00a572",
+                        "outline-variant": "#45474c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "24px",
+                        "container-max": "1440px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "title-md": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "title-md": ["20px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glow-ambient {
+            box-shadow: 0 0 60px 10px rgba(78, 222, 163, 0.05);
+        }
+
+        .glow-hover:hover {
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background font-body-md antialiased pt-20">
+    <!-- TopAppBar -->
+    <header
+        class="bg-surface/80 backdrop-blur-md dark:bg-surface/80 text-secondary dark:text-secondary fixed top-0 w-full z-50 border-b border-outline-variant/20 shadow-sm dark:shadow-none">
+        <div
+            class="flex justify-between items-center px-margin-desktop md:px-margin-desktop px-margin-mobile h-20 max-w-container-max mx-auto">
+            <div
+                class="flex items-center gap-2 font-title-md text-title-md font-bold text-secondary dark:text-secondary">
+                <img alt="Araştır Logo" class="h-8 w-auto rounded"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2azPTK854GQ_vYz97gBR2eeYPNHUQCtAtif9RqkQTczbxdakFRU39vtqvF8fzZNt_46E4ShpGGFgCoq7rjyxBa6ZUihZOXl68th8NpuX8rl7cENbLwMVSjLWINWhOhUfaAqUMShOxpuewmEzCJFsdi7LwX-lcHRwrrPdSEYl_59OTmbVIvy3hWINrtlIwwH9zp2cVHUHVyXFa9asEIWNGx9_xk3lMkXHptG18WEmsxf64AAPihrOh77NBWhkizCcQbP7O3A3qQ8E" />
+            </div>
+            <nav class="hidden md:flex gap-8">
+                <a class="text-on-surface-variant hover:text-secondary transition-colors font-label-sm text-label-sm"
+                    href="#">Features</a>
+                <a class="text-on-surface-variant hover:text-secondary transition-colors font-label-sm text-label-sm"
+                    href="#">How it Works</a>
+                <a class="text-on-surface-variant hover:text-secondary transition-colors font-label-sm text-label-sm"
+                    href="#">Pricing</a>
+            </nav>
+            <button
+                class="bg-secondary text-on-secondary font-title-md text-label-sm py-2 px-4 rounded hover:opacity-80 transition-all duration-300 active:scale-95 glow-hover hidden md:block">
+                Demo Başlat
+            </button>
+            <button class="md:hidden text-on-surface-variant hover:text-secondary transition-colors">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+    </header>
+    <main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 flex flex-col gap-24">
+        <!-- Hero Section -->
+        <section class="relative flex flex-col items-center text-center py-24 gap-8">
+            <div
+                class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-secondary/10 via-background to-background blur-3xl opacity-50">
+            </div>
+            <h1 class="font-display-lg text-display-lg text-on-surface max-w-4xl">
+                Piyasa Araştırmasında 2 Saati <span class="text-secondary">10 Dakikaya</span> İndirin
+            </h1>
+            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                Search, Validation, Analysis ve Report aşamalarından oluşan 4 aşamalı AI pipeline.
+            </p>
+            <div class="flex gap-4 mt-4">
+                <button
+                    class="bg-secondary text-on-secondary font-title-md text-title-md py-3 px-8 rounded-lg hover:opacity-80 transition-all duration-300 active:scale-95 glow-hover shadow-lg shadow-secondary/20">
+                    Demo Başlat
+                </button>
+            </div>
+        </section>
+        <!-- Comparison Section -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+            <!-- Eski Yöntem -->
+            <div
+                class="bg-surface-container p-8 rounded-xl border border-outline-variant/30 flex flex-col gap-6 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-error/50"></div>
+                <h3 class="font-title-md text-title-md text-on-surface border-b border-outline-variant/20 pb-4">Eski
+                    Yöntem</h3>
+                <ul class="flex flex-col gap-4 text-on-surface-variant font-body-md">
+                    <li class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-error text-xl">close</span>
+                        Manual and slow data gathering.
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-error text-xl">close</span>
+                        Scattered sources, high risk of bias.
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-error text-xl">close</span>
+                        Hours spent compiling basic reports.
+                    </li>
+                </ul>
+            </div>
+            <!-- Araştır Yolu -->
+            <div
+                class="bg-surface-container p-8 rounded-xl border border-secondary/30 flex flex-col gap-6 relative overflow-hidden glow-ambient">
+                <div class="absolute top-0 left-0 w-1 h-full bg-secondary"></div>
+                <h3 class="font-title-md text-title-md text-secondary border-b border-outline-variant/20 pb-4">Araştır
+                    Yolu</h3>
+                <ul class="flex flex-col gap-4 text-on-surface font-body-md">
+                    <li class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-secondary text-xl">check_circle</span>
+                        Automated, continuous data extraction.
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-secondary text-xl">check_circle</span>
+                        8+ validated premium sources analyzed instantly.
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-secondary text-xl">check_circle</span>
+                        98% accuracy in synthesis and reporting.
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <!-- How it Works (4 Agents) -->
+        <section class="flex flex-col gap-12 pt-12">
+            <div class="text-center flex flex-col gap-4">
+                <h2 class="font-headline-lg text-headline-lg text-on-surface">Intelligence Pipeline</h2>
+                <p class="font-body-md text-on-surface-variant">The 4-stage autonomous architecture driving our market
+                    synthesis.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+                <!-- Agent 1 -->
+                <div
+                    class="bg-surface-container-high p-6 rounded-lg border border-outline-variant/20 hover:border-secondary/50 transition-colors duration-300 flex flex-col gap-4">
+                    <div class="bg-primary-container w-12 h-12 rounded flex items-center justify-center text-secondary">
+                        <span class="material-symbols-outlined"
+                            style="font-variation-settings: 'FILL' 1;">travel_explore</span>
+                    </div>
+                    <h4 class="font-title-md text-title-md text-on-surface">Arama</h4>
+                    <p class="font-body-md text-label-sm text-on-surface-variant">Rapid traversal of global databases to
+                        extract preliminary signals.</p>
+                </div>
+                <!-- Agent 2 -->
+                <div
+                    class="bg-surface-container-high p-6 rounded-lg border border-outline-variant/20 hover:border-secondary/50 transition-colors duration-300 flex flex-col gap-4">
+                    <div class="bg-primary-container w-12 h-12 rounded flex items-center justify-center text-secondary">
+                        <span class="material-symbols-outlined"
+                            style="font-variation-settings: 'FILL' 1;">fact_check</span>
+                    </div>
+                    <h4 class="font-title-md text-title-md text-on-surface">Doğrulama</h4>
+                    <p class="font-body-md text-label-sm text-on-surface-variant">Cross-referencing claims against
+                        authoritative benchmarks to ensure integrity.</p>
+                </div>
+                <!-- Agent 3 -->
+                <div
+                    class="bg-surface-container-high p-6 rounded-lg border border-outline-variant/20 hover:border-secondary/50 transition-colors duration-300 flex flex-col gap-4 relative">
+                    <div class="absolute left-0 top-6 w-1 h-8 bg-secondary rounded-r"></div>
+                    <div class="bg-primary-container w-12 h-12 rounded flex items-center justify-center text-secondary">
+                        <span class="material-symbols-outlined"
+                            style="font-variation-settings: 'FILL' 1;">analytics</span>
+                    </div>
+                    <h4 class="font-title-md text-title-md text-on-surface">Analist</h4>
+                    <p class="font-body-md text-label-sm text-on-surface-variant">Synthesizing verified data points into
+                        actionable insights and trends.</p>
+                </div>
+                <!-- Agent 4 -->
+                <div
+                    class="bg-surface-container-high p-6 rounded-lg border border-outline-variant/20 hover:border-secondary/50 transition-colors duration-300 flex flex-col gap-4">
+                    <div class="bg-primary-container w-12 h-12 rounded flex items-center justify-center text-secondary">
+                        <span class="material-symbols-outlined"
+                            style="font-variation-settings: 'FILL' 1;">edit_document</span>
+                    </div>
+                    <h4 class="font-title-md text-title-md text-on-surface">Yazar</h4>
+                    <p class="font-body-md text-label-sm text-on-surface-variant">Formatting the synthesized
+                        intelligence into institutional-grade reports.</p>
+                </div>
+            </div>
+        </section>
+        <!-- Previews -->
+        <section class="flex flex-col gap-12 pt-12">
+            <div class="text-center flex flex-col gap-4">
+                <h2 class="font-headline-lg text-headline-lg text-on-surface">Output Fidelity</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div
+                    class="relative group rounded-xl overflow-hidden border border-outline-variant/20 bg-surface-container-low aspect-[4/3] flex items-center justify-center">
+                    <div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60 z-10"></div>
+                    <img alt="PDF Mockup"
+                        class="w-full h-full object-cover opacity-50 blur-[2px] transition-all duration-500 group-hover:blur-0 group-hover:opacity-80"
+                        data-alt="A stylized, high-contrast, blurred representation of a professional financial PDF report viewed on a dark screen. The document features abstract data visualizations in emerald green against a deep navy background. The aesthetic is modern, institutional-grade, and sleek, evoking a high-end fintech terminal light-mode aesthetic but adapted for dark mode. Soft ambient glow indicates high stakes and technological mastery."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx6U4rWlzlg4Q7NE5ZM3Odt5w_JEy-pC5_FIPf4XBKW4Svx1MkV3Wq-84bNItRzcSS8wmcztCbMClVRbW68nSmkv7NsCU7sxQed9bItfIXMEzZguEK60V409k0oNcecuG_z3qmqc1uU0_CfJBodwsxhmZWaLo9Kpq70mcQp6f9-9T9nPZhLlTdVHAc1i-DU32GZSjk6GiaiW3t9S3ZC3xz5qA9AiSTJmYm9USk4xoMIKZpcgaKdy2g3fnY1Mwj5uNlmKuITFPcfrQ" />
+                    <div class="absolute bottom-6 left-6 z-20 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary">picture_as_pdf</span>
+                        <span class="font-title-md text-on-surface">Executive PDF Summary</span>
+                    </div>
+                </div>
+                <div
+                    class="relative group rounded-xl overflow-hidden border border-outline-variant/20 bg-surface-container-low aspect-[4/3] flex items-center justify-center">
+                    <div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60 z-10"></div>
+                    <img alt="PPTX Mockup"
+                        class="w-full h-full object-cover opacity-50 blur-[2px] transition-all duration-500 group-hover:blur-0 group-hover:opacity-80"
+                        data-alt="A sleek, blurred mockup of a professional presentation slide deck (PPTX format) displayed on a dark background. The slides showcase minimalist abstract charts, sparklines, and text blocks utilizing an emerald green and slate gray palette. The lighting is dramatic and moody, reflecting a sophisticated, AI-driven market research tool tailored for enterprise analysts and venture capitalists."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIVzpGphAr0SNcTZGV05PgLBFFTqB_ftUlmXYNXRr9T0IgPE_QX0BrWZOcXWS83vL2aJlN-H7uQM0lndjNvvOJB3HjWRYx9LawHreHeASHNS8evA-8yR2kfrx_vNuPDzA5uFpJU7fmCrZh-7jNJUS7RJRpkKirNfLPXDECgpzjNyLXwrEnvWWXGx8XRnzFbUn4fE9D4sTtPaQ3ZDtVPfJiWDg9CB2WmQkgJUOR0eVtDPPnmaS0ebg0RDX2Hav7zsGWt2no-_89sXI" />
+                    <div class="absolute bottom-6 left-6 z-20 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary">slideshow</span>
+                        <span class="font-title-md text-on-surface">Presentation Deck</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Signup Form -->
+        <section
+            class="max-w-2xl mx-auto w-full bg-surface-container p-8 md:p-12 rounded-xl border border-outline-variant/20 relative overflow-hidden mt-12 mb-24">
+            <div class="absolute -top-24 -right-24 w-48 h-48 bg-secondary/10 rounded-full blur-3xl pointer-events-none">
+            </div>
+            <div class="flex flex-col gap-6 text-center mb-8">
+                <h2 class="font-headline-lg text-headline-lg text-on-surface">Secure Early Access</h2>
+                <p class="font-body-md text-on-surface-variant">Tailored for BIST investors and SMEs requiring rapid
+                    synthesis.</p>
+            </div>
+            <form class="flex flex-col gap-6">
+                <div class="flex flex-col gap-2">
+                    <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider"
+                        for="email">Corporate Email</label>
+                    <input
+                        class="bg-primary-container border-b border-outline-variant/50 border-0 focus:ring-0 focus:border-secondary text-on-surface p-3 transition-colors duration-200 outline-none w-full"
+                        id="email" placeholder="analyst@firm.com" type="email" />
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider"
+                        for="role">Primary Role</label>
+                    <select
+                        class="bg-primary-container border-b border-outline-variant/50 border-0 focus:ring-0 focus:border-secondary text-on-surface p-3 transition-colors duration-200 outline-none w-full appearance-none"
+                        id="role">
+                        <option value="bist">BIST Investor</option>
+                        <option value="sme">SME Executive</option>
+                        <option value="analyst">Market Analyst</option>
+                    </select>
+                </div>
+                <button
+                    class="bg-secondary text-on-secondary font-title-md text-title-md py-4 px-6 rounded-lg mt-4 hover:opacity-90 transition-all duration-300 active:scale-95 shadow-[0_0_20px_rgba(78,222,163,0.2)]"
+                    type="submit">
+                    Request Access
+                </button>
+            </form>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer
+        class="bg-surface-container-lowest dark:bg-surface-container-lowest text-secondary dark:text-secondary w-full py-12 border-t border-outline-variant/10">
+        <div
+            class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+            <div class="col-span-1 md:col-span-1 flex flex-col gap-4">
+                <span class="font-title-md text-title-md font-bold text-secondary dark:text-secondary">Araştır</span>
+                <p class="font-body-md text-body-md text-on-surface-variant">© 2024 Araştır. Intelligence-driven market
+                    synthesis.</p>
+            </div>
+            <div class="col-span-1 flex flex-col gap-2">
+                <a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors duration-200"
+                    href="#">LinkedIn</a>
+                <a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors duration-200"
+                    href="#">Twitter</a>
+            </div>
+            <div class="col-span-1 flex flex-col gap-2">
+                <a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors duration-200"
+                    href="#">Privacy Policy</a>
+                <a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors duration-200"
+                    href="#">Terms of Service</a>
+            </div>
+            <div class="col-span-1 flex flex-col gap-2">
+                <a class="font-body-md text-body-md text-on-surface-variant hover:text-secondary transition-colors duration-200"
+                    href="#">Contact</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
