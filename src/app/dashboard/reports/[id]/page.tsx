@@ -3,6 +3,8 @@ import { auth } from '@clerk/nextjs/server';
 import { createClient } from '@supabase/supabase-js';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { MarketDataCard } from '@/components/dashboard/MarketDataCard';
+import { MacroDataCard } from '@/components/dashboard/MacroDataCard';
 
 export default async function ReportDetailPage({ params }: { params: { id: string } }) {
   const { userId } = auth();
@@ -12,16 +14,30 @@ export default async function ReportDetailPage({ params }: { params: { id: strin
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
   const supabase = createClient(supabaseUrl, supabaseKey);
 
-  const { data: report, error } = await supabase
-    .from('research_history')
+  // Fetch session details from the new table
+  const { data: session, error: sessionError } = await supabase
+    .from('research_sessions')
     .select('*')
     .eq('id', params.id)
     .eq('user_id', userId)
     .single();
 
-  if (error || !report) return notFound();
+  if (sessionError || !session) return notFound();
 
-  const metadata = report.metadata || {};
+  // Fetch all agent runs for this session to get outputs
+  const { data: agentRuns, error: runsError } = await supabase
+    .from('agent_runs')
+    .select('*')
+    .eq('session_id', params.id);
+
+  const runs = agentRuns || [];
+  const analystRun = runs.find(r => r.agent_name === 'analyst');
+  const marketRun = runs.find(r => r.agent_name === 'market');
+  const macroRun = runs.find(r => r.agent_name === 'macro');
+
+  const metadata = analystRun?.output_data || {};
+  const marketData = marketRun?.output_data;
+  const macroData = macroRun?.output_data;
 
   return (
     <main className="flex-1 overflow-y-auto p-margin-desktop z-10">
@@ -33,14 +49,14 @@ export default async function ReportDetailPage({ params }: { params: { id: strin
               <span className="material-symbols-outlined text-sm">arrow_back</span>
               Dashboard'a Dön
             </Link>
-            <h1 className="text-on-surface font-headline text-display-md">{report.query} Araştırma Raporu</h1>
+            <h1 className="text-on-surface font-headline text-display-md">{session.query} Araştırma Raporu</h1>
             <p className="text-on-surface-variant font-body-md">
-              {new Intl.DateTimeFormat('tr-TR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(report.created_at))} tarihinde oluşturuldu
+              {new Intl.DateTimeFormat('tr-TR', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(session.created_at))} tarihinde oluşturuldu
             </p>
           </div>
           <div className="flex gap-4">
             <a 
-              href={report.result_path || '#'} 
+              href={session.result_url || '#'} 
               target="_blank"
               className="bg-secondary text-primary-container px-6 py-2 rounded font-headline font-bold text-sm flex items-center gap-2 hover:shadow-[0_0_20px_rgba(78,222,163,0.3)] transition-all"
             >
@@ -48,6 +64,12 @@ export default async function ReportDetailPage({ params }: { params: { id: strin
               PDF İNDİR
             </a>
           </div>
+        </div>
+
+        {/* Market & Macro Cards Layer */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter mt-4">
+          <MarketDataCard data={marketData as any} ticker={session.extracted_ticker || session.query} />
+          <MacroDataCard data={macroData as any} />
         </div>
 
         {/* Content Grid */}
@@ -111,19 +133,15 @@ export default async function ReportDetailPage({ params }: { params: { id: strin
               <div className="flex flex-col gap-4 text-sm">
                 <div className="flex justify-between border-b border-outline-variant/10 pb-2">
                   <span className="text-on-surface-variant">Hisse / Konu</span>
-                  <span className="text-on-surface font-bold">{report.query}</span>
+                  <span className="text-on-surface font-bold">{session.query}</span>
                 </div>
                 <div className="flex justify-between border-b border-outline-variant/10 pb-2">
                   <span className="text-on-surface-variant">Durum</span>
-                  <span className="text-secondary font-bold">Tamamlandı</span>
+                  <span className="text-secondary font-bold">{session.status === 'completed' ? 'Tamamlandı' : session.status}</span>
                 </div>
                 <div className="flex justify-between border-b border-outline-variant/10 pb-2">
-                  <span className="text-on-surface-variant">Kullanılan Agent</span>
-                  <span className="text-on-surface">Gemini 1.5 Pro</span>
-                </div>
-                <div className="flex justify-between border-b border-outline-variant/10 pb-2">
-                  <span className="text-on-surface-variant">Token Kullanımı</span>
-                  <span className="text-on-surface">1,240</span>
+                  <span className="text-on-surface-variant">Kullanılan Agent'lar</span>
+                  <span className="text-on-surface text-right max-w-[120px]">{runs.filter(r => r.status === 'completed').map(r => r.agent_name).join(', ')}</span>
                 </div>
               </div>
             </section>
@@ -141,7 +159,7 @@ export default async function ReportDetailPage({ params }: { params: { id: strin
                 </li>
                 <li className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-xs">link</span>
-                  <a href="#" className="hover:underline">Dünya Gazetesi Arşivi</a>
+                  <a href="https://evds2.tcmb.gov.tr" target="_blank" className="hover:underline">TCMB Verileri</a>
                 </li>
               </ul>
             </section>
