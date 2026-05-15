@@ -4,7 +4,7 @@ export interface UserProfile {
   id: string;
   email: string;
   tier: Tier;
-  tokens_balance: number; // View computed
+  balance: number; // View computed
   created_at: string;
 }
 
