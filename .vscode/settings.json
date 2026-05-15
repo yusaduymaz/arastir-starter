@@ -1,3 +1,6 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "claudeCode.allowDangerouslySkipPermissions": true,
+    "claudeCode.enableNewConversationShortcut": true,
+    "claudeCode.useTerminal": true
 }

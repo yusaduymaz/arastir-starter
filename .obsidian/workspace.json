@@ -1,0 +1,201 @@
+{
+  "main": {
+    "id": "470faefe6d9aaab3",
+    "type": "split",
+    "children": [
+      {
+        "id": "5c66f0fd6beeda24",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3055740799487ac4",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Grafik Görünümü"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "fc0dd0b3d3eb90cd",
+    "type": "split",
+    "children": [
+      {
+        "id": "4f9ca8fd490f4e71",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e98a84f4d891e88d",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Dosya Gezgini"
+            }
+          },
+          {
+            "id": "641496e476502a98",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Ara"
+            }
+          },
+          {
+            "id": "3d0848f1033aba4d",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Yer İmleri"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "f20e23145d4cf517",
+    "type": "split",
+    "children": [
+      {
+        "id": "f73e1cf6a4fb07d8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f284823e0e39e9b3",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Geri Bağlantılar"
+            }
+          },
+          {
+            "id": "df72e4de25903022",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Giden bağlantılar"
+            }
+          },
+          {
+            "id": "f9125bc249592d09",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiketler"
+            }
+          },
+          {
+            "id": "8a20a7f15d31efdf",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Tüm özellikler"
+            }
+          },
+          {
+            "id": "2a44d769337c02df",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Anahat"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Hızlı geçişi aç": false,
+      "graph:Grafik görünümünü aç": false,
+      "canvas:Yeni tuval oluşturun": false,
+      "daily-notes:Bugünün Notunu Aç": false,
+      "templates:Şablon ekle": false,
+      "command-palette:Komut paletini aç": false,
+      "bases:Yeni taban oluştur": false
+    }
+  },
+  "active": "3055740799487ac4",
+  "lastOpenFiles": [
+    "research/1778806792084-thyao-market.json",
+    "node_modules/tsx/package.json",
+    "node_modules/@deno/shim-deno/node_modules/which/lib/index.js",
+    "node_modules/@deno/shim-deno/node_modules/which/lib",
+    "research/1778806753623-macro.json",
+    "src/types/research.ts.tmp.4956.886168932e71",
+    "src/lib/tuik/client.ts.tmp.4956.fe211ccc3b5e",
+    "src/agents/analyst-agent.ts.tmp.4956.f998642e7d28",
+    "src/agents/analyst-agent.ts.tmp.4956.ee4ccc60953a",
+    "src/agents/analyst-agent.ts.tmp.4956.d2de0f7bc4b6",
+    "src/lib/market/client.ts.tmp.4956.e96c8054d6a0",
+    "node_modules/querystringify/README.md",
+    "node_modules/requires-port/README.md",
+    "node_modules/@esbuild/win32-x64/README.md",
+    "node_modules/esbuild/README.md",
+    "node_modules/esbuild/LICENSE.md",
+    "DESIGN.md",
+    "node_modules/undici-types/README.md",
+    "node_modules/es-shim-unscopables/CHANGELOG.md"
+  ]
+}
