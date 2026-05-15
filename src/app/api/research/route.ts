@@ -15,7 +15,7 @@ import { NextResponse } from 'next/server'
 import { auth, currentUser } from '@clerk/nextjs/server'
 import { createClient } from '@supabase/supabase-js'
 import * as path from 'path'
-import { extractTicker } from '@/lib/ticker-extractor'
+import { extractTicker, TickerExtractionResult } from '@/lib/ticker-extractor'
 import { AgentLogEntry } from '@/types/research'
 import { validateEnv, EnvValidationError } from '@/lib/env-check'
 
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
     const extraction = extractTicker(rawQuery)
     const ticker = extraction.ticker
 
-    console.log(`[Orchestrator] Raw query: "${rawQuery}" -> Extracted ticker: "${ticker}" (method: ${extraction.method})`)
+    console.log(`[Orchestrator] Raw query: "${rawQuery}" -> Extracted ticker: "${ticker}" (method: ${extraction.method}, queryType: ${extraction.queryType})`)
 
     // Initialize Supabase Client (Service Role for backend operations)
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -145,9 +145,9 @@ export async function POST(request: Request) {
 
     // Check Tokens
     const { data: userRecord, error: userError } = await supabase
-      .from('users')
-      .select('tokens_balance, tier')
-      .eq('id', userId)
+      .from('user_balances')
+      .select('balance, tier')
+      .eq('user_id', userId)
       .single()
 
     let finalUserRecord = userRecord;
@@ -159,12 +159,16 @@ export async function POST(request: Request) {
 
       await supabase
         .from('users')
-        .upsert({ id: userId, email, tier: 'free', tokens_balance: 5 }, { onConflict: 'id', ignoreDuplicates: true })
+        .upsert({ id: userId, email, tier: 'free' }, { onConflict: 'id', ignoreDuplicates: true })
+
+      await supabase
+        .from('token_ledger')
+        .insert({ user_id: userId, amount: 5, transaction_type: 'grant', description: 'Lazy creation bonus' })
 
       const { data: fetchedUser, error: fetchError } = await supabase
-        .from('users')
-        .select('tokens_balance, tier')
-        .eq('id', userId)
+        .from('user_balances')
+        .select('balance, tier')
+        .eq('user_id', userId)
         .single()
 
       if (fetchError || !fetchedUser) {
@@ -173,15 +177,14 @@ export async function POST(request: Request) {
       finalUserRecord = fetchedUser;
     }
 
-    if (!finalUserRecord || finalUserRecord.tokens_balance <= 0) {
+    if (!finalUserRecord || finalUserRecord.balance <= 0) {
       return NextResponse.json({ error: 'Yetersiz token. Lutfen planinizi yukseltin.' }, { status: 403 })
     }
 
     // Deduct 1 token
     const { error: deductError } = await supabase
-      .from('users')
-      .update({ tokens_balance: (finalUserRecord?.tokens_balance ?? 0) - 1 })
-      .eq('id', userId)
+      .from('token_ledger')
+      .insert({ user_id: userId, amount: -1, transaction_type: 'usage', description: `Research query for ${ticker}` })
 
     if (deductError) {
       console.error('Token deduction error:', deductError)
@@ -217,7 +220,7 @@ export async function POST(request: Request) {
     }
 
     // 2. Fire and forget in-process agent execution
-    executeResearchPipeline(ticker, record.id, supabase).catch(err => {
+    executeResearchPipeline(ticker, record.id, supabase, extraction).catch(err => {
       console.error(`Pipeline error for ${record.id}:`, err)
     })
 
@@ -230,8 +233,11 @@ export async function POST(request: Request) {
 }
 
 // In-process pipeline — all agents called as direct async functions
-async function executeResearchPipeline(ticker: string, recordId: string, supabase: any) {
-  console.log(`[Pipeline] Starting in-process pipeline for ${ticker} (ID: ${recordId})`);
+async function executeResearchPipeline(ticker: string, recordId: string, supabase: any, extraction: TickerExtractionResult) {
+  const { queryType, topicKeywords } = extraction;
+  const isTicker = queryType === 'ticker';
+
+  console.log(`[Pipeline] Starting in-process pipeline for ${ticker} (ID: ${recordId}, queryType: ${queryType})`);
 
   try {
     // ── STEP 1: Veri Toplama (Paralel) — 5% ──
@@ -240,10 +246,14 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
       current_step: 'Veri ajanlari baslatiliyor...',
     }).eq('id', recordId);
 
+    const agentList = isTicker
+      ? 'KAP, Haberler, Piyasa, Makro'
+      : 'KAP, Haberler, Makro (Piyasa atlandi — konu sorgusu)';
+
     await appendAgentLog(supabase, recordId, {
       agent: 'orchestrator',
       status: 'running',
-      message: `4 veri ajani paralel olarak baslatiliyor: KAP, Haberler, Piyasa, Makro`,
+      message: `Veri ajanlari baslatiliyor: ${agentList}`,
     });
 
     const searchStartTime = Date.now();
@@ -254,16 +264,19 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
     // ── 10% — All agents launched ──
     await supabase.from('research_history').update({
       progress: 10,
-      current_step: 'KAP, Haberler, Piyasa ve Makro Verisi Cekiliyor...',
+      current_step: isTicker
+        ? 'KAP, Haberler, Piyasa ve Makro Verisi Cekiliyor...'
+        : 'KAP, Haberler ve Makro Verisi Cekiliyor (Konu Sorgusu)...',
     }).eq('id', recordId);
 
-    console.log(`[Pipeline] Calling 4 data agents in-process for ${ticker}...`);
+    console.log(`[Pipeline] Calling data agents in-process for ${ticker} (queryType: ${queryType})...`);
 
     // Direct in-process calls — no child_process, no file I/O
+    // Topic queries skip market agent (no valid ticker for stock data)
     const [searchResult, newsResult, marketResult, macroResult] = await Promise.allSettled([
       runSearchAgent(ticker),
-      runNewsAgent(ticker),
-      runMarketAgent(ticker),
+      runNewsAgent(ticker, queryType, topicKeywords),
+      isTicker ? runMarketAgent(ticker) : Promise.resolve(null),
       runMacroAgent(),
     ]);
 
@@ -306,14 +319,22 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
     }
 
     // Log market agent result
-    if (marketResult.status === 'fulfilled') {
+    if (!isTicker) {
+      // Topic queries — market agent was skipped intentionally
+      await appendAgentLog(supabase, recordId, {
+        agent: 'market',
+        status: 'skipped',
+        message: `Piyasa Ajani atlandi — konu sorgusu icin gecerli ticker yok`,
+        duration_ms: 0,
+      });
+    } else if (marketResult.status === 'fulfilled') {
       const marketStatus = marketResult.value ? 'completed' : 'failed';
       await appendAgentLog(supabase, recordId, {
         agent: 'market',
         status: marketStatus,
         message: marketResult.value
           ? `Piyasa verileri basariyla cekildi`
-          : `Piyasa Ajani veri donduremed (non-blocking)`,
+          : `Piyasa Ajani veri donduremedi (non-blocking)`,
         duration_ms: Date.now() - marketStartTime,
       });
     } else {
