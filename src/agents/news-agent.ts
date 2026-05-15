@@ -1,72 +1,39 @@
-import * as fs from 'fs';
-import * as path from 'path';
 import { z } from 'zod';
-import { fetchNews } from '../lib/news/client';
-import { NewsArticleSchema } from '../types/news';
+import { searchNews } from '../lib/news/api_client';
+import { NewsArticle, NewsArticleSchema } from '../types/news';
 import { analyzeSentiment } from '../lib/news/sentiment';
 
-export async function runNewsAgent(topic: string): Promise<string> {
+export async function runNewsAgent(topic: string): Promise<NewsArticle[]> {
   console.log(`[News Agent] Starting news search and analysis for: ${topic}`);
 
   try {
-    // 1. Fetch data
-    const rawData = await fetchNews(topic, 3);
-    
-    // 2. Analyze sentiment
-    console.log(`[News Agent] Analyzing sentiment for ${rawData.length} articles...`);
+    // 1. Fetch data via Currents API
+    const rawData = await searchNews(topic);
+
+    // 2. Map Currents API response -> internal NewsArticle format + sentiment
+    console.log(`[News Agent] Mapping and analyzing sentiment for ${rawData.length} articles...`);
     const analyzedData = rawData.map(article => {
-      const { sentiment } = analyzeSentiment(article.content);
+      const content = article.description || article.title;
+      const { sentiment } = analyzeSentiment(content);
       return {
-        ...article,
-        sentiment
+        title: article.title,
+        date: article.published,
+        source: article.author || 'Currents API',
+        url: article.url,
+        content,
+        sentiment,
       };
     });
 
     // 3. Validate data
     console.log('[News Agent] Validating data structure...');
     const validatedData = z.array(NewsArticleSchema).parse(analyzedData);
-    
-    // 4. Prepare output directory
-    const researchDir = path.resolve(__dirname, '../../research');
-    if (!fs.existsSync(researchDir)) {
-      fs.mkdirSync(researchDir, { recursive: true });
-    }
 
-    // 5. Save to file
-    const timestamp = Date.now();
-    const safeTopic = topic.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-    const fileName = `${timestamp}-${safeTopic}-news.json`;
-    const outputPath = path.join(researchDir, fileName);
+    console.log(`[News Agent] Successfully validated ${validatedData.length} news articles for ${topic}`);
 
-    fs.writeFileSync(outputPath, JSON.stringify(validatedData, null, 2), 'utf-8');
-    console.log(`[News Agent] Successfully saved validated news data to: ${outputPath}`);
-
-    return outputPath;
+    return validatedData;
   } catch (error) {
     console.error(`[News Agent] Failed to process news for ${topic}:`, error);
     throw error;
   }
-}
-
-// CLI Execution Wrapper
-async function main() {
-  const args = process.argv.slice(2);
-  const topic = args[0];
-
-  if (!topic) {
-    console.error('Usage: npx ts-node src/agents/news-agent.ts <TICKER/TOPIC>');
-    process.exit(1);
-  }
-
-  try {
-    await runNewsAgent(topic);
-    process.exit(0);
-  } catch (error) {
-    process.exit(1);
-  }
-}
-
-// Execute if run directly
-if (require.main === module) {
-  main();
 }
