@@ -30,7 +30,7 @@ export async function DELETE(
 
     // İlk olarak raporun bu kullanıcıya ait olup olmadığını kontrol et
     const { data: record, error: fetchError } = await supabase
-      .from('research_history')
+      .from('research_sessions')
       .select('user_id')
       .eq('id', reportId)
       .single();
@@ -45,7 +45,7 @@ export async function DELETE(
 
     // Raporu sil
     const { error: deleteError } = await supabase
-      .from('research_history')
+      .from('research_sessions')
       .delete()
       .eq('id', reportId);
 
