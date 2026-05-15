@@ -144,6 +144,22 @@ Plans:
 - [ ] 10-03-PLAN.md — Fix News Search Relevance + Query Type Awareness (Wave 2)
 - [ ] 10-04-PLAN.md — Frontend: Market & Macro Data Display + Skipped Agent UX (Wave 3)
 
+### Phase 11: Multi-Agent SaaS Architecture Redesign
+**Goal**: Completely overhaul the database architecture and orchestrator to support an open-closed multi-agent system and professional SaaS ledger-based billing. Move away from monolithic 'god tables' and hardcoded agent lists towards an event-driven, scalable model.
+**Depends on**: Phase 10
+**Requirements**: ARCH-01, SAAS-04, DB-01
+**Success Criteria** (what must be TRUE):
+  1. The database utilizes a `token_ledger` for robust token auditing (no race conditions).
+  2. The `research_sessions` table is clean and holds no agent-specific output columns.
+  3. Individual agents log their state, inputs, and outputs to an `agent_runs` table, allowing for dynamic addition of new agents without altering the main session schema.
+  4. Real-time frontend updates are driven by subscribing to `agent_runs` and `agent_logs` rather than a single progress integer.
+**Plans**: 4 plans
+Plans:
+- [ ] 11-01-PLAN.md — Database Architecture Overhaul (Supabase Migrations)
+- [ ] 11-02-PLAN.md — Core SaaS Services (Ledger & User Types Refactoring)
+- [ ] 11-03-PLAN.md — Agent Orchestrator Refactor (Run-based Execution)
+- [ ] 11-04-PLAN.md — Frontend Dashboard Refactor (Realtime Subscriptions)
+
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
@@ -154,3 +170,4 @@ Plans:
 | 4. High-Risk Data Integration - News | 3/3 | Completed | Yes |
 | 5. User-Facing Application | 3/3 | Completed | Yes |
 | 10. Vercel-Ready Pipeline Refactor | 1/4 | In Progress | No |
+| 11. Multi-Agent SaaS Architecture | 0/4 | Planned | No |

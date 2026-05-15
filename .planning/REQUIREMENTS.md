@@ -28,8 +28,12 @@
 - **UI-03**: Implement user registration and login functionality using Supabase Auth.
 - **UI-04**: Display a history of past research requests for authenticated users.
 
-## v2 (Future)
-- *No v2 requirements defined yet.*
+## v2 (PRO Grade Features)
+### UX & SCALE - Real-time & Performance
+- **UX-01**: Implement real-time WebSocket progress updates for running agents so users see active percentages and current steps.
+- **UX-02**: Allow users to delete their past research reports from the database and UI.
+- **AI-02**: Upgrade the Analyst Agent to use "Chain of Thought" prompting for deep, professional financial analysis, producing Markdown.
+- **SYS-01**: Implement a Caching mechanism. If a ticker was researched within the last 6 hours, return the cached result to save tokens, API costs, and scraping bans.
 
 ## Traceability
 
@@ -45,6 +49,20 @@
 | AGENT-01    | 2     | Pending |
 | SCRAPE-01   | 3     | Pending |
 | AGENT-02    | 3     | Pending |
+| SCRAPE-02   | 4     | Pending |
+| AGENT-03    | 4     | Pending |
+| UI-01       | 5     | Pending |
+| UI-02       | 5     | Pending |
+| UI-03       | 5     | Pending |
+| UI-04       | 5     | Pending |
+| SAAS-01     | 6     | Pending |
+| SAAS-02     | 6     | Pending |
+| SAAS-03     | 6     | Pending |
+| UX-01       | 8     | Pending |
+| UX-02       | 8     | Pending |
+| AI-02       | 8     | Pending |
+| SYS-01      | 8     | Pending |
+NT-02    | 3     | Pending |
 | SCRAPE-02   | 4     | Pending |
 | AGENT-03    | 4     | Pending |
 | UI-01       | 5     | Pending |
