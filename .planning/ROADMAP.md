@@ -160,6 +160,22 @@ Plans:
 - [x] 11-03-PLAN.md — Agent Orchestrator Refactor (Run-based Execution)
 - [x] 11-04-PLAN.md — Frontend Dashboard Refactor (Realtime Subscriptions)
 
+### Phase 12: Data Reliability & Vercel Compatibility
+**Goal**: Ensure the data pipeline is 100% reliable and compatible with Vercel serverless functions by removing Puppeteer, improving search relevance, and displaying all gathered data on the frontend.
+**Depends on**: Phase 11
+**Requirements**: KAP-02, NEWS-02, UI-06
+**Success Criteria** (what must be TRUE):
+  1. The KAP agent fetches disclosures via HTTP API without requiring Chromium/Puppeteer.
+  2. The News agent returns articles strictly relevant to the requested ticker.
+  3. The frontend displays the gathered Market (price, PE) and Macro (USD/TRY, TÜFE) data.
+  4. Users can delete their past research sessions.
+**Plans**: 4 plans
+Plans:
+- [x] 12-01-PLAN.md — Replace Puppeteer KAP Scraper with HTTP API
+- [x] 12-02-PLAN.md — Fix News Search Relevance & Sentiment
+- [ ] 12-03-PLAN.md — Frontend Market & Macro Data Displays
+- [ ] 12-04-PLAN.md — Session Deletion API & User Data Management
+
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
@@ -171,4 +187,4 @@ Plans:
 | 5. User-Facing Application | 3/3 | Completed | Yes |
 | 10. Vercel-Ready Pipeline Refactor | 1/4 | In Progress | No |
 | 11. Multi-Agent SaaS Architecture | 4/4 | Completed | Yes |
-|
+| 12. Data Reliability & Vercel Compatibility | 2/4 | In Progress | No |
