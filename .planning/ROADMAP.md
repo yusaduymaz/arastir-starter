@@ -81,6 +81,69 @@ Plans:
 - [ ] 05-02-PLAN.md — Build Dashboard and Research API
 - [ ] 05-03-PLAN.md — Build History View and Results
 
+### Phase 6: SaaS & Token System
+**Goal**: Transition the app into a SaaS product by managing user tokens, limits, and pricing tiers.
+**Depends on**: Phase 5
+**Requirements**: SAAS-01, SAAS-02, SAAS-03
+**Success Criteria** (what must be TRUE):
+  1. Users are saved in the `users` table automatically via Clerk webhooks.
+  2. Users start on the 'free' tier with a default token balance.
+  3. Research queries deduct tokens. Insufficient tokens block the request.
+  4. The UI displays the current tier and remaining token balance.
+**Plans**: 3 plans
+Plans:
+- [ ] 06-01-PLAN.md — Setup Database Schema for Users and Tokens
+- [ ] 06-02-PLAN.md — Implement Clerk Webhooks for User Sync
+- [ ] 06-03-PLAN.md — Enforce Token Consumption & Update UI
+
+### Phase 7: Refactoring & AI Synthesis
+**Goal**: Address core stability issues by refactoring web scrapers, replacing hardcoded dummy data with actual AI-driven synthesis, and fixing the dashboard UX.
+**Depends on**: Phase 2, Phase 3, Phase 4, Phase 5
+**Requirements**: REFACTOR-01, AI-01, UI-05
+**Success Criteria** (what must be TRUE):
+  1. The KAP and News scrapers successfully retrieve data without failing silently.
+  2. An LLM agent (e.g., Anthropic) is used to read scraped data and generate a real qualitative analysis report instead of a hardcoded table.
+  3. The PDF and PPTX outputs contain this newly generated AI analysis.
+  4. The Dashboard accurately reflects pipeline status and errors without UI glitches.
+**Plans**: 3 plans
+Plans:
+- [ ] 07-01-PLAN.md — Refactor Scrapers for Reliability
+- [ ] 07-02-PLAN.md — Implement True AI Analyst Agent
+- [ ] 07-03-PLAN.md — Polish Dashboard UX and Pipeline Integration
+
+### Phase 8: Enterprise UX & Scaling
+**Goal**: Elevate the prototype into a production-ready SaaS product with live tracking, resource caching, and deep, professional AI synthesis.
+**Depends on**: Phase 7
+**Requirements**: UX-01, UX-02, AI-02, SYS-01
+**Success Criteria** (what must be TRUE):
+  1. Supabase Realtime pushes progress updates (e.g., 25%, 50%, 75%) to the frontend dashboard.
+  2. Users can delete their completed or failed reports.
+  3. The API checks for recent (<= 6 hours) reports for the same ticker and returns them instantly to save scraper load and LLM costs.
+  4. The AI Analysis output is professional, deep, and formatted nicely in the final PDFs.
+**Plans**: 4 plans
+Plans:
+- [ ] 08-01-PLAN.md — Supabase Progress Columns & Deletion API
+- [ ] 08-02-PLAN.md — Backend Real-Time Progress Emitters & Caching
+- [ ] 08-03-PLAN.md — Advanced AI Prompting & Report Polish
+- [ ] 08-04-PLAN.md — Dashboard Live Tracking & UI Interactivity
+
+### Phase 10: Vercel-Ready Pipeline Refactor
+**Goal**: Fix the broken pipeline architecture — eliminate child-process/file-system dependency, replace Puppeteer KAP scraper with HTTP API, fix news search relevance, and store all data in Supabase for Vercel deployment.
+**Depends on**: Phase 9
+**Requirements**: VERCEL-01, PIPELINE-01, KAP-01, NEWS-01
+**Success Criteria** (what must be TRUE):
+  1. No agent writes to or reads from the local filesystem — all data flows through Supabase.
+  2. KAP disclosures are fetched via HTTP API (no Puppeteer) and filtered by company.
+  3. News results are relevant to the specific query (not generic Turkish business news).
+  4. Pipeline progress updates in real-time (no more 5% stuck).
+  5. The application is deployable to Vercel (no child_process, no puppeteer-extra, no fs-based data exchange).
+**Plans**: 4 plans
+Plans:
+- [x] 10-01-PLAN.md — In-Process Agent Architecture + DB Storage (Wave 1)
+- [ ] 10-02-PLAN.md — Replace Puppeteer KAP with HTTP API (Wave 2)
+- [ ] 10-03-PLAN.md — Fix News Search Relevance + Query Type Awareness (Wave 2)
+- [ ] 10-04-PLAN.md — Frontend: Market & Macro Data Display + Skipped Agent UX (Wave 3)
+
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
@@ -90,3 +153,4 @@ Plans:
 | 3. High-Risk Data Integration - KAP | 3/3 | Completed | Yes |
 | 4. High-Risk Data Integration - News | 3/3 | Completed | Yes |
 | 5. User-Facing Application | 3/3 | Completed | Yes |
+| 10. Vercel-Ready Pipeline Refactor | 1/4 | In Progress | No |

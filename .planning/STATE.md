@@ -6,10 +6,10 @@
 - **Current Focus**: Phase 5: User-Facing Application
 
 ## Current Position
-- **Current Phase**: 5
-- **Current Plan**: 3
-- **Status**: Completed
-- **Progress**: [████████████████████] 100%
+- **Current Phase**: 10
+- **Current Plan**: 1
+- **Status**: In Progress
+- **Progress**: [████░░░░░░░░░░░░░░░] 25%
 
 ## Performance Metrics
 - **Velocity**: TBD
@@ -39,6 +39,7 @@
 - Plan 05-01 successfully executed. Supabase SSR auth and Auth UIs implemented.
 - Plan 05-02 successfully executed. Dashboard layout, Query form, and Async API route implemented.
 - Plan 05-03 successfully executed. History view and Results table implemented.
+- Plan 10-01 successfully executed. All 4 data agents converted from child-process CLI scripts to in-process async functions returning typed data. Orchestrator rewritten to call agents directly with no fs-based data exchange. market_data and macro_data columns added to Supabase schema.
 
 ### Open Questions
 - (none yet)
@@ -47,8 +48,11 @@
 - (none yet)
 
 ### Action Items (TODO)
-- All phases completed. Project execution is finished.
+- Execute Phase 10 Wave 2 (Plans 10-02 + 10-03): KAP HTTP API + News relevance fix
+- Execute Phase 10 Wave 3 (Plan 10-04): Frontend market/macro data display
+- Phase 9 (Pipeline Hardening) Waves 1-3 completed.
+- NOTE: Supabase migration needed before Wave 1: `ALTER TABLE research_history ADD COLUMN IF NOT EXISTS market_data jsonb; ALTER TABLE research_history ADD COLUMN IF NOT EXISTS macro_data jsonb;`
 
 ## Session Continuity
-- **Last Command**: `/gsd-execute-plan 5 3`
-- **Next Command**: (none)
+- **Last Command**: `/gsd-execute-phase 10 --wave 1`
+- **Next Command**: `/gsd-execute-phase 10 --wave 2`
