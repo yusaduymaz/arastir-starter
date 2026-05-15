@@ -256,6 +256,19 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
       message: `Veri ajanlari baslatiliyor: ${agentList}`,
     });
 
+    // Create agent runs in DB
+    const searchRunId = crypto.randomUUID();
+    const newsRunId = crypto.randomUUID();
+    const marketRunId = crypto.randomUUID();
+    const macroRunId = crypto.randomUUID();
+
+    await supabase.from('agent_runs').insert([
+      { id: searchRunId, session_id: recordId, agent_type: 'search', status: 'pending' },
+      { id: newsRunId, session_id: recordId, agent_type: 'news', status: 'pending' },
+      ...(isTicker ? [{ id: marketRunId, session_id: recordId, agent_type: 'market', status: 'pending' }] : []),
+      { id: macroRunId, session_id: recordId, agent_type: 'macro', status: 'pending' }
+    ]);
+
     const searchStartTime = Date.now();
     const newsStartTime = Date.now();
     const marketStartTime = Date.now();
@@ -274,10 +287,10 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
     // Direct in-process calls — no child_process, no file I/O
     // Topic queries skip market agent (no valid ticker for stock data)
     const [searchResult, newsResult, marketResult, macroResult] = await Promise.allSettled([
-      runSearchAgent(ticker),
-      runNewsAgent(ticker, queryType, topicKeywords),
-      isTicker ? runMarketAgent(ticker) : Promise.resolve(null),
-      runMacroAgent(),
+      runSearchAgent(supabase, recordId, searchRunId, ticker),
+      runNewsAgent(supabase, recordId, newsRunId, ticker, queryType, topicKeywords),
+      isTicker ? runMarketAgent(supabase, recordId, marketRunId, ticker) : Promise.resolve(null),
+      runMacroAgent(supabase, recordId, macroRunId),
     ]);
 
     // Log search agent result
@@ -418,6 +431,11 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
       message: `AI Analist ${ticker} verilerini sentezliyor...`,
     });
 
+    const analystRunId = crypto.randomUUID();
+    await supabase.from('agent_runs').insert([
+      { id: analystRunId, session_id: recordId, agent_type: 'analyst', status: 'pending' }
+    ]);
+
     console.log(`[Pipeline] Running AI Analyst Agent...`);
     const { runAnalystAgent } = require('@/agents/analyst-agent');
 
@@ -429,7 +447,7 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
     };
 
     try {
-      insights = await runAnalystAgent(ticker, kapData, newsData, marketData, macroData.length > 0 ? macroData : null);
+      insights = await runAnalystAgent(supabase, recordId, analystRunId, ticker);
       await appendAgentLog(supabase, recordId, {
         agent: 'analyst',
         status: 'completed',
@@ -460,6 +478,11 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
       message: `Rapor Uretici baslatildi -- PDF ve PPTX olusturuluyor...`,
     });
 
+    const writerRunId = crypto.randomUUID();
+    await supabase.from('agent_runs').insert([
+      { id: writerRunId, session_id: recordId, agent_type: 'writer', status: 'pending' }
+    ]);
+
     const reportData = {
       title: `${ticker} Sektorel Analiz Raporu`,
       source: 'KAP, Currents API, Yahoo Finance & TCMB EVDS',
@@ -483,7 +506,14 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
     const { runWriterAgent } = require('@/agents/writer-agent');
 
     console.log(`[Pipeline] Generating PDF and PPTX documents...`);
-    await runWriterAgent(reportData, outputDir);
+    try {
+      await supabase.from('agent_runs').update({ status: 'running', started_at: new Date().toISOString() }).eq('id', writerRunId);
+      await runWriterAgent(reportData, outputDir);
+      await supabase.from('agent_runs').update({ status: 'completed', completed_at: new Date().toISOString() }).eq('id', writerRunId);
+    } catch (e: any) {
+      await supabase.from('agent_runs').update({ status: 'failed', error_message: e.message || 'Unknown error', completed_at: new Date().toISOString() }).eq('id', writerRunId);
+      throw e;
+    }
 
     await appendAgentLog(supabase, recordId, {
       agent: 'writer',

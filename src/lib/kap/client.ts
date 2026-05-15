@@ -1,109 +1,182 @@
-import puppeteer from 'puppeteer-extra';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+import { KNOWN_TICKERS } from '../ticker-extractor';
 import { KAPDisclosure } from '../../types/kap';
 
-puppeteer.use(StealthPlugin());
+/**
+ * KAP HTTP API Client — Puppeteer yerine doğrudan HTTP endpoint'leri kullanır.
+ *
+ * KAP'ın dahili JSON API'leri (kendi frontend'leri tarafından çağrılır):
+ * - POST https://www.kap.org.tr/tr/api/memberDisclosureQuery — bildirim arama
+ * - GET  https://www.kap.org.tr/tr/api/disclosures?... — son bildirimler
+ * - GET  https://www.kap.org.tr/tr/api/member/{stockCode} — şirket bilgisi
+ *
+ * Bu endpoint'ler herkese açıktır, auth gerektirmez.
+ */
 
+const KAP_API_BASE = 'https://www.kap.org.tr/tr/api';
+
+interface KAPApiDisclosure {
+  basic?: {
+    disclosureIndex?: number;
+    title?: string;
+    companyName?: string;
+    stockCodes?: string;
+    publishDate?: string;
+    disclosureType?: string;
+    summary?: string;
+    relatedStocks?: string;
+  };
+  disclosureIndex?: number;
+  title?: string;
+  companyName?: string;
+  stockCodes?: string;
+  publishDate?: string;
+  disclosureType?: string;
+  summary?: string;
+}
+
+/**
+ * KAP bildirimlerini HTTP API ile çeker.
+ * Eğer ticker geçerli bir BIST kodu ise, o şirkete ait bildirimleri filtreler.
+ * Eğer geçerli bir ticker değilse (konu sorgusu), boş dizi döner.
+ */
 export async function fetchDisclosures(ticker: string, limit: number = 5): Promise<KAPDisclosure[]> {
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
+  // Geçerli ticker kontrolü
+  if (!KNOWN_TICKERS.has(ticker)) {
+    console.warn(`[KAP Client] "${ticker}" geçerli bir BIST ticker formatı değil — boş dizi dönüyor.`);
+    return [];
+  }
 
-  const disclosures: KAPDisclosure[] = [];
+  console.log(`[KAP Client] HTTP API ile ${ticker} bildirimleri çekiliyor...`);
 
   try {
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36');
-    await page.setViewport({ width: 1280, height: 800 });
-
-    console.log(`Navigating to KAP homepage for ${ticker} search...`);
-    await page.goto('https://www.kap.org.tr/tr', { waitUntil: 'networkidle2', timeout: 60000 });
-
-    console.log('Searching for ticker...');
-    await page.waitForSelector('#all-search', { timeout: 15000 });
-    await page.type('#all-search', ticker, { delay: 100 });
-    await page.keyboard.press('Enter');
-
-    console.log('Waiting for search results...');
-    try {
-      await page.waitForSelector('a[href*="/tr/Bildirim/"]', { timeout: 15000 });
-    } catch (e) {
-      console.log('Timeout waiting for Bildirim links, attempting to extract anyway...');
-    }
-    
-    // Give Next.js a moment to render the results list fully
-    await new Promise(r => setTimeout(r, 2000));
-
-    console.log('Extracting disclosure list...');
-    
-    const results = await page.$$eval('a[href*="/tr/Bildirim/"]', (links, maxLimit) => {
-      const items = links.map(link => {
-          let url = link.getAttribute('href') || '';
-          if (!url.startsWith('http')) {
-              url = 'https://www.kap.org.tr' + url;
-          }
-          
-          // Try to get text context (often parent or the link itself contains the title/summary)
-          const textContent = link.textContent?.trim() || link.parentElement?.textContent?.trim() || 'No context';
-          
-          return {
-              url,
-              rawText: textContent.replace(/\s+/g, ' ')
-          };
-      });
-      
-      // Deduplicate by URL
-      const unique = [];
-      const seen = new Set();
-      for (const item of items) {
-          if (!seen.has(item.url)) {
-              seen.add(item.url);
-              unique.push(item);
-          }
-      }
-      
-      return unique.slice(0, maxLimit);
-    }, limit);
-
-    console.log(`Found ${results.length} unique disclosures, fetching details...`);
-
-    for (const result of results) {
-        try {
-            const detailPage = await browser.newPage();
-            await detailPage.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36');
-            await detailPage.goto(result.url, { waitUntil: 'domcontentloaded', timeout: 30000 });
-            
-            const detailData = await detailPage.evaluate(() => {
-                const titleEl = document.querySelector('h1, .type-title, .notification-title, h3, .modal-title');
-                const contentEl = document.querySelector('.text-content, .disclosure-content, .modal-body, .text-block, p, .v-card-text');
-                
-                return {
-                    title: titleEl ? (titleEl.textContent?.trim() || '') : '',
-                    content: contentEl ? (contentEl.textContent?.trim() || '') : ''
-                };
-            });
-            
-            disclosures.push({
-                title: detailData.title || result.rawText.substring(0, 50) + '...',
-                date: new Date().toISOString(), // In a real app we'd extract from DOM
-                company: ticker, 
-                url: result.url,
-                content: detailData.content || result.rawText
-            });
-            
-            await detailPage.close();
-        } catch (detailError) {
-            console.error(`Failed to fetch details for ${result.url}:`, detailError);
-        }
+    // Yöntem 1: Şirket bildirimleri arama (memberDisclosureQuery)
+    const disclosures = await fetchViaDisclosureQuery(ticker, limit);
+    if (disclosures.length > 0) {
+      console.log(`[KAP Client] memberDisclosureQuery ile ${disclosures.length} bildirim bulundu.`);
+      return disclosures;
     }
 
-    return disclosures;
+    // Yöntem 2: Son bildirimleri çek ve ticker ile filtrele
+    console.log(`[KAP Client] memberDisclosureQuery boş döndü, genel bildirimlerden filtreleniyor...`);
+    const fallbackDisclosures = await fetchViaRecentDisclosures(ticker, limit);
+    if (fallbackDisclosures.length > 0) {
+      console.log(`[KAP Client] Genel bildirimlerden ${fallbackDisclosures.length} adet ${ticker} bildirimi filtrelendi.`);
+      return fallbackDisclosures;
+    }
 
+    console.warn(`[KAP Client] ${ticker} için hiç bildirim bulunamadı.`);
+    return [];
   } catch (error) {
-    console.error(`Error fetching KAP disclosures for ${ticker}:`, error);
+    console.error(`[KAP Client] ${ticker} bildirimleri çekilemedi:`, error);
     throw error;
-  } finally {
-    await browser.close();
   }
+}
+
+/**
+ * Yöntem 1: KAP memberDisclosureQuery API'si ile bildirim arama
+ */
+async function fetchViaDisclosureQuery(ticker: string, limit: number): Promise<KAPDisclosure[]> {
+  const today = new Date();
+  const oneYearAgo = new Date(today);
+  oneYearAgo.setFullYear(today.getFullYear() - 1);
+
+  const formatDate = (d: Date) => d.toISOString().split('T')[0];
+
+  const body = {
+    fromDate: formatDate(oneYearAgo),
+    toDate: formatDate(today),
+    memberCodes: [ticker],
+    // KAP API boş gönderildiğinde tüm türleri getirir
+    disclosureTypes: [],
+    subjectList: [],
+  };
+
+  try {
+    const response = await fetch(`${KAP_API_BASE}/memberDisclosureQuery`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+        'Accept': 'application/json',
+        'Referer': 'https://www.kap.org.tr/tr/',
+        'Origin': 'https://www.kap.org.tr',
+      },
+      signal: AbortSignal.timeout(15000),
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      console.warn(`[KAP Client] memberDisclosureQuery HTTP ${response.status}`);
+      return [];
+    }
+
+    const data: KAPApiDisclosure[] = await response.json();
+
+    if (!Array.isArray(data)) {
+      console.warn(`[KAP Client] memberDisclosureQuery beklenmeyen yanıt formatı`);
+      return [];
+    }
+
+    return data.slice(0, limit).map(item => mapToDisclosure(item, ticker));
+  } catch (error) {
+    console.warn(`[KAP Client] memberDisclosureQuery başarısız:`, error);
+    return [];
+  }
+}
+
+/**
+ * Yöntem 2: Son bildirimleri çekip ticker ile filtrele
+ */
+async function fetchViaRecentDisclosures(ticker: string, limit: number): Promise<KAPDisclosure[]> {
+  try {
+    const response = await fetch(`${KAP_API_BASE}/disclosures`, {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+        'Accept': 'application/json',
+        'Referer': 'https://www.kap.org.tr/tr/',
+      },
+      signal: AbortSignal.timeout(15000),
+    });
+
+    if (!response.ok) {
+      console.warn(`[KAP Client] disclosures endpoint HTTP ${response.status}`);
+      return [];
+    }
+
+    const data: KAPApiDisclosure[] = await response.json();
+
+    if (!Array.isArray(data)) {
+      return [];
+    }
+
+    // Ticker ile filtrele (stockCodes veya companyName içinde)
+    const filtered = data.filter(item => {
+      const basic = item.basic || item;
+      const stockCodes = (basic.stockCodes || '').toUpperCase();
+      const relatedStocks = ((basic as any).relatedStocks || '').toUpperCase();
+      return stockCodes.includes(ticker) || relatedStocks.includes(ticker);
+    });
+
+    return filtered.slice(0, limit).map(item => mapToDisclosure(item, ticker));
+  } catch (error) {
+    console.warn(`[KAP Client] recent disclosures başarısız:`, error);
+    return [];
+  }
+}
+
+/**
+ * KAP API yanıtını internal KAPDisclosure tipine dönüştürür.
+ */
+function mapToDisclosure(item: KAPApiDisclosure, ticker: string): KAPDisclosure {
+  const basic = item.basic || item;
+  return {
+    title: basic.title || basic.summary || 'Bildirim',
+    date: basic.publishDate || new Date().toISOString(),
+    company: basic.companyName || ticker,
+    url: basic.disclosureIndex
+      ? `https://www.kap.org.tr/tr/Bildirim/${basic.disclosureIndex}`
+      : `https://www.kap.org.tr/tr/bist-sirketler/${ticker}`,
+    content: basic.summary || basic.title || 'İçerik mevcut değil',
+  };
 }

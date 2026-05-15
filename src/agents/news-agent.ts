@@ -2,13 +2,41 @@ import { z } from 'zod';
 import { searchNews } from '../lib/news/api_client';
 import { NewsArticle, NewsArticleSchema } from '../types/news';
 import { analyzeSentiment } from '../lib/news/sentiment';
+import { getCompanyName } from '../lib/ticker-extractor';
+import { SupabaseClient } from '@supabase/supabase-js';
 
-export async function runNewsAgent(topic: string): Promise<NewsArticle[]> {
-  console.log(`[News Agent] Starting news search and analysis for: ${topic}`);
+/**
+ * News Agent — Sorgu tipine göre anlamlı anahtar kelimelerle haber arar.
+ *
+ * Ticker sorguları: "THYAO Türk Hava Yolları" gibi ticker + şirket adı ile arar.
+ * Konu sorguları: "Enerji Sektoru karsilastirmali" gibi orijinal konu ile arar.
+ */
+export async function runNewsAgent(
+  supabase: SupabaseClient,
+  sessionId: string,
+  runId: string,
+  ticker: string,
+  queryType: 'ticker' | 'topic' = 'ticker',
+  topicKeywords?: string,
+): Promise<NewsArticle[]> {
+  // Sorgu tipine göre anahtar kelime oluştur
+  let keywords: string;
+
+  if (queryType === 'ticker') {
+    const companyName = getCompanyName(ticker);
+    keywords = companyName ? `${ticker} ${companyName}` : ticker;
+  } else {
+    // Konu sorgusu — orijinal sorgudan temizlenmiş anahtar kelimeleri kullan
+    keywords = topicKeywords || ticker;
+  }
+
+  console.log(`[News Agent] Starting news search for: "${keywords}" (queryType: ${queryType})`);
+
+  await supabase.from('agent_runs').update({ status: 'running', started_at: new Date().toISOString() }).eq('id', runId);
 
   try {
     // 1. Fetch data via Currents API
-    const rawData = await searchNews(topic);
+    const rawData = await searchNews(keywords);
 
     // 2. Map Currents API response -> internal NewsArticle format + sentiment
     console.log(`[News Agent] Mapping and analyzing sentiment for ${rawData.length} articles...`);
@@ -29,11 +57,23 @@ export async function runNewsAgent(topic: string): Promise<NewsArticle[]> {
     console.log('[News Agent] Validating data structure...');
     const validatedData = z.array(NewsArticleSchema).parse(analyzedData);
 
-    console.log(`[News Agent] Successfully validated ${validatedData.length} news articles for ${topic}`);
+    console.log(`[News Agent] Successfully validated ${validatedData.length} news articles for "${keywords}"`);
+
+    await supabase.from('agent_runs').update({ 
+      status: 'completed', 
+      output_data: validatedData,
+      completed_at: new Date().toISOString()
+    }).eq('id', runId);
 
     return validatedData;
-  } catch (error) {
-    console.error(`[News Agent] Failed to process news for ${topic}:`, error);
+  } catch (error: any) {
+    console.error(`[News Agent] Failed to process news for "${keywords}":`, error);
+    await supabase.from('agent_runs').update({ 
+      status: 'failed', 
+      error_message: error.message || 'Unknown error',
+      completed_at: new Date().toISOString()
+    }).eq('id', runId);
     throw error;
   }
 }
+
