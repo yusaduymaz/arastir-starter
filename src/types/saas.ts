@@ -16,3 +16,19 @@ export interface TokenLedgerEntry {
   description?: string;
   created_at: string;
 }
+
+export interface UserSettings {
+  id: string;
+  user_id: string;
+  theme: 'dark' | 'light' | 'system';
+  notifications: {
+    email: boolean;
+    push: boolean;
+  };
+  report_preferences: {
+    language: 'tr' | 'en';
+    default_format: 'pdf' | 'pptx' | 'both';
+  };
+  created_at: string;
+  updated_at: string;
+}

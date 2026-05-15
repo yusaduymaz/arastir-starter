@@ -6,7 +6,7 @@ export async function createResearchSession(
   userId: string
 ): Promise<ResearchSession> {
   const { data, error } = await supabase
-    .from('research_history')
+    .from('research_sessions')
     .insert({ query: query, user_id: userId, status: 'pending' })
     .select()
     .single()
@@ -21,11 +21,11 @@ export async function createResearchSession(
 
 export async function updateResearchSessionStatus(
   sessionId: string,
-  status: 'in_progress' | 'completed' | 'failed',
+  status: 'running' | 'completed' | 'failed',
   errorMessage?: string
 ) {
   const { error } = await supabase
-    .from('research_history')
+    .from('research_sessions')
     .update({ status: status, error_message: errorMessage })
     .eq('id', sessionId)
 

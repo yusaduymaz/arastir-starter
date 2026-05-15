@@ -3,13 +3,7 @@ import { UserButton } from "@clerk/nextjs";
 import React from "react";
 import Link from "next/link";
 import { TokenDisplay } from "@/components/dashboard/TokenDisplay";
-
-const NAV_ITEMS = [
-  { href: '/dashboard',         icon: 'add',         label: 'Yeni Araştırma', active: true  },
-  { href: '/dashboard/history', icon: 'description',  label: 'Raporlarım',     active: false },
-  { href: '#',                  icon: 'database',     label: 'Veri Kaynakları',active: false },
-  { href: '#',                  icon: 'settings',     label: 'Ayarlar',        active: false },
-]
+import { SidebarNav } from "@/components/dashboard/SidebarNav";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -42,35 +36,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
 
             {/* Navigation */}
-            <nav className="flex flex-col gap-1">
-              {NAV_ITEMS.map((item) => (
-                <Link
-                  key={item.href + item.label}
-                  href={item.href}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded transition-all group relative overflow-hidden ${
-                    item.active
-                      ? 'bg-[#22c55e]/08 border-l-2 border-[#facc15] text-white'
-                      : 'border-l-2 border-transparent text-[#64748b] hover:text-[#c5c6cc] hover:bg-white/03'
-                  }`}
-                >
-                  {item.active && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#facc15]/05 to-transparent pointer-events-none" />
-                  )}
-                  <span
-                    className={`material-symbols-outlined text-[20px] relative z-10 ${
-                      item.active ? 'text-[#facc15]' : 'text-inherit'
-                    }`}
-                    style={item.active ? { fontVariationSettings: "'FILL' 1" } : {}}
-                  >
-                    {item.icon}
-                  </span>
-                  <span className="font-['Inter'] text-sm font-medium relative z-10">{item.label}</span>
-                  {item.active && (
-                    <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[#facc15]" />
-                  )}
-                </Link>
-              ))}
-            </nav>
+            <SidebarNav />
 
             {/* Data Sources chip */}
             <div className="border border-[#22c55e]/15 rounded p-3 flex flex-col gap-2">

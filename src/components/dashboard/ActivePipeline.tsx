@@ -11,12 +11,12 @@ interface ActivePipelineProps {
 
 const AGENT_CONFIG: Record<string, { label: string; icon: string; color: string }> = {
   orchestrator: { label: 'Sistem', icon: 'settings', color: '#64748b' },
-  search:       { label: 'KAP Verisi', icon: 'travel_explore', color: '#22c55e' },
-  news:         { label: 'Haberler', icon: 'newspaper', color: '#60a5fa' },
-  market:       { label: 'Piyasa', icon: 'candlestick_chart', color: '#c084fc' },
-  macro:        { label: 'Makro', icon: 'monitoring', color: '#14b8a6' },
-  analyst:      { label: 'Yapay Zeka', icon: 'psychology', color: '#f472b6' },
-  writer:       { label: 'Rapor Üretici', icon: 'description', color: '#fb923c' },
+  search: { label: 'KAP Verisi', icon: 'travel_explore', color: '#22c55e' },
+  news: { label: 'Haberler', icon: 'newspaper', color: '#60a5fa' },
+  market: { label: 'Piyasa', icon: 'candlestick_chart', color: '#c084fc' },
+  macro: { label: 'Makro', icon: 'monitoring', color: '#14b8a6' },
+  analyst: { label: 'Yapay Zeka', icon: 'psychology', color: '#f472b6' },
+  writer: { label: 'Rapor Üretici', icon: 'description', color: '#fb923c' },
 }
 
 const STATUS_ICON = {
@@ -38,7 +38,7 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
       process.env.NEXT_PUBLIC_SUPABASE_URL || '',
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
     )
-    
+
     // Subscribe to task updates
     const taskChannel = supabase
       .channel(`public:research_sessions:id=eq.${initialTask.id}`)
@@ -83,7 +83,7 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
       })
       .subscribe()
 
-    return () => { 
+    return () => {
       supabase.removeChannel(taskChannel)
       supabase.removeChannel(runsChannel)
     }
@@ -102,7 +102,7 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
     calculatedProgress = Math.max(calculatedProgress, agentsProgress)
   }
   if (task.status === 'completed') calculatedProgress = 100
-  
+
   const progress = calculatedProgress
   const stepLabel = task.current_step || 'Başlatılıyor...'
   const logs: AgentLogEntry[] = task.agent_logs || []
@@ -131,6 +131,40 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
     } finally {
       setRetrying(false)
     }
+  }
+
+  if (task.status === 'completed') {
+    return (
+      <div className="bg-[#080808] border border-[#22c55e]/30 rounded-xl overflow-hidden relative p-10 flex flex-col items-center justify-center text-center gap-6">
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#22c55e]/50 to-transparent" />
+
+        <div className="w-20 h-20 rounded-full bg-[#22c55e]/10 border border-[#22c55e]/30 flex items-center justify-center mb-2">
+          <span className="material-symbols-outlined text-[#22c55e] text-4xl animate-pulse">check_circle</span>
+        </div>
+
+        <div>
+          <h2 className="font-['Montserrat'] text-2xl font-bold text-white mb-2 tracking-tight">Analiz Tamamlandı</h2>
+          <p className="font-['JetBrains_Mono'] text-xs text-[#22c55e]/60 tracking-wider">
+            {displayTicker} için tüm raporlar başarıyla oluşturuldu.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => window.location.href = `/dashboard/history/${task.id}`}
+            className="px-8 py-3 bg-[#22c55e] text-black font-['JetBrains_Mono'] text-xs font-bold rounded-lg hover:bg-[#1da850] transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
+          >
+            <span className="material-symbols-outlined text-sm">visibility</span>
+            RAPORU İNCELE
+          </button>
+        </div>
+
+        {/* Backlink to history */}
+        <p className="text-[10px] text-[#45474c] font-['JetBrains_Mono']">
+          Sistem Kaydı: {task.id.slice(0, 8)}... | {new Date().toLocaleTimeString()}
+        </p>
+      </div>
+    )
   }
 
   return (
@@ -237,10 +271,10 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
               {logs.map((log, i) => {
                 const agentInfo = AGENT_CONFIG[log.agent] || AGENT_CONFIG.orchestrator
                 const statusIcon = STATUS_ICON[log.status] || '◦'
-                const time = new Date(log.timestamp).toLocaleTimeString('tr-TR', { 
-                  hour: '2-digit', minute: '2-digit', second: '2-digit' 
+                const time = new Date(log.timestamp).toLocaleTimeString('tr-TR', {
+                  hour: '2-digit', minute: '2-digit', second: '2-digit'
                 })
-                
+
                 return (
                   <div
                     key={i}
@@ -254,12 +288,11 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
 
                       {/* Status icon */}
                       <span
-                        className={`text-[10px] shrink-0 mt-0.5 font-bold ${
-                          log.status === 'completed' ? 'text-[#22c55e]' :
-                          log.status === 'failed' ? 'text-[#ef4444]' :
-                          log.status === 'started' ? 'text-[#64748b]' :
-                          'text-[#facc15]'
-                        }`}
+                        className={`text-[10px] shrink-0 mt-0.5 font-bold ${log.status === 'completed' ? 'text-[#22c55e]' :
+                            log.status === 'failed' ? 'text-[#ef4444]' :
+                              log.status === 'started' ? 'text-[#64748b]' :
+                                'text-[#facc15]'
+                          }`}
                       >
                         {statusIcon}
                       </span>
@@ -321,39 +354,39 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
       <div className="px-5 pb-4 pt-2 border-t border-[#facc15]/06">
         <div className="flex flex-wrap gap-2">
           {agentRuns
-            .filter(r => ['search', 'news', 'market', 'macro', 'analyst'].includes(r.agent_name))
+            .filter(r => ['search', 'news', 'market', 'macro', 'analyst', 'writer'].includes(r.agent_name))
             .sort((a, b) => {
-              const order = ['search', 'news', 'market', 'macro', 'analyst'];
+              const order = ['search', 'news', 'market', 'macro', 'analyst', 'writer'];
               return order.indexOf(a.agent_name) - order.indexOf(b.agent_name);
             })
             .map((agentRun) => {
               const agentKey = agentRun.agent_name;
               const config = AGENT_CONFIG[agentKey] || { label: agentKey, icon: 'hub', color: '#ffffff' };
               const latestStatus = agentRun.status;
-              
+
               const isActive = latestStatus === 'running' || latestStatus === 'pending';
               const isDone = latestStatus === 'completed';
               const isFailed = latestStatus === 'failed';
-              
+
               return (
                 <div
                   key={agentKey}
                   className="flex items-center gap-1.5 px-2.5 py-1.5 rounded bg-black/50 border transition-all"
                   style={{
-                    borderColor: isDone ? `${config.color}40` : 
-                                 isFailed ? '#ef444440' :
-                                 isActive ? `${config.color}60` : '#ffffff08',
+                    borderColor: isDone ? `${config.color}40` :
+                      isFailed ? '#ef444440' :
+                        isActive ? `${config.color}60` : '#ffffff08',
                     backgroundColor: isDone ? `${config.color}08` :
-                                     isActive ? `${config.color}05` : 'transparent',
+                      isActive ? `${config.color}05` : 'transparent',
                   }}
                 >
-                  <span 
+                  <span
                     className={`material-symbols-outlined text-[12px] ${isActive ? 'animate-pulse' : ''}`}
                     style={{ color: isDone ? config.color : isFailed ? '#ef4444' : isActive ? config.color : '#45474c' }}
                   >
                     {isDone ? 'check_circle' : isFailed ? 'error' : config.icon}
                   </span>
-                  <span 
+                  <span
                     className="font-['JetBrains_Mono'] text-[9px] font-medium"
                     style={{ color: isDone ? config.color : isFailed ? '#ef4444' : isActive ? config.color : '#45474c' }}
                   >

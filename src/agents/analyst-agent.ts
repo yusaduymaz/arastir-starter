@@ -1,4 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
+import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import { OpenAI } from 'openai';
 import { KAPDisclosure } from '../types/kap';
 import { NewsArticle } from '../types/news';
 import { MarketData } from '../types/market';
@@ -14,7 +16,6 @@ export interface AnalystInsights {
 
 function formatMacroContext(macro: EvdsDataPoint[] | null | undefined): string {
   if (!macro || macro.length === 0) return '';
-  // Take the last 3 monthly entries (most recent)
   const recent = macro.slice(-3);
   const lines = recent.map(d => {
     const usd = d.TP_DK_USD_A ? `USD/TRY ${parseFloat(d.TP_DK_USD_A).toFixed(2)}` : 'USD: -';
@@ -46,46 +47,30 @@ export async function runAnalystAgent(
       throw new Error('Failed to fetch preceding agent runs');
     }
 
-    const kapData: KAPDisclosure[] = runs.find(r => r.agent_type === 'search')?.output_data || [];
-    const newsData: NewsArticle[] = runs.find(r => r.agent_type === 'news')?.output_data || [];
-    const marketData: MarketData | null = runs.find(r => r.agent_type === 'market')?.output_data || null;
-    const macroData: EvdsDataPoint[] | null = runs.find(r => r.agent_type === 'macro')?.output_data || null;
+    const kapData: KAPDisclosure[] = runs.find(r => r.agent_name === 'search')?.output_data || [];
 
-    const apiKey = process.env.ANTHROPIC_API_KEY || process.env.GOOGLE_AI_API_KEY; // Using GOOGLE_AI_API_KEY as a placeholder if ANTHROPIC is missing just to satisfy standard setup, but we'll prefer Anthropic if available. Let's assume Anthropic is available or we use a fallback mock if no key.
+    const { data: fetchedNewsRecords, error: newsError } = await supabase
+      .from('fetched_news')
+      .select('*')
+      .eq('session_id', sessionId);
 
-    if (!process.env.ANTHROPIC_API_KEY) {
-        console.warn('[Analyst Agent] Analyst running in MOCK mode — set ANTHROPIC_API_KEY for real synthesis');
-        const priceInfo = marketData ? ` Güncel fiyat: ${marketData.quote?.price || 'N/A'} TL.` : '';
-        const latestUsd = macroData && macroData.length > 0
-          ? macroData[macroData.length - 1].TP_DK_USD_A
-          : null;
-        const macroInfo = latestUsd ? ` USD/TRY: ${parseFloat(latestUsd).toFixed(2)}.` : '';
-        const macroContextMock = latestUsd && macroData
-          ? `[MOCK] Makroekonomik bağlam: USD/TRY ${parseFloat(latestUsd).toFixed(2)}. Veriler ${macroData.length} aylık TCMB EVDS serisinden alınmıştır.`
-          : '';
-        
-        const mockResult = {
-            executiveSummary: `[MOCK] ${ticker} için veri sentezi (gerçek AI yok — ANTHROPIC_API_KEY tanımlı değil).${priceInfo}${macroInfo} KAP: ${kapData.length} bildirim, Haber: ${newsData.length} makale işlendi.`,
-            risks: `[MOCK] ${ticker} — Sektörel maliyet artışları, regülasyon değişiklikleri, pazar daralması riski.`,
-            opportunities: `[MOCK] ${ticker} — Yeni pazar açılımları, maliyet optimizasyonu, sektörel birleşmeler.`,
-            macroContext: macroContextMock,
-        };
-
-        await supabase.from('agent_runs').update({ 
-          status: 'completed', 
-          output_data: mockResult as any,
-          completed_at: new Date().toISOString()
-        }).eq('id', runId);
-
-        return mockResult;
+    let newsData: NewsArticle[] = [];
+    if (!newsError && fetchedNewsRecords) {
+      newsData = fetchedNewsRecords.map(record => ({
+        title: record.title,
+        date: record.published_at || new Date().toISOString(),
+        source: record.source || 'Unknown',
+        url: record.url,
+        content: record.content || '',
+        sentiment: record.sentiment || 'neutral'
+      }));
     }
 
-    const anthropic = new Anthropic({
-      apiKey: process.env.ANTHROPIC_API_KEY,
-    });
+    const marketData: MarketData | null = runs.find(r => r.agent_name === 'market')?.output_data || null;
+    const macroData: EvdsDataPoint[] | null = runs.find(r => r.agent_name === 'macro')?.output_data || null;
 
     const marketSection = marketData
-      ? `\nPiyasa Verileri (Yahoo Finance / Alpha Vantage):
+      ? `\nPiyasa Verileri:
 Fiyat: ${marketData.quote?.price || 'N/A'} | Değişim: ${marketData.quote?.changePercent || 'N/A'} | Hacim: ${marketData.quote?.volume || 'N/A'}
 52 Hafta Yüksek: ${marketData.overview?.['52WeekHigh'] ?? 'N/A'} | Düşük: ${marketData.overview?.['52WeekLow'] ?? 'N/A'}
 Piyasa Değeri: ${marketData.overview?.MarketCapitalization ?? 'N/A'} | F/K: ${marketData.overview?.PERatio ?? 'N/A'} | EPS: ${marketData.overview?.EPS ?? 'N/A'}
@@ -94,67 +79,124 @@ Sektör: ${marketData.overview?.Sector ?? 'N/A'} | Endüstri: ${marketData.overv
 
     const macroSection = formatMacroContext(macroData);
 
-    const prompt = `Aşağıda ${ticker} hissesi için çekilmiş güncel veriler yer alıyor. Verileri analiz et ve yapılandırılmış bir rapor oluştur.
+    const promptText = `Aşağıda ${ticker} hissesi için çekilmiş güncel veriler yer alıyor. Verileri analiz et ve profesyonel bir rapor oluştur.
+Rapor şu 4 bölümden oluşmalı ve JSON formatında dönmelidir:
+1. executiveSummary (Markdown)
+2. risks (Markdown)
+3. opportunities (Markdown)
+4. macroContext (Markdown)
 
-Rapor şu 4 bölümden oluşmalı, her biri profesyonel bir dille, MARKDOWN formatında:
-1. **Executive Summary** — Genel durum değerlendirmesi
-2. **Risks** — Şirket/hisse için olası riskler
-3. **Opportunities** — Şirket/hisse için fırsatlar
-4. **Macro Context** — Makroekonomik bağlam ve şirkete etkisi
-
-Risks ve Opportunities yazarken makroekonomik bağlamı dikkate al ve uygun olduğunda spesifik değerlerden (USD/TRY, TÜFE, faiz) alıntı yap.
 ${marketSection}${macroSection}
-KAP Verileri:
-${JSON.stringify(kapData.slice(0, 5))}
+KAP Verileri: ${JSON.stringify(kapData.slice(0, 5))}
+Haber Verileri: ${JSON.stringify(newsData.slice(0, 5))}`;
 
-Haber Verileri:
-${JSON.stringify(newsData.slice(0, 5))}
+    const systemInstruction = 'Sen kıdemli bir BIST hisse senedi analistisin. Türk piyasası konusunda uzmansın. Analizlerini her zaman JSON formatında sunarsın.';
 
-Analizini submit_analysis aracını kullanarak gönder.`;
+    let result: AnalystInsights | null = null;
 
-    const analysisToolDef = {
-      name: 'submit_analysis',
-      description: 'Submit the structured financial analysis report for the given ticker.',
-      input_schema: {
-        type: 'object' as const,
-        properties: {
-          executiveSummary: { type: 'string', description: 'Markdown formatted executive summary' },
-          risks: { type: 'string', description: 'Markdown formatted risk analysis' },
-          opportunities: { type: 'string', description: 'Markdown formatted opportunities analysis' },
-          macroContext: { type: 'string', description: 'Markdown formatted macroeconomic context and its impact on the company' },
-        },
-        required: ['executiveSummary', 'risks', 'opportunities', 'macroContext'],
-      },
-    };
+    // --- 1. OpenRouter (Primary) ---
+    if (process.env.OPENROUTER_API_KEY) {
+      try {
+        console.log('[Analyst Agent] Trying OpenRouter (Priority 1)...');
+        const openai = new OpenAI({
+          apiKey: process.env.OPENROUTER_API_KEY,
+          baseURL: 'https://openrouter.ai/api/v1',
+          defaultHeaders: {
+            'HTTP-Referer': 'https://arastir.ai',
+            'X-Title': 'Araştır AI',
+          },
+        });
 
-    const msg = await anthropic.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 4000,
-      temperature: 0.2,
-      system: 'Sen kıdemli bir BIST hisse senedi analistisin. Türk piyasası ve makroekonomik göstergeler konusunda uzmanlaşmış, profesyonel raporlar üreten bir analistsin. Analizini her zaman submit_analysis aracını kullanarak gönder.',
-      tools: [analysisToolDef],
-      tool_choice: { type: 'tool', name: 'submit_analysis' },
-      messages: [{ role: 'user', content: prompt }],
-    });
+        const response = await openai.chat.completions.create({
+          model: 'google/gemini-2.0-flash-exp:free',
+          messages: [
+            { role: 'system', content: systemInstruction },
+            { role: 'user', content: promptText }
+          ],
+          response_format: { type: 'json_object' }
+        });
 
-    // Extract structured output from tool_use block
-    const toolBlock = msg.content.find((b: any) => b.type === 'tool_use');
-    if (!toolBlock || toolBlock.type !== 'tool_use') {
-      throw new Error('AI did not return a tool_use block.');
+        const content = response.choices[0].message.content;
+        if (content) {
+          result = JSON.parse(content) as AnalystInsights;
+          console.log('[Analyst Agent] Successfully generated with OpenRouter.');
+        }
+      } catch (err: any) {
+        console.warn(`[Analyst Agent] OpenRouter failed: ${err.message}`);
+      }
     }
-    const parsed = toolBlock.input as Record<string, string>;
 
-    console.log(`[Analyst Agent] Successfully generated AI synthesis for ${ticker}.`);
+    // --- 2. Groq (Secondary) ---
+    if (!result && process.env.GROQ_API_KEY) {
+      try {
+        console.log('[Analyst Agent] Trying Groq (Priority 2)...');
+        const openai = new OpenAI({
+          apiKey: process.env.GROQ_API_KEY,
+          baseURL: 'https://api.groq.com/openai/v1',
+        });
 
-    const result = {
-        executiveSummary: parsed.executiveSummary || 'Özet oluşturulamadı.',
-        risks: parsed.risks || 'Riskler analiz edilemedi.',
-        opportunities: parsed.opportunities || 'Fırsatlar analiz edilemedi.',
-        macroContext: parsed.macroContext || '',
-    };
+        const response = await openai.chat.completions.create({
+          model: 'llama-3.3-70b-versatile',
+          messages: [
+            { role: 'system', content: systemInstruction },
+            { role: 'user', content: promptText }
+          ],
+          response_format: { type: 'json_object' }
+        });
 
-    await supabase.from('agent_runs').update({ 
-      status: 'completed', 
+        const content = response.choices[0].message.content;
+        if (content) {
+          result = JSON.parse(content) as AnalystInsights;
+          console.log('[Analyst Agent] Successfully generated with Groq.');
+        }
+      } catch (err: any) {
+        console.warn(`[Analyst Agent] Groq failed: ${err.message}`);
+      }
+    }
+
+    // --- 3. Gemini (Fallback 1) ---
+    if (!result && process.env.GOOGLE_AI_API_KEY) {
+      try {
+        console.log('[Analyst Agent] Trying Gemini (Fallback 1)...');
+        const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!);
+        const model = genAI.getGenerativeModel({
+          model: 'gemini-1.5-pro',
+          systemInstruction,
+          generationConfig: { temperature: 0.2, responseMimeType: 'application/json' }
+        });
+        const response = await model.generateContent(promptText);
+        result = JSON.parse(response.response.text()) as AnalystInsights;
+        console.log('[Analyst Agent] Successfully generated with Gemini.');
+      } catch (err: any) {
+        console.warn(`[Analyst Agent] Gemini failed: ${err.message}`);
+      }
+    }
+
+    // --- 4. Anthropic (Fallback 2) ---
+    if (!result && process.env.ANTHROPIC_API_KEY) {
+      try {
+        console.log('[Analyst Agent] Trying Anthropic (Fallback 2)...');
+        const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+        const msg = await anthropic.messages.create({
+          model: 'claude-3-5-sonnet-20241022',
+          max_tokens: 4000,
+          system: systemInstruction + ' Return JSON only.',
+          messages: [{ role: 'user', content: promptText }],
+        });
+        const text = (msg.content[0] as any).text;
+        result = JSON.parse(text) as AnalystInsights;
+        console.log('[Analyst Agent] Successfully generated with Anthropic.');
+      } catch (err: any) {
+        console.warn(`[Analyst Agent] Anthropic failed: ${err.message}`);
+      }
+    }
+
+    if (!result) {
+      throw new Error('All AI providers failed to generate analysis.');
+    }
+
+    await supabase.from('agent_runs').update({
+      status: 'completed',
       output_data: result as any,
       completed_at: new Date().toISOString()
     }).eq('id', runId);
@@ -162,9 +204,9 @@ Analizini submit_analysis aracını kullanarak gönder.`;
     return result;
 
   } catch (error: any) {
-    console.error(`[Analyst Agent] Error during AI synthesis:`, error);
-    await supabase.from('agent_runs').update({ 
-      status: 'failed', 
+    console.error(`[Analyst Agent] Final error:`, error);
+    await supabase.from('agent_runs').update({
+      status: 'failed',
       error_message: error.message || 'Unknown error',
       completed_at: new Date().toISOString()
     }).eq('id', runId);

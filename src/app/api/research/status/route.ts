@@ -17,7 +17,7 @@ export async function GET(request: Request) {
     const supabase = createClient(supabaseUrl, supabaseKey)
 
     const { data, error } = await supabase
-      .from('research_history')
+      .from('research_sessions')
       .select('*')
       .eq('id', id)
       .eq('user_id', userId)

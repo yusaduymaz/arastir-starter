@@ -10,11 +10,23 @@ export async function TokenDisplay() {
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
   const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
-  let { data: userRecord } = await supabase
+  let userRecord: { tier: string; balance: number } | null = null;
+
+  const { data: userRow } = await supabase
+    .from('users')
+    .select('tier')
+    .eq('id', userId)
+    .single()
+
+  const { data: balanceRow } = await supabase
     .from('user_balances')
-    .select('balance, tier')
+    .select('balance')
     .eq('user_id', userId)
     .single()
+
+  if (userRow && balanceRow) {
+    userRecord = { tier: userRow.tier, balance: balanceRow.balance }
+  }
 
   // Webhook lokalde çalışmadığı için kullanıcı yoksa lazy creation yap
   // Upsert + re-fetch pattern prevents race conditions when multiple requests
@@ -32,12 +44,20 @@ export async function TokenDisplay() {
       .insert({ user_id: userId, amount: 5, transaction_type: 'grant', description: 'Lazy creation bonus' })
 
     const { data: fetchedUser } = await supabase
+      .from('users')
+      .select('tier')
+      .eq('id', userId)
+      .single()
+
+    const { data: fetchedBalance } = await supabase
       .from('user_balances')
-      .select('balance, tier')
+      .select('balance')
       .eq('user_id', userId)
       .single()
 
-    userRecord = fetchedUser
+    if (fetchedUser && fetchedBalance) {
+      userRecord = { tier: fetchedUser.tier, balance: fetchedBalance.balance }
+    }
   }
 
   if (!userRecord) {

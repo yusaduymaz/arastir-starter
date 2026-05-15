@@ -271,17 +271,21 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
       message: `Veri ajanlari baslatiliyor: ${agentList}`,
     });
 
-    // Create agent runs in DB
+    // Create agent runs in DB for all agents (pre-initialize the visibility)
     const searchRunId = crypto.randomUUID();
     const newsRunId = crypto.randomUUID();
     const marketRunId = crypto.randomUUID();
     const macroRunId = crypto.randomUUID();
+    const analystRunId = crypto.randomUUID();
+    const writerRunId = crypto.randomUUID();
 
     await supabase.from('agent_runs').insert([
       { id: searchRunId, session_id: recordId, agent_name: 'search', status: 'pending' },
       { id: newsRunId, session_id: recordId, agent_name: 'news', status: 'pending' },
-      ...(isTicker ? [{ id: marketRunId, session_id: recordId, agent_name: 'market', status: 'pending' }] : []),
-      { id: macroRunId, session_id: recordId, agent_name: 'macro', status: 'pending' }
+      { id: marketRunId, session_id: recordId, agent_name: 'market', status: isTicker ? 'pending' : 'skipped' },
+      { id: macroRunId, session_id: recordId, agent_name: 'macro', status: 'pending' },
+      { id: analystRunId, session_id: recordId, agent_name: 'analyst', status: 'pending' },
+      { id: writerRunId, session_id: recordId, agent_name: 'writer', status: 'pending' }
     ]);
 
     const searchStartTime = Date.now();
@@ -446,11 +450,6 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
       message: `AI Analist ${ticker} verilerini sentezliyor...`,
     });
 
-    const analystRunId = crypto.randomUUID();
-    await supabase.from('agent_runs').insert([
-      { id: analystRunId, session_id: recordId, agent_name: 'analyst', status: 'pending' }
-    ]);
-
     console.log(`[Pipeline] Running AI Analyst Agent...`);
     const { runAnalystAgent } = require('@/agents/analyst-agent');
 
@@ -493,11 +492,6 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
       message: `Rapor Uretici baslatildi -- PDF ve PPTX olusturuluyor...`,
     });
 
-    const writerRunId = crypto.randomUUID();
-    await supabase.from('agent_runs').insert([
-      { id: writerRunId, session_id: recordId, agent_name: 'writer', status: 'pending' }
-    ]);
-
     const reportData = {
       title: `${ticker} Sektorel Analiz Raporu`,
       source: 'KAP, Currents API, Yahoo Finance & TCMB EVDS',
@@ -522,11 +516,8 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
 
     console.log(`[Pipeline] Generating PDF and PPTX documents...`);
     try {
-      await supabase.from('agent_runs').update({ status: 'running', started_at: new Date().toISOString() }).eq('id', writerRunId);
-      await runWriterAgent(reportData, outputDir);
-      await supabase.from('agent_runs').update({ status: 'completed', completed_at: new Date().toISOString() }).eq('id', writerRunId);
+      await runWriterAgent(supabase, recordId, writerRunId, reportData, outputDir);
     } catch (e: any) {
-      await supabase.from('agent_runs').update({ status: 'failed', error_message: e.message || 'Unknown error', completed_at: new Date().toISOString() }).eq('id', writerRunId);
       throw e;
     }
 
@@ -546,17 +537,41 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
       message: `${ticker} analizi basariyla tamamlandi! Rapor hazir.`,
     });
 
-    const { error: updateError } = await supabase
+    // Critical: update status FIRST so the session transitions to 'completed'
+    // even if the data column update fails (e.g. missing columns)
+    const { error: statusError } = await supabase
       .from('research_sessions')
       .update({
         status: 'completed',
         progress: 100,
         current_step: 'Tamamlandi',
-        result_url: `/outputs/${timestamp}-${slug}`
+        result_url: `/outputs/${timestamp}-${slug}`,
       })
       .eq('id', recordId);
 
-    if (updateError) console.error('[Pipeline] Supabase update failed:', updateError);
+    if (statusError) {
+      console.error('[Pipeline] Critical status update failed:', statusError);
+    }
+
+    // Save detailed data columns (non-critical — report is still accessible via result_url)
+    const { error: dataError } = await supabase
+      .from('research_sessions')
+      .update({
+        kap_data: kapData,
+        news_data: newsData,
+        market_data: marketData,
+        macro_data: macroData,
+        synthesis_data: {
+          executiveSummary: insights.executiveSummary,
+          risks: insights.risks,
+          opportunities: insights.opportunities,
+          macroContext: insights.macroContext,
+          data: reportData.data
+        }
+      })
+      .eq('id', recordId);
+
+    if (dataError) console.error('[Pipeline] Data columns update failed (run migration 20260516000005):', dataError);
 
   } catch (error: any) {
     console.error(`[Pipeline Error]`, error);

@@ -36,6 +36,7 @@ Kullanıcı → [Orchestrator]
 - **Backend**: Next.js 14 + TypeScript
 - **Database**: Supabase (araştırma geçmişi, kullanıcılar)
 - **Output**: Puppeteer (PDF) + pptxgenjs (PPTX)
+- **AI Providers**: Gemini (Primary, gemini-1.5-pro) ve Anthropic (Fallback, claude-3-5-sonnet)
 - **Deploy**: Vercel
 
 ## Klasör Yapısı

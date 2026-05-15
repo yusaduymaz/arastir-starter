@@ -18,7 +18,7 @@ export default async function HistoryPage() {
   let history: any[] = [];
   if (userId) {
     const { data, error } = await supabase
-      .from('research_history')
+      .from('research_sessions')
       .select('*')
       .eq('user_id', userId)
       .order('created_at', { ascending: false });
