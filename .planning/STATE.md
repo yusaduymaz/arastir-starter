@@ -3,56 +3,41 @@
 ## Project Reference
 - **Name**: Araştır — AI-Powered Research Agent
 - **Core Value**: To provide an AI-powered research agent for the Turkish financial market that automates data collection, synthesis, and reporting.
-- **Current Focus**: Phase 5: User-Facing Application
+- **Current Focus**: Phase 11: Multi-Agent SaaS Architecture Redesign
 
 ## Current Position
-- **Current Phase**: 10
+- **Current Phase**: 11
 - **Current Plan**: 1
 - **Status**: In Progress
-- **Progress**: [████░░░░░░░░░░░░░░░] 25%
+- **Progress**: [██░░░░░░░░░░░░░░░░░] 25%
 
 ## Performance Metrics
 - **Velocity**: TBD
 - **Burn Rate**: TBD
 - **Time to Comp**: TBD
+- **Phase 11-01**: 3 tasks, 5 files modified
 
 ## Accumulated Context
 ### Key Decisions
-- Plan 01-01 successfully executed. The Next.js project is initialized.
-- Plan 01-02 successfully executed. The project folder structure is created.
-- Plan 01-03 successfully executed. Supabase is integrated into the project.
-- Plan 01-04 successfully executed. TCMB API integration is verified.
-- Plan 01-05 successfully executed. TÜİK API integration is verified.
-- Phase 2 planned successfully (3 plans created and verified).
-- Plan 02-01 successfully executed. PDF Generator module implemented.
-- Plan 02-02 successfully executed. PPTX Generator module implemented.
-- Plan 02-03 successfully executed. Writer Agent and CLI runner implemented.
-- Phase 3 planned successfully (3 plans created and verified).
-- Plan 03-01 successfully executed. KAP stealth scraper skeleton and models created.
-- Plan 03-02 successfully executed. KAP DOM extraction logic implemented.
-- Plan 03-03 successfully executed. KAP search agent CLI implemented.
-- Phase 4 planned successfully (3 plans created and verified).
-- Plan 04-01 successfully executed. News models and sentiment analyzer created.
-- Plan 04-02 successfully executed. Bloomberg and Ekonomim news scrapers implemented.
-- Plan 04-03 successfully executed. News Agent CLI implemented.
-- Phase 5 planned successfully (3 plans created manually).
-- Plan 05-01 successfully executed. Supabase SSR auth and Auth UIs implemented.
-- Plan 05-02 successfully executed. Dashboard layout, Query form, and Async API route implemented.
-- Plan 05-03 successfully executed. History view and Results table implemented.
-- Plan 10-01 successfully executed. All 4 data agents converted from child-process CLI scripts to in-process async functions returning typed data. Orchestrator rewritten to call agents directly with no fs-based data exchange. market_data and macro_data columns added to Supabase schema.
+- Phase 1-5 successfully executed.
+- Phase 10 Wave 1 successfully executed (In-Process Agent Architecture).
+- Phase 11 planned successfully. Decided to completely redesign the DB schema away from monolithic 'research_history' to a normalized 'research_sessions' + 'agent_runs' structure, and introduced 'token_ledger' for SaaS billing.
+- Kept `agent_logs` and `current_step` in `ResearchSession` type for frontend compatibility.
+- Used `token_ledger` pattern for SaaS billing schema.
 
 ### Open Questions
-- (none yet)
+- Should we migrate existing `research_history` data, or just drop and recreate for Phase 11? (Assuming start fresh or simple migration).
 
 ### Blockers
 - (none yet)
 
 ### Action Items (TODO)
-- Execute Phase 10 Wave 2 (Plans 10-02 + 10-03): KAP HTTP API + News relevance fix
-- Execute Phase 10 Wave 3 (Plan 10-04): Frontend market/macro data display
-- Phase 9 (Pipeline Hardening) Waves 1-3 completed.
-- NOTE: Supabase migration needed before Wave 1: `ALTER TABLE research_history ADD COLUMN IF NOT EXISTS market_data jsonb; ALTER TABLE research_history ADD COLUMN IF NOT EXISTS macro_data jsonb;`
+- Execute Phase 11 Wave 1 (Plan 11-01): Database Architecture Overhaul
+- Execute Phase 11 Wave 2 (Plan 11-02 + 11-03): Core SaaS Services & Agent Orchestrator Refactor
+- Execute Phase 11 Wave 3 (Plan 11-04): Frontend Dashboard Realtime Subscriptions
 
 ## Session Continuity
-- **Last Command**: `/gsd-execute-phase 10 --wave 1`
-- **Next Command**: `/gsd-execute-phase 10 --wave 2`
+- **Last Session**: 2026-05-15T12:35:00+03:00
+- **Stopped at**: Phase 11 Planning Complete. Ready for execution.
+- **Last Command**: `/gsd-plan-phase`
+- **Next Command**: `/gsd-execute-phase 11 --wave 1`
