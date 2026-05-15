@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
-import { ResearchSession, AgentLogEntry } from '@/types/research'
+import { ResearchSession, AgentLogEntry, AgentRun } from '@/types/research'
 
 interface ActivePipelineProps {
   initialTask: ResearchSession
@@ -29,6 +29,7 @@ const STATUS_ICON = {
 
 export function ActivePipeline({ initialTask }: ActivePipelineProps) {
   const [task, setTask] = useState<ResearchSession>(initialTask)
+  const [agentRuns, setAgentRuns] = useState<AgentRun[]>([])
   const router = useRouter()
   const logEndRef = useRef<HTMLDivElement>(null)
 
@@ -37,7 +38,9 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
       process.env.NEXT_PUBLIC_SUPABASE_URL || '',
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
     )
-    const channel = supabase
+    
+    // Subscribe to task updates
+    const taskChannel = supabase
       .channel(`public:research_sessions:id=eq.${initialTask.id}`)
       .on('postgres_changes', {
         event: 'UPDATE', schema: 'public', table: 'research_sessions',
@@ -50,7 +53,40 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
         }
       })
       .subscribe()
-    return () => { supabase.removeChannel(channel) }
+
+    // Fetch initial agent runs
+    supabase
+      .from('agent_runs')
+      .select('*')
+      .eq('session_id', initialTask.id)
+      .then(({ data }) => {
+        if (data) setAgentRuns(data as AgentRun[])
+      })
+
+    // Subscribe to agent_runs updates
+    const runsChannel = supabase
+      .channel(`public:agent_runs:session_id=eq.${initialTask.id}`)
+      .on('postgres_changes', {
+        event: '*', schema: 'public', table: 'agent_runs',
+        filter: `session_id=eq.${initialTask.id}`,
+      }, (payload) => {
+        if (payload.eventType === 'INSERT') {
+          setAgentRuns(prev => {
+            if (prev.find(r => r.id === payload.new.id)) return prev;
+            return [...prev, payload.new as AgentRun]
+          })
+        } else if (payload.eventType === 'UPDATE') {
+          setAgentRuns(prev => prev.map(run => run.id === payload.new.id ? payload.new as AgentRun : run))
+        } else if (payload.eventType === 'DELETE') {
+          setAgentRuns(prev => prev.filter(run => run.id !== payload.old.id))
+        }
+      })
+      .subscribe()
+
+    return () => { 
+      supabase.removeChannel(taskChannel)
+      supabase.removeChannel(runsChannel)
+    }
   }, [initialTask.id, router])
 
   // Auto-scroll to bottom when new logs arrive
@@ -58,7 +94,16 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
     logEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [task.agent_logs?.length])
 
-  const progress = task.progress || 0
+  let calculatedProgress = task.progress || 0
+  if (agentRuns.length > 0) {
+    const completedRuns = agentRuns.filter(r => ['completed', 'failed', 'skipped'].includes(r.status)).length
+    // Assuming max 6 agents (search, news, market, macro, analyst, writer)
+    const agentsProgress = Math.round((completedRuns / 6) * 100)
+    calculatedProgress = Math.max(calculatedProgress, agentsProgress)
+  }
+  if (task.status === 'completed') calculatedProgress = 100
+  
+  const progress = calculatedProgress
   const stepLabel = task.current_step || 'Başlatılıyor...'
   const logs: AgentLogEntry[] = task.agent_logs || []
   const displayTicker = task.extracted_ticker || task.query
@@ -271,9 +316,13 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
           {(Object.keys(AGENT_CONFIG) as Array<keyof typeof AGENT_CONFIG>).map((agentKey) => {
             const config = AGENT_CONFIG[agentKey]
-            // Find the latest log entry for this agent
+            // Find the latest status from agentRuns
+            const agentRun = agentRuns.find(r => r.agent_name === agentKey)
+            // Fallback to log entry (e.g. for orchestrator)
             const agentLogs = logs.filter(l => l.agent === agentKey)
-            const latestStatus = agentLogs.length > 0 ? agentLogs[agentLogs.length - 1].status : 'idle'
+            const latestLogStatus = agentLogs.length > 0 ? agentLogs[agentLogs.length - 1].status : 'idle'
+            
+            const latestStatus = agentRun?.status || latestLogStatus
             
             const isActive = latestStatus === 'started' || latestStatus === 'running'
             const isDone = latestStatus === 'completed'

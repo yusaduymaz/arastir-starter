@@ -144,16 +144,25 @@ export async function POST(request: Request) {
     }
 
     // Check Tokens
-    const { data: userRecord, error: userError } = await supabase
+    const { data: userRow } = await supabase
+      .from('users')
+      .select('tier')
+      .eq('id', userId)
+      .single()
+
+    const { data: balanceRow } = await supabase
       .from('user_balances')
-      .select('balance, tier')
+      .select('balance')
       .eq('user_id', userId)
       .single()
 
-    let finalUserRecord = userRecord;
+    let finalUserRecord = null;
+    if (userRow && balanceRow) {
+      finalUserRecord = { tier: userRow.tier, balance: balanceRow.balance }
+    }
 
     // Webhook lokalde calismadigy icin kullanici yoksa otomatik olustur (Lazy Creation)
-    if (userError || !userRecord) {
+    if (!finalUserRecord) {
       const user = await currentUser();
       const email = user?.emailAddresses?.[0]?.emailAddress || 'local-dev@example.com';
 
@@ -165,16 +174,22 @@ export async function POST(request: Request) {
         .from('token_ledger')
         .insert({ user_id: userId, amount: 5, transaction_type: 'grant', description: 'Lazy creation bonus' })
 
-      const { data: fetchedUser, error: fetchError } = await supabase
+      const { data: fetchedUser } = await supabase
+        .from('users')
+        .select('tier')
+        .eq('id', userId)
+        .single()
+
+      const { data: fetchedBalance } = await supabase
         .from('user_balances')
-        .select('balance, tier')
+        .select('balance')
         .eq('user_id', userId)
         .single()
 
-      if (fetchError || !fetchedUser) {
+      if (!fetchedUser || !fetchedBalance) {
         return NextResponse.json({ error: 'Kullanici profili olusturulamadi.' }, { status: 500 })
       }
-      finalUserRecord = fetchedUser;
+      finalUserRecord = { tier: fetchedUser.tier, balance: fetchedBalance.balance };
     }
 
     if (!finalUserRecord || finalUserRecord.balance <= 0) {
@@ -263,10 +278,10 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
     const macroRunId = crypto.randomUUID();
 
     await supabase.from('agent_runs').insert([
-      { id: searchRunId, session_id: recordId, agent_type: 'search', status: 'pending' },
-      { id: newsRunId, session_id: recordId, agent_type: 'news', status: 'pending' },
-      ...(isTicker ? [{ id: marketRunId, session_id: recordId, agent_type: 'market', status: 'pending' }] : []),
-      { id: macroRunId, session_id: recordId, agent_type: 'macro', status: 'pending' }
+      { id: searchRunId, session_id: recordId, agent_name: 'search', status: 'pending' },
+      { id: newsRunId, session_id: recordId, agent_name: 'news', status: 'pending' },
+      ...(isTicker ? [{ id: marketRunId, session_id: recordId, agent_name: 'market', status: 'pending' }] : []),
+      { id: macroRunId, session_id: recordId, agent_name: 'macro', status: 'pending' }
     ]);
 
     const searchStartTime = Date.now();
@@ -433,7 +448,7 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
 
     const analystRunId = crypto.randomUUID();
     await supabase.from('agent_runs').insert([
-      { id: analystRunId, session_id: recordId, agent_type: 'analyst', status: 'pending' }
+      { id: analystRunId, session_id: recordId, agent_name: 'analyst', status: 'pending' }
     ]);
 
     console.log(`[Pipeline] Running AI Analyst Agent...`);
@@ -480,7 +495,7 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
 
     const writerRunId = crypto.randomUUID();
     await supabase.from('agent_runs').insert([
-      { id: writerRunId, session_id: recordId, agent_type: 'writer', status: 'pending' }
+      { id: writerRunId, session_id: recordId, agent_name: 'writer', status: 'pending' }
     ]);
 
     const reportData = {
