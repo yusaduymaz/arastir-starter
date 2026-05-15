@@ -176,6 +176,34 @@ Plans:
 - [x] 12-03-PLAN.md — Frontend Market & Macro Data Displays
 - [x] 12-04-PLAN.md — Session Deletion API & User Data Management
 
+
+### Phase 13: Dashboard Extensions
+**Goal**: Implement Data Sources and Settings pages expanding the dashboard capabilities while maintaining the Terminal V1.0 aesthetic.
+**Depends on**: Phase 12
+**Requirements**: EXT-01, EXT-02, EXT-03
+**Success Criteria** (what must be TRUE):
+  1. User can access a Settings page to manage preferences and theme.
+  2. User can access a Data Sources page displaying active integrations (KAP, TCMB, etc.).
+  3. Sidebar layout uses dynamic routing for active states.
+**Plans**: 3 plans
+Plans:
+- [ ] 13-01-PLAN.md — Database and Layout Preparations
+- [ ] 13-02-PLAN.md — Implement Settings Page and Server Actions
+- [ ] 13-03-PLAN.md — Implement Data Sources Page with MagicUI
+
+### Phase 14: Real-Time UX & Polish
+**Goal**: Fix the frontend synchronization so users can watch the agents work in true parallel real-time, and clean up the UI to only show relevant, user-friendly agent names.
+**Depends on**: Phase 12
+**Requirements**: UX-03, UI-07
+**Success Criteria** (what must be TRUE):
+  1. The progress bar updates smoothly as individual agents complete, instead of jumping from 5% to 100%.
+  2. The frontend subscribes directly to `agent_runs` for live state updates.
+  3. The agent status grid dynamically shows only the agents actually running for the query (e.g., hiding Market for topic queries).
+**Plans**: 2 plans
+Plans:
+- [x] 14-01-PLAN.md — True Parallel Real-Time Progress
+- [x] 14-02-PLAN.md — Streamline Dashboard Agent UI
+
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
@@ -188,3 +216,4 @@ Plans:
 | 10. Vercel-Ready Pipeline Refactor | 1/4 | In Progress | No |
 | 11. Multi-Agent SaaS Architecture | 4/4 | Completed | Yes |
 | 12. Data Reliability & Vercel Compatibility | 3/4 | In Progress | No |
+| 13. Dashboard Extensions | 0/3 | Not Started | No |

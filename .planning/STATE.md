@@ -3,11 +3,11 @@
 ## Project Reference
 - **Name**: Araştır — AI-Powered Research Agent
 - **Core Value**: To provide an AI-powered research agent for the Turkish financial market that automates data collection, synthesis, and reporting.
-- **Current Focus**: Phase 12: Data Reliability & Vercel Compatibility
+- **Current Focus**: Phase 14: Real-Time UX & Polish (Completed)
 
 ## Current Position
-- **Current Phase**: 12
-- **Current Plan**: 4
+- **Current Phase**: 14
+- **Current Plan**: 2
 - **Status**: Completed
 - **Progress**: [████████████████████] 100%
 
@@ -20,15 +20,9 @@
 ### Key Decisions
 - Phase 1-5 successfully executed.
 - Phase 10 Wave 1 successfully executed (In-Process Agent Architecture).
-- Phase 11 successfully executed. Database migrated to use `research_sessions`, `agent_runs`, and `token_ledger`. Orchestrator and agents refactored to use `agent_runs` for state and data passing. Frontend migrated to real-time `research_sessions` subscriptions.
-- Kept `agent_logs` and `current_step` in `ResearchSession` type for frontend compatibility.
-- Used `token_ledger` pattern for SaaS billing schema.
-- Agents receive supabase client and runId to update their own state directly.
-- Analyst agent reads input from agent_runs table instead of arguments.
-- Frontend was migrated to point to the new `research_sessions` table and use real-time sockets.
-- Phase 12 planned to remove Puppeteer for Vercel deployment, fix news relevance, and display Market/Macro data on the frontend.
-- Plan 12-02 executed: Added strict post-processing relevance filter in the News Agent.
-- Plan 12-03 executed: Created Market and Macro UI cards and integrated them into the Report view using `agent_runs` data.
+- Phase 11 successfully executed. Database migrated to use `research_sessions`, `agent_runs`, and `token_ledger`.
+- Phase 12 successfully executed. KAP Puppeteer removed and replaced with HTTP API. News relevance strict filtering implemented. Market/Macro frontend UI cards implemented. Session Deletion API built.
+- Phase 14 successfully executed. The frontend now subscribes directly to the `agent_runs` table using Supabase Channels, providing a true parallel progress bar. The hardcoded 7-agent grid was replaced with dynamic mapping, hiding internal agents like `writer` and `orchestrator`, and displaying only relevant running data agents like "Piyasa" or "KAP Verisi".
 
 ### Open Questions
 - (none yet)
@@ -37,10 +31,10 @@
 - (none yet)
 
 ### Action Items (TODO)
-- Phase 12 completely executed. Ready for next phase.
+- Phase 14 is completed.
 
 ## Session Continuity
-- **Last Session**: 2026-05-16T10:15:00+03:00
-- **Stopped at**: Phase 12 planned successfully. Ready for execution.
-- **Last Command**: TBD
-- **Next Command**: `/gsd-execute-phase 12 --wave 1`
+- **Last Session**: 2026-05-16T10:45:00+03:00
+- **Stopped at**: Phase 14 completely executed.
+- **Last Command**: `/gsd-execute-phase 14`
+- **Next Command**: TBD
