@@ -1,116 +1,140 @@
 /* eslint-disable @next/next/no-img-element */
 import { UserButton } from "@clerk/nextjs";
 import React from "react";
+import Link from "next/link";
+import { TokenDisplay } from "@/components/dashboard/TokenDisplay";
+
+const NAV_ITEMS = [
+  { href: '/dashboard',         icon: 'add',         label: 'Yeni Araştırma', active: true  },
+  { href: '/dashboard/history', icon: 'description',  label: 'Raporlarım',     active: false },
+  { href: '#',                  icon: 'database',     label: 'Veri Kaynakları',active: false },
+  { href: '#',                  icon: 'settings',     label: 'Ayarlar',        active: false },
+]
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="bg-background text-on-surface h-screen overflow-hidden flex font-body-md mesh-bg">
-      {/* SideNavBar Shared Component */}
-      <div className="relative flex h-full flex-col bg-surface-container border-r border-outline-variant w-64 shrink-0 group/design-root z-10 shadow-[4px_0_24px_rgba(0,0,0,0.5)]">
+    <div className="bg-black text-on-surface h-screen overflow-hidden flex font-body-md mesh-bg">
+
+      {/* ── Sidebar ── */}
+      <aside className="relative flex h-full flex-col bg-[#050505] border-r border-[#22c55e]/12 w-60 shrink-0 z-10 shadow-[4px_0_32px_rgba(0,0,0,0.8)]">
+        {/* Top glow line */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#22c55e]/40 to-transparent" />
+
         <div className="flex h-full flex-col justify-between p-4">
-          <div className="flex flex-col gap-6">
-            {/* Brand Profile */}
-            <div className="flex gap-3 items-center pt-2">
-              <div
-                className="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-10 w-10 border border-outline-variant"
-                data-alt="A minimalist avatar profile picture placeholder with a sleek dark navy background and subtle emerald green abstract geometric accents, fitting a high-contrast fintech aesthetic."
-                style={{
-                  backgroundImage:
-                    'url("https://lh3.googleusercontent.com/aida-public/AB6AXuA616cLGnPP6b8F5VUqZ6c3FRckhW2Ke9G0iHNP4LR4niKDclMo_Wz0Bc92hl03AfQ7a9N8BciAIFSsi_J4R2b5wymQTZVm0kYegX8phrRuMoLa8zOvQaEXyVlzKTXNEnO8uwxB2HP6MrwIpoOP3BlB8TMu4rEfYUt-hjw1OgW6wqr7mcxRNvygEXGqD0QQqfXxCc0l-_rcjUMhn7w7i1dKAENEIipP73eZ7D9YD4NgOrtOHyDjclScSsKYU8aeR7ip-aTB4uDeEuI")',
-                }}
-              ></div>
+          <div className="flex flex-col gap-7">
+
+            {/* Brand */}
+            <div className="flex gap-3 items-center pt-3 pb-1">
+              <div className="relative flex items-center justify-center w-9 h-9 rounded bg-black border border-[#22c55e]/30 shadow-[0_0_16px_rgba(34,197,94,0.15)]">
+                <span className="text-[#22c55e] text-lg font-bold font-['JetBrains_Mono']">A</span>
+                <span className="absolute top-0.5 right-0.5 w-1.5 h-1.5 rounded-full bg-[#22c55e]">
+                  <span className="status-ping absolute inset-0 rounded-full bg-[#22c55e] opacity-60" />
+                </span>
+              </div>
               <div className="flex flex-col">
-                <h1 className="text-on-surface font-headline text-title-md tracking-tight">
-                  Araştır
+                <h1 className="text-white font-['Montserrat'] text-sm font-bold tracking-tight leading-tight">
+                  ARAŞTIR
                 </h1>
-                <p className="text-on-surface-variant font-label-sm uppercase tracking-wider">
-                  Dashboard
+                <p className="text-[#22c55e]/60 font-['JetBrains_Mono'] text-[9px] uppercase tracking-[0.2em]">
+                  Terminal v1.0
                 </p>
               </div>
             </div>
-            {/* Navigation Links */}
-            <div className="flex flex-col gap-2">
-              <a
-                className="flex items-center gap-3 px-3 py-2 rounded bg-surface-variant/50 text-secondary border-l-2 border-secondary shadow-[inset_40px_0_40px_-40px_rgba(78,222,163,0.1)] transition-colors"
-                href="#"
-              >
-                <span
-                  className="material-symbols-outlined text-[24px]"
-                  style={{ fontVariationSettings: "'FILL' 1" }}
+
+            {/* Navigation */}
+            <nav className="flex flex-col gap-1">
+              {NAV_ITEMS.map((item) => (
+                <Link
+                  key={item.href + item.label}
+                  href={item.href}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded transition-all group relative overflow-hidden ${
+                    item.active
+                      ? 'bg-[#22c55e]/08 border-l-2 border-[#facc15] text-white'
+                      : 'border-l-2 border-transparent text-[#64748b] hover:text-[#c5c6cc] hover:bg-white/03'
+                  }`}
                 >
-                  add
-                </span>
-                <p className="font-body-md font-semibold">Yeni Araştırma</p>
-              </a>
-              <a
-                className="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-variant/30 hover:text-on-surface transition-colors border-l-2 border-transparent"
-                href="#"
-              >
-                <span className="material-symbols-outlined text-[24px]">
-                  description
-                </span>
-                <p className="font-body-md">Raporlarım</p>
-              </a>
-              <a
-                className="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-variant/30 hover:text-on-surface transition-colors border-l-2 border-transparent"
-                href="#"
-              >
-                <span className="material-symbols-outlined text-[24px]">
-                  database
-                </span>
-                <p className="font-body-md">Veri Kaynakları</p>
-              </a>
-              <a
-                className="flex items-center gap-3 px-3 py-2 rounded text-on-surface-variant hover:bg-surface-variant/30 hover:text-on-surface transition-colors border-l-2 border-transparent"
-                href="#"
-              >
-                <span className="material-symbols-outlined text-[24px]">
-                  settings
-                </span>
-                <p className="font-body-md">Ayarlar</p>
-              </a>
+                  {item.active && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#facc15]/05 to-transparent pointer-events-none" />
+                  )}
+                  <span
+                    className={`material-symbols-outlined text-[20px] relative z-10 ${
+                      item.active ? 'text-[#facc15]' : 'text-inherit'
+                    }`}
+                    style={item.active ? { fontVariationSettings: "'FILL' 1" } : {}}
+                  >
+                    {item.icon}
+                  </span>
+                  <span className="font-['Inter'] text-sm font-medium relative z-10">{item.label}</span>
+                  {item.active && (
+                    <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[#facc15]" />
+                  )}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Data Sources chip */}
+            <div className="border border-[#22c55e]/15 rounded p-3 flex flex-col gap-2">
+              <p className="font-['JetBrains_Mono'] text-[9px] text-[#22c55e]/50 uppercase tracking-widest">
+                Aktif Kaynaklar
+              </p>
+              {['KAP', 'TCMB', 'Bloomberg', 'Reuters'].map((src) => (
+                <div key={src} className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#22c55e] shrink-0" />
+                  <span className="font-['JetBrains_Mono'] text-[10px] text-[#64748b]">{src}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Bottom: user */}
+          <div className="flex items-center gap-3 pt-4 border-t border-[#22c55e]/10">
+            <UserButton afterSignOutUrl="/" />
+            <div className="flex flex-col">
+              <span className="text-[11px] text-[#c5c6cc] font-medium">Kullanıcı</span>
+              <span className="font-['JetBrains_Mono'] text-[9px] text-[#22c55e]/60">● Online</span>
             </div>
           </div>
         </div>
-      </div>
-      {/* Main Content Area */}
+      </aside>
+
+      {/* ── Main area ── */}
       <div className="flex-1 flex flex-col h-full overflow-hidden relative">
-        {/* Ambient Glow Background */}
+
+        {/* Ambient glows */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] rounded-full bg-secondary opacity-5 blur-[100px]"></div>
+          <div className="absolute top-[-15%] right-[-5%] w-[35%] h-[35%] rounded-full bg-[#22c55e] opacity-[0.03] blur-[120px]" />
+          <div className="absolute bottom-[-10%] left-[20%] w-[25%] h-[25%] rounded-full bg-[#facc15] opacity-[0.02] blur-[100px]" />
         </div>
+
         {/* TopBar */}
-        <header className="flex items-center justify-between whitespace-nowrap border-b border-outline-variant bg-surface-container/80 backdrop-blur-md px-margin-desktop py-4 z-10">
-          <div className="flex items-center gap-4 text-on-surface">
-            <h2 className="font-headline text-headline-lg-mobile tracking-tight">
+        <header className="flex items-center justify-between border-b border-[#22c55e]/12 bg-[#050505]/90 backdrop-blur-md px-8 py-3 z-10 shrink-0">
+          <div className="flex items-center gap-4">
+            {/* Market status */}
+            <div className="flex items-center gap-2">
+              <span className="relative flex h-2 w-2">
+                <span className="status-ping absolute inline-flex h-full w-full rounded-full bg-[#22c55e] opacity-60" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#22c55e]" />
+              </span>
+              <span className="font-['JetBrains_Mono'] text-[10px] text-[#22c55e] tracking-widest uppercase">
+                Piyasa Açık
+              </span>
+            </div>
+            <span className="w-px h-4 bg-[#22c55e]/20" />
+            <h2 className="font-['Montserrat'] text-white text-sm font-bold tracking-wide uppercase">
               Genel Bakış
             </h2>
           </div>
+
           <div className="flex items-center gap-4">
-            {/* Search Bar */}
-            <label className="flex flex-col min-w-64 h-10">
-              <div className="flex w-full flex-1 items-stretch rounded h-full bg-primary-container border border-outline-variant focus-within:border-secondary focus-within:shadow-[0_0_15px_rgba(78,222,163,0.2)] transition-all">
-                <div className="text-on-surface-variant flex items-center justify-center pl-3 pr-2">
-                  <span className="material-symbols-outlined text-[20px]">
-                    search
-                  </span>
-                </div>
-                <input
-                  className="form-input flex w-full min-w-0 flex-1 bg-transparent text-on-surface border-none focus:ring-0 h-full placeholder:text-on-surface-variant px-2 font-body-md"
-                  placeholder="Araştır..."
-                />
-              </div>
-            </label>
-            {/* Quick Start Button */}
-            <button className="bg-secondary text-primary-container px-6 py-2 rounded h-10 font-headline font-bold text-sm tracking-wide shadow-[0_0_20px_rgba(78,222,163,0.3)] hover:shadow-[0_0_25px_rgba(78,222,163,0.5)] transition-all flex items-center gap-2">
-              <span className="material-symbols-outlined text-[20px]">
-                play_arrow
-              </span>
-              YENİ ARAŞTIRMA BAŞLAT
-            </button>
-            <UserButton afterSignOutUrl="/" />
+            <TokenDisplay />
+            <div className="w-px h-5 bg-[#22c55e]/15" />
+            {/* Clock */}
+            <span className="font-['JetBrains_Mono'] text-[11px] text-[#64748b] tracking-widest">
+              {new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+            </span>
           </div>
         </header>
+
         {children}
       </div>
     </div>

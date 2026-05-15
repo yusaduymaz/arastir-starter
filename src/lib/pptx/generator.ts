@@ -23,7 +23,52 @@ export async function generatePptxReport(data: ReportData, outputPath: string): 
       align: 'center'
     });
 
-    // 2. Data Slide
+    // 2. Executive Summary Slide
+    if (data.executiveSummary) {
+      const summarySlide = pptx.addSlide();
+      summarySlide.addText('Yönetici Özeti', {
+        x: 0.5, y: 0.5, w: 9, h: 0.5,
+        fontSize: 18, bold: true, color: '363636'
+      });
+      summarySlide.addText(data.executiveSummary, {
+        x: 0.5, y: 1.2, w: 9, h: 3.5,
+        fontSize: 14, color: '444444',
+        align: 'left',
+        valign: 'top'
+      });
+    }
+
+    // 3. Macro Context Slide (only if macroContext is non-empty)
+    if (data.macroContext) {
+      const macroSlide = pptx.addSlide();
+      macroSlide.addText('Makroekonomik Bağlam', {
+        x: 0.5, y: 0.5, w: 9, h: 0.5,
+        fontSize: 18, bold: true, color: '363636'
+      });
+      macroSlide.addText(data.macroContext, {
+        x: 0.5, y: 1.2, w: 9, h: 3.5,
+        fontSize: 14, color: '444444',
+        align: 'left',
+        valign: 'top'
+      });
+    }
+
+    // 4. Risks & Opportunities Slide
+    if (data.risks || data.opportunities) {
+      const insightSlide = pptx.addSlide();
+      insightSlide.addText('Riskler ve Fırsatlar', {
+        x: 0.5, y: 0.5, w: 9, h: 0.5,
+        fontSize: 18, bold: true, color: '363636'
+      });
+      
+      insightSlide.addText('Riskler:', { x: 0.5, y: 1.2, w: 4, h: 0.3, fontSize: 14, bold: true, color: 'FF0000' });
+      insightSlide.addText(data.risks || '-', { x: 0.5, y: 1.6, w: 4, h: 3.5, fontSize: 12, color: '444444', valign: 'top' });
+
+      insightSlide.addText('Fırsatlar:', { x: 5.0, y: 1.2, w: 4, h: 0.3, fontSize: 14, bold: true, color: '008000' });
+      insightSlide.addText(data.opportunities || '-', { x: 5.0, y: 1.6, w: 4, h: 3.5, fontSize: 12, color: '444444', valign: 'top' });
+    }
+
+    // 4. Data Slide
     const dataSlide = pptx.addSlide();
     dataSlide.addText('Veri Özeti', {
       x: 0.5, y: 0.5, w: 9, h: 0.5,
@@ -31,11 +76,11 @@ export async function generatePptxReport(data: ReportData, outputPath: string): 
     });
 
     // Attempt to map data to a chart if all values are numeric or can be parsed as numeric
-    const isNumericData = data.data.every(item => !isNaN(Number(item.value)));
+    const isNumericData = (data.data ?? []).every(item => !isNaN(Number(item.value)));
 
-    if (isNumericData && data.data.length > 0) {
-      const labels = data.data.map(item => item.label);
-      const values = data.data.map(item => Number(item.value));
+    if (isNumericData && (data.data ?? []).length > 0) {
+      const labels = (data.data ?? []).map(item => item.label);
+      const values = (data.data ?? []).map(item => Number(item.value));
 
       const chartData = [
         {
@@ -56,7 +101,7 @@ export async function generatePptxReport(data: ReportData, outputPath: string): 
       const tableRows = [
         [{ text: 'Etiket' }, { text: 'Değer' }] // Header
       ];
-      data.data.forEach(item => {
+      (data.data ?? []).forEach(item => {
         tableRows.push([{ text: item.label }, { text: String(item.value) }]);
       });
 

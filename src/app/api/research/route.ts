@@ -6,8 +6,8 @@
  *
  * MIGRATION REQUIRED: Run the following SQL in your Supabase dashboard:
  * -----------------------------------------------------------------------
- * ALTER TABLE research_history ADD COLUMN IF NOT EXISTS market_data jsonb;
- * ALTER TABLE research_history ADD COLUMN IF NOT EXISTS macro_data jsonb;
+ * ALTER TABLE research_sessions ADD COLUMN IF NOT EXISTS market_data jsonb;
+ * ALTER TABLE research_sessions ADD COLUMN IF NOT EXISTS macro_data jsonb;
  * -----------------------------------------------------------------------
  */
 
@@ -38,7 +38,7 @@ async function appendAgentLog(
 
   // Fetch current logs, append, update
   const { data } = await supabase
-    .from('research_history')
+    .from('research_sessions')
     .select('agent_logs')
     .eq('id', recordId)
     .single()
@@ -47,7 +47,7 @@ async function appendAgentLog(
   currentLogs.push(logEntry)
 
   await supabase
-    .from('research_history')
+    .from('research_sessions')
     .update({ agent_logs: currentLogs })
     .eq('id', recordId)
 }
@@ -102,7 +102,7 @@ export async function POST(request: Request) {
     // Son 6 saat icinde ayni hisse icin basariyla tamamlanmis bir rapor var mi kontrol et.
     const sixHoursAgo = new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString();
     const { data: cachedRecord } = await supabase
-      .from('research_history')
+      .from('research_sessions')
       .select('*')
       .eq('extracted_ticker', ticker)
       .eq('status', 'completed')
@@ -115,7 +115,7 @@ export async function POST(request: Request) {
       console.log(`[Cache Hit] Serving cached report for ${ticker}`);
 
       const { data: clonedRecord, error: cloneError } = await supabase
-        .from('research_history')
+        .from('research_sessions')
         .insert({
           user_id: userId,
           query: rawQuery,
@@ -123,7 +123,7 @@ export async function POST(request: Request) {
           status: 'completed',
           progress: 100,
           current_step: 'Tamamlandi (Onbellekten)',
-          result_path: cachedRecord.result_path,
+          result_url: cachedRecord.result_url,
           kap_data: cachedRecord.kap_data,
           news_data: cachedRecord.news_data,
           market_data: cachedRecord.market_data,
@@ -193,12 +193,12 @@ export async function POST(request: Request) {
 
     // 1. Create pending record WITH extracted ticker
     const { data: record, error: dbError } = await supabase
-      .from('research_history')
+      .from('research_sessions')
       .insert({
         user_id: userId,
         query: rawQuery,
         extracted_ticker: ticker,
-        status: 'in_progress',
+        status: 'running',
         progress: 0,
         current_step: 'Baslatiliyor...',
         agent_logs: [
@@ -241,7 +241,7 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
 
   try {
     // ── STEP 1: Veri Toplama (Paralel) — 5% ──
-    await supabase.from('research_history').update({
+    await supabase.from('research_sessions').update({
       progress: 5,
       current_step: 'Veri ajanlari baslatiliyor...',
     }).eq('id', recordId);
@@ -275,7 +275,7 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
     const macroStartTime = Date.now();
 
     // ── 10% — All agents launched ──
-    await supabase.from('research_history').update({
+    await supabase.from('research_sessions').update({
       progress: 10,
       current_step: isTicker
         ? 'KAP, Haberler, Piyasa ve Makro Verisi Cekiliyor...'
@@ -381,7 +381,7 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
     }
 
     // ── 40% — Data parsing ──
-    await supabase.from('research_history').update({
+    await supabase.from('research_sessions').update({
       progress: 40,
       current_step: 'Veriler ayristiriliyor...',
     }).eq('id', recordId);
@@ -419,7 +419,7 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
     });
 
     // ── STEP 2: AI Sentezi — 60% ──
-    await supabase.from('research_history').update({
+    await supabase.from('research_sessions').update({
       progress: 60,
       current_step: 'Yapay Zeka Sentezliyor...',
     }).eq('id', recordId);
@@ -466,7 +466,7 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
     }
 
     // ── STEP 3: Rapor Uretimi — 85% ──
-    await supabase.from('research_history').update({
+    await supabase.from('research_sessions').update({
       progress: 85,
       current_step: 'PDF ve PPTX Hazirlaniyor...',
     }).eq('id', recordId);
@@ -532,17 +532,12 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
     });
 
     const { error: updateError } = await supabase
-      .from('research_history')
+      .from('research_sessions')
       .update({
         status: 'completed',
         progress: 100,
         current_step: 'Tamamlandi',
-        result_path: `/outputs/${timestamp}-${slug}`,
-        kap_data: kapData,
-        news_data: newsData,
-        market_data: marketData,
-        macro_data: macroData.length > 0 ? macroData : null,
-        synthesis_data: reportData
+        result_url: `/outputs/${timestamp}-${slug}`
       })
       .eq('id', recordId);
 
@@ -559,7 +554,7 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
     });
 
     await supabase
-      .from('research_history')
+      .from('research_sessions')
       .update({
         status: 'failed',
         error_message: error.message || 'Ajanlar calistirilirken bir hata olustu.'

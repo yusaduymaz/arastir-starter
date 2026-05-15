@@ -10,7 +10,7 @@ interface HistoryTableProps {
 
 const STATUS_CONFIG = {
   completed:   { label: 'TAMAMLANDI', color: '#22c55e',  icon: CheckCircle2, spin: false },
-  in_progress: { label: 'İŞLENİYOR',  color: '#facc15',  icon: Loader2,      spin: true  },
+  running:     { label: 'İŞLENİYOR',  color: '#facc15',  icon: Loader2,      spin: true  },
   pending:     { label: 'SIRАДА',      color: '#64748b',  icon: Loader2,      spin: false },
   failed:      { label: 'HATA',        color: '#ef4444',  icon: AlertCircle,  spin: false },
 } as const

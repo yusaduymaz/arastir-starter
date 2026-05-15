@@ -38,9 +38,9 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
     )
     const channel = supabase
-      .channel(`public:research_history:id=eq.${initialTask.id}`)
+      .channel(`public:research_sessions:id=eq.${initialTask.id}`)
       .on('postgres_changes', {
-        event: 'UPDATE', schema: 'public', table: 'research_history',
+        event: 'UPDATE', schema: 'public', table: 'research_sessions',
         filter: `id=eq.${initialTask.id}`,
       }, (payload) => {
         const updated = payload.new as ResearchSession
