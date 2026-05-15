@@ -16,10 +16,10 @@ export interface ReportData {
   data?: DataPoint[];
 }
 
-// Agent log entry for real-time pipeline tracking
+// Agent log entry for real-time pipeline tracking (legacy or UI specific)
 export interface AgentLogEntry {
   agent: 'orchestrator' | 'search' | 'news' | 'market' | 'macro' | 'analyst' | 'writer';
-  status: 'started' | 'running' | 'completed' | 'failed';
+  status: 'started' | 'running' | 'completed' | 'failed' | 'skipped';
   message: string;
   timestamp: string;
   duration_ms?: number;
@@ -29,20 +29,37 @@ export interface AgentLogEntry {
 // For Supabase table structure
 export interface ResearchSession {
     id: string;
-    created_at: string;
     user_id: string;
     query: string;
-    status: 'pending' | 'in_progress' | 'completed' | 'failed';
-    result_path: string | null;
-    error_message: string | null;
-    // Extended fields
-    progress?: number;
-    current_step?: string;
     extracted_ticker?: string;
+    status: 'pending' | 'running' | 'completed' | 'failed';
+    progress: number;
+    current_step?: string;
+    result_url?: string;
+    error_message?: string;
+    created_at: string;
+    updated_at: string;
     agent_logs?: AgentLogEntry[];
-    kap_data?: any;
-    news_data?: any;
-    market_data?: any;
-    macro_data?: any;
-    synthesis_data?: any;
+}
+
+export interface AgentRun {
+    id: string;
+    session_id: string;
+    agent_name: string;
+    status: 'pending' | 'running' | 'completed' | 'failed' | 'skipped';
+    input_data?: any;
+    output_data?: any;
+    error_message?: string;
+    started_at?: string;
+    completed_at?: string;
+    created_at: string;
+}
+
+export interface AgentLog {
+    id: string;
+    run_id: string;
+    log_level: string;
+    message: string;
+    metadata?: any;
+    created_at: string;
 }
