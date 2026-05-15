@@ -173,8 +173,8 @@ Plans:
 Plans:
 - [x] 12-01-PLAN.md — Replace Puppeteer KAP Scraper with HTTP API
 - [x] 12-02-PLAN.md — Fix News Search Relevance & Sentiment
-- [ ] 12-03-PLAN.md — Frontend Market & Macro Data Displays
-- [ ] 12-04-PLAN.md — Session Deletion API & User Data Management
+- [x] 12-03-PLAN.md — Frontend Market & Macro Data Displays
+- [x] 12-04-PLAN.md — Session Deletion API & User Data Management
 
 ## Progress
 
@@ -187,4 +187,4 @@ Plans:
 | 5. User-Facing Application | 3/3 | Completed | Yes |
 | 10. Vercel-Ready Pipeline Refactor | 1/4 | In Progress | No |
 | 11. Multi-Agent SaaS Architecture | 4/4 | Completed | Yes |
-| 12. Data Reliability & Vercel Compatibility | 2/4 | In Progress | No |
+| 12. Data Reliability & Vercel Compatibility | 3/4 | In Progress | No |

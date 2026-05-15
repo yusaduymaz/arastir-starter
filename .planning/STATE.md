@@ -7,9 +7,9 @@
 
 ## Current Position
 - **Current Phase**: 12
-- **Current Plan**: 2
-- **Status**: Executing
-- **Progress**: [████████░░░░░░░░░░░] 50%
+- **Current Plan**: 4
+- **Status**: Completed
+- **Progress**: [████████████████████] 100%
 
 ## Performance Metrics
 - **Velocity**: TBD
@@ -28,6 +28,7 @@
 - Frontend was migrated to point to the new `research_sessions` table and use real-time sockets.
 - Phase 12 planned to remove Puppeteer for Vercel deployment, fix news relevance, and display Market/Macro data on the frontend.
 - Plan 12-02 executed: Added strict post-processing relevance filter in the News Agent.
+- Plan 12-03 executed: Created Market and Macro UI cards and integrated them into the Report view using `agent_runs` data.
 
 ### Open Questions
 - (none yet)
@@ -36,8 +37,7 @@
 - (none yet)
 
 ### Action Items (TODO)
-- Execute Phase 12 Wave 1 (Plans 12-01 + 12-02): Data Reliability & Scraping Fixes
-- Execute Phase 12 Wave 2 (Plans 12-03 + 12-04): Frontend Data Displays & Session Deletion
+- Phase 12 completely executed. Ready for next phase.
 
 ## Session Continuity
 - **Last Session**: 2026-05-16T10:15:00+03:00
