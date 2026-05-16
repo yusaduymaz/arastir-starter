@@ -178,18 +178,20 @@ Plans:
 
 
 ### Phase 13: Dashboard Extensions
-**Goal**: Implement Data Sources and Settings pages expanding the dashboard capabilities while maintaining the Terminal V1.0 aesthetic.
+**Goal**: Implement Data Sources and Settings pages expanding the dashboard capabilities while maintaining the Terminal V1.0 aesthetic. Replace hardcoded financial data with live market feeds.
 **Depends on**: Phase 12
-**Requirements**: EXT-01, EXT-02, EXT-03
+**Requirements**: EXT-01, EXT-02, EXT-03, EXT-04
 **Success Criteria** (what must be TRUE):
   1. User can access a Settings page to manage preferences and theme.
   2. User can access a Data Sources page displaying active integrations (KAP, TCMB, etc.).
   3. Sidebar layout uses dynamic routing for active states.
-**Plans**: 3 plans
+  4. Dashboard MarqueeTicker and TRENDING section display live financial data from Yahoo Finance with 10-minute caching.
+**Plans**: 4 plans
 Plans:
 - [ ] 13-01-PLAN.md — Database and Layout Preparations
 - [ ] 13-02-PLAN.md — Implement Settings Page and Server Actions
 - [ ] 13-03-PLAN.md — Implement Data Sources Page with MagicUI
+- [ ] 13-04-PLAN.md — Live Market Data for Dashboard Ticker
 
 ### Phase 14: Real-Time UX & Polish
 **Goal**: Fix the frontend synchronization so users can watch the agents work in true parallel real-time, and clean up the UI to only show relevant, user-friendly agent names.
@@ -204,6 +206,30 @@ Plans:
 - [x] 14-01-PLAN.md — True Parallel Real-Time Progress
 - [x] 14-02-PLAN.md — Streamline Dashboard Agent UI
 
+### Phase 15: External Market Data APIs (RapidAPI Providers)
+**Goal**: Establish a unified RapidAPI client layer with per-provider auth, caching, and rate-limit handling for 12 financial data feeds (CNBC, Harem Altın Live Gold Price Data, YH Finance, Yahoo Finance Real-Time, Crypto News, Crypto Trading Indicators API-RSI, Forex API, Exchange Rates, Real-time Finance Data, Turkey Financial Data API, Turkey News Live, Finance API). Infrastructure only — no agent or UI changes in this phase.
+**Depends on**: Phase 14
+**Requirements**: RAPID-01, RAPID-02, RAPID-03, RAPID-04
+**Success Criteria** (what must be TRUE):
+  1. Each of the 12 providers has a typed TypeScript client in `src/lib/rapidapi/<provider>/` exposing normalized response types.
+  2. A per-provider `RAPIDAPI_<PROVIDER>_KEY` env var is validated at boot via `src/lib/env-check.ts`; missing keys degrade gracefully (clients short-circuit with a typed `RapidApiError` of kind `missing_key`).
+  3. A shared rate-limiter + in-memory cache (TTL configurable per provider) prevents 429s and reduces duplicate calls within a single research session.
+  4. Each client has at least one passing smoke test hitting a known stable endpoint, gated behind a feature flag (`RAPIDAPI_LIVE_TESTS=1`) so CI runs offline by default.
+  5. All errors surface via a single `RapidApiError` type carrying `provider`, `status`, `code`, and `retry_after` fields.
+**Plans**: TBD
+
+### Phase 16: Multi-Source Research Agents & Live Data Cards
+**Goal**: Wire the Phase 15 providers into research agents and the dashboard. Extend existing market/news agents with new sources, introduce crypto + gold + forex agents under the open-closed `agent_runs` architecture, and surface live data cards on the dashboard.
+**Depends on**: Phase 15
+**Requirements**: AGENT-RAPID-01, AGENT-RAPID-02, UI-LIVE-01
+**Success Criteria** (what must be TRUE):
+  1. `market-agent` consults YH Finance / Yahoo Real-Time / Real-time Finance Data alongside the existing Yahoo client; results are merged deterministically with a documented precedence rule.
+  2. `news-agent` ingests CNBC + Crypto News + Turkey News Live through the existing relevance + sentiment pipeline.
+  3. Three new agents — `crypto_agent` (Crypto Trading Indicators-RSI), `gold_agent` (Harem Altın), `forex_agent` (Forex API + Exchange Rates) — are registered in `agent_runs` and dispatchable per query type without altering the orchestrator schema.
+  4. Dashboard shows live data cards: Altın (gram/çeyrek), USD/EUR/TRY, BTC/ETH, BIST top movers — updating via Supabase Realtime or SWR with a configurable refresh interval.
+  5. Token ledger correctly debits per-API-call cost (configurable per provider tier) on every agent run.
+**Plans**: TBD
+
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
@@ -216,4 +242,7 @@ Plans:
 | 10. Vercel-Ready Pipeline Refactor | 1/4 | In Progress | No |
 | 11. Multi-Agent SaaS Architecture | 4/4 | Completed | Yes |
 | 12. Data Reliability & Vercel Compatibility | 3/4 | In Progress | No |
-| 13. Dashboard Extensions | 0/3 | Not Started | No |
+| 13. Dashboard Extensions | 0/4 | Not Started | No |
+| 14. Real-Time UX & Polish | 2/2 | Completed | Yes |
+| 15. External Market Data APIs (RapidAPI) | 0/TBD | Not Started | No |
+| 16. Multi-Source Research Agents & Live Cards | 0/TBD | Not Started | No |
