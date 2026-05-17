@@ -3,7 +3,7 @@
 // yahoo-finance2 handles `.IS` suffix natively and has no daily quota.
 // Maps Yahoo's response into the existing MarketData shape used by analyst-agent + reports.
 
-import yahooFinance from 'yahoo-finance2';
+import yf from './yahoo-instance';
 import type { MarketData, StockQuote, CompanyOverview, MonthlySeriesEntry } from '../../types/market';
 
 const toBistSymbol = (ticker: string): string => {
@@ -26,7 +26,7 @@ export async function getYahooMarketData(ticker: string): Promise<MarketData | n
 
   try {
     // 1. Quote — price/volume/change
-    const quoteRaw: any = await yahooFinance.quote(symbol, {}, { validateResult: false });
+    const quoteRaw: any = await yf.quote(symbol, {}, { validateResult: false });
     if (!quoteRaw || !quoteRaw.regularMarketPrice) {
       console.warn(`[Yahoo] No quote data for ${symbol}`);
       return null;
@@ -52,7 +52,7 @@ export async function getYahooMarketData(ticker: string): Promise<MarketData | n
     // 2. Quote summary — sector, market cap, ratios
     let overview: CompanyOverview | null = null;
     try {
-      const summary: any = await yahooFinance.quoteSummary(
+      const summary: any = await yf.quoteSummary(
         symbol,
         { modules: ['summaryDetail', 'price', 'assetProfile', 'defaultKeyStatistics'] },
         { validateResult: false }
@@ -90,7 +90,7 @@ export async function getYahooMarketData(ticker: string): Promise<MarketData | n
       const period1 = new Date();
       period1.setFullYear(period2.getFullYear() - 1);
 
-      const chart: any = await yahooFinance.chart(
+      const chart: any = await yf.chart(
         symbol,
         { period1, period2, interval: '1mo' },
         { validateResult: false }

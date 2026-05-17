@@ -88,25 +88,33 @@ export async function runNewsAgent(
       })
     ]);
 
+    console.log(`[News Agent] Sources: Currents=${currentsData.length}, NewsData=${newsData.length}, RapidAPI=${rapidApiData.length}`);
+
     // Combine results from all APIs
     const rawData = [...currentsData, ...newsData, ...rapidApiData];
     
     // Deduplicate by URL or title (simple deduplication by URL)
     const uniqueRawData = Array.from(new Map(rawData.map(item => [item.url, item])).values());
 
-    // 2.5 Relevance Filter
-    const filteredRawData = uniqueRawData.filter(article => {
-      if (queryType !== 'ticker') return true;
-      // Search in title and description
-      const content = `${article.title || ''} ${article.description || ''}`.toLowerCase();
-      const tickerLower = ticker.toLowerCase();
-      const companyName = getCompanyName(ticker);
-      
-      const hasTicker = content.includes(tickerLower);
-      const hasCompanyName = companyName ? content.includes(companyName.toLowerCase()) : false;
-      
-      return hasTicker || hasCompanyName;
-    });
+    // 2.5 Relevance Filter — strict for tickers, but with fallback
+    let filteredRawData = uniqueRawData;
+    if (queryType === 'ticker') {
+      const strictFiltered = uniqueRawData.filter(article => {
+        const content = `${article.title || ''} ${article.description || ''}`.toLowerCase();
+        const tickerLower = ticker.toLowerCase();
+        const companyName = getCompanyName(ticker);
+        const hasTicker = content.includes(tickerLower);
+        const hasCompanyName = companyName ? content.includes(companyName.toLowerCase()) : false;
+        return hasTicker || hasCompanyName;
+      });
+
+      if (strictFiltered.length > 0) {
+        filteredRawData = strictFiltered;
+      } else {
+        console.log(`[News Agent] No exact matches for "${ticker}", using top ${Math.min(5, uniqueRawData.length)} general articles as fallback.`);
+        filteredRawData = uniqueRawData.slice(0, 5);
+      }
+    }
 
     // 3. Map API response -> internal NewsArticle format + sentiment
     console.log(`[News Agent] Mapping and analyzing sentiment for ${filteredRawData.length} relevant articles (down from ${uniqueRawData.length} unique)...`);
@@ -115,7 +123,7 @@ export async function runNewsAgent(
       const { sentiment } = analyzeSentiment(content);
       return {
         title: article.title,
-        date: article.published,
+        date: article.published || new Date().toISOString(),
         source: article.author || 'Currents API / NewsData',
         url: article.url,
         content,

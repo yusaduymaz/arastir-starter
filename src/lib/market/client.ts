@@ -70,6 +70,9 @@ export const getStockQuote = async (ticker: string): Promise<StockQuote> => {
 
   const obj = data as Record<string, unknown>;
   const raw = obj['Global Quote'];
+  if (!raw || typeof raw !== 'object') {
+    throw new Error(`Alpha Vantage returned no quote data for ${symbol}`);
+  }
 
   const mapped = {
     symbol: (raw as any)['01. symbol'] ?? symbol,

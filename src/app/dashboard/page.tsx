@@ -57,14 +57,21 @@ export default async function DashboardPage() {
     .slice(0, 6)
     .map(t => ({ symbol: t.symbol, pct: t.changePercent, vol: '' }));
 
-  // Show ActivePipeline for in-progress, pending, OR the most recent failed task
-  // (so the user can see WHY it failed and click "Yeniden Dene")
-  const activeTask = history.find(
+  // Show ActivePipeline for ALL in-progress/pending tasks + most recent completed/failed
+  const activeTasks = history.filter(
     (item) => item.status === 'running' || item.status === 'pending'
-  ) || history.find((item) => item.status === 'failed');
+  );
+  const latestCompleted = history.find((item) => item.status === 'completed');
+  const latestFailed = history.find((item) => item.status === 'failed');
+  // When no active tasks, show the latest completed (with logs + report button)
+  // or latest failed as fallback
+  const pipelineTasks = activeTasks.length > 0
+    ? activeTasks
+    : latestCompleted ? [latestCompleted]
+    : latestFailed ? [latestFailed] : [];
 
   const completedCount = history.filter((h) => h.status === 'completed').length;
-  const inProgressCount = history.filter((h) => h.status === 'running').length;
+  const inProgressCount = activeTasks.length;
 
   return (
     <main className="flex-1 overflow-y-auto p-6 z-10 flex flex-col gap-4">
@@ -77,10 +84,12 @@ export default async function DashboardPage() {
       {/* ── Row 2: AI Search + Orbiting Circles ── */}
       <ProminentSearch />
 
-      {/* ── Row 3: Active Pipeline ── */}
-      {activeTask && (
-        <div className="blur-fade blur-fade-d3">
-          <ActivePipeline initialTask={activeTask} />
+      {/* ── Row 3: Active Pipelines ── */}
+      {pipelineTasks.length > 0 && (
+        <div className="blur-fade blur-fade-d3 flex flex-col gap-4">
+          {pipelineTasks.map((task) => (
+            <ActivePipeline key={task.id} initialTask={task} />
+          ))}
         </div>
       )}
 

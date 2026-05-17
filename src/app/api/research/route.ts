@@ -305,12 +305,14 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
 
     // Direct in-process calls — no child_process, no file I/O
     // Topic queries skip market agent (no valid ticker for stock data)
+    const agentStart = Date.now();
     const [searchResult, newsResult, marketResult, macroResult] = await Promise.allSettled([
       runSearchAgent(supabase, recordId, searchRunId, ticker),
       runNewsAgent(supabase, recordId, newsRunId, ticker, queryType, topicKeywords),
       isTicker ? runMarketAgent(supabase, recordId, marketRunId, ticker) : Promise.resolve(null),
       runMacroAgent(supabase, recordId, macroRunId),
     ]);
+    console.log(`[Pipeline] Data agents completed in ${Date.now() - agentStart}ms`);
 
     // Log search agent result
     if (searchResult.status === 'fulfilled') {
@@ -321,7 +323,7 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
         duration_ms: Date.now() - searchStartTime,
       });
     } else {
-      console.warn(`[Pipeline] Search Agent failed:`, searchResult.reason);
+      console.warn(`[Pipeline] Search Agent failed: ${searchResult.reason?.message || searchResult.reason}`);
       await appendAgentLog(supabase, recordId, {
         agent: 'search',
         status: 'failed',
@@ -340,7 +342,7 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
         duration_ms: Date.now() - newsStartTime,
       });
     } else {
-      console.warn(`[Pipeline] News Agent failed:`, newsResult.reason);
+      console.warn(`[Pipeline] News Agent failed: ${newsResult.reason?.message || newsResult.reason}`);
       await appendAgentLog(supabase, recordId, {
         agent: 'news',
         status: 'failed',
@@ -370,7 +372,7 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
         duration_ms: Date.now() - marketStartTime,
       });
     } else {
-      console.warn(`[Pipeline] Market Agent failed (non-blocking):`, marketResult.reason);
+      console.warn(`[Pipeline] Market Agent failed (non-blocking): ${marketResult.reason?.message || marketResult.reason}`);
       await appendAgentLog(supabase, recordId, {
         agent: 'market',
         status: 'failed',
@@ -389,7 +391,7 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
         duration_ms: Date.now() - macroStartTime,
       });
     } else {
-      console.warn(`[Pipeline] Macro Agent failed (non-blocking):`, macroResult.reason);
+      console.warn(`[Pipeline] Macro Agent failed (non-blocking): ${macroResult.reason?.message || macroResult.reason}`);
       await appendAgentLog(supabase, recordId, {
         agent: 'macro',
         status: 'failed',
@@ -399,9 +401,13 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
       });
     }
 
-    // ── 40% — Data parsing ──
+    // ── Dynamic progress based on agent success ──
+    const agentSuccessCount = [searchResult, newsResult, marketResult, macroResult]
+      .filter(r => r.status === 'fulfilled' && r.value).length;
+    const dataProgress = 10 + Math.round((agentSuccessCount / 4) * 30); // 10-40%
+
     await supabase.from('research_sessions').update({
-      progress: 40,
+      progress: dataProgress,
       current_step: 'Veriler ayristiriliyor...',
     }).eq('id', recordId);
 

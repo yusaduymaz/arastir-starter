@@ -32,6 +32,8 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
   const [agentRuns, setAgentRuns] = useState<AgentRun[]>([])
   const router = useRouter()
   const logEndRef = useRef<HTMLDivElement>(null)
+  const logContainerRef = useRef<HTMLDivElement>(null)
+  const [userScrolledUp, setUserScrolledUp] = useState(false)
 
   useEffect(() => {
     const supabase = createClient(
@@ -48,7 +50,7 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
       }, (payload) => {
         const updated = payload.new as ResearchSession
         setTask(updated)
-        if (updated.status === 'completed' || updated.status === 'failed') {
+        if (updated.status === 'failed') {
           setTimeout(() => router.refresh(), 2000)
         }
       })
@@ -89,10 +91,20 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
     }
   }, [initialTask.id, router])
 
-  // Auto-scroll to bottom when new logs arrive
+  // Track if user scrolled up in the log container
+  const handleLogScroll = () => {
+    if (!logContainerRef.current) return
+    const { scrollTop, scrollHeight, clientHeight } = logContainerRef.current
+    const isNearBottom = scrollHeight - scrollTop - clientHeight < 40
+    setUserScrolledUp(!isNearBottom)
+  }
+
+  // Auto-scroll to bottom only when user hasn't scrolled up
   useEffect(() => {
-    logEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [task.agent_logs?.length])
+    if (!userScrolledUp) {
+      logEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [task.agent_logs?.length, userScrolledUp])
 
   let calculatedProgress = task.progress || 0
   if (agentRuns.length > 0) {
@@ -133,44 +145,12 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
     }
   }
 
-  if (task.status === 'completed') {
-    return (
-      <div className="bg-[#080808] border border-[#22c55e]/30 rounded-xl overflow-hidden relative p-10 flex flex-col items-center justify-center text-center gap-6">
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#22c55e]/50 to-transparent" />
-
-        <div className="w-20 h-20 rounded-full bg-[#22c55e]/10 border border-[#22c55e]/30 flex items-center justify-center mb-2">
-          <span className="material-symbols-outlined text-[#22c55e] text-4xl animate-pulse">check_circle</span>
-        </div>
-
-        <div>
-          <h2 className="font-['Montserrat'] text-2xl font-bold text-white mb-2 tracking-tight">Analiz Tamamlandı</h2>
-          <p className="font-['JetBrains_Mono'] text-xs text-[#22c55e]/60 tracking-wider">
-            {displayTicker} için tüm raporlar başarıyla oluşturuldu.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => window.location.href = `/dashboard/history/${task.id}`}
-            className="px-8 py-3 bg-[#22c55e] text-black font-['JetBrains_Mono'] text-xs font-bold rounded-lg hover:bg-[#1da850] transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
-          >
-            <span className="material-symbols-outlined text-sm">visibility</span>
-            RAPORU İNCELE
-          </button>
-        </div>
-
-        {/* Backlink to history */}
-        <p className="text-[10px] text-[#45474c] font-['JetBrains_Mono']">
-          Sistem Kaydı: {task.id.slice(0, 8)}... | {new Date().toLocaleTimeString()}
-        </p>
-      </div>
-    )
-  }
+  const isCompleted = task.status === 'completed'
 
   return (
-    <div className={`bg-[#080808] border rounded-xl overflow-hidden relative ${isFailed ? 'border-[#ef4444]/40' : 'border-[#facc15]/25'}`}>
+    <div className={`bg-[#080808] border rounded-xl overflow-hidden relative ${isCompleted ? 'border-[#22c55e]/30' : isFailed ? 'border-[#ef4444]/40' : 'border-[#facc15]/25'}`}>
       {/* Top accent line */}
-      <div className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent ${isFailed ? 'via-[#ef4444]/60' : 'via-[#facc15]/60'} to-transparent`} />
+      <div className={`absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent ${isCompleted ? 'via-[#22c55e]/50' : isFailed ? 'via-[#ef4444]/60' : 'via-[#facc15]/60'} to-transparent`} />
 
       {/* ── Error Card (only when failed) ── */}
       {isFailed && task.error_message && (
@@ -198,13 +178,19 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
       <div className="p-5 pb-0">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <svg className="animate-spin h-4 w-4 text-[#facc15]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-            </svg>
+            {isCompleted ? (
+              <div className="w-8 h-8 rounded-full bg-[#22c55e]/10 border border-[#22c55e]/30 flex items-center justify-center">
+                <span className="material-symbols-outlined text-[#22c55e] text-lg">check_circle</span>
+              </div>
+            ) : (
+              <svg className="animate-spin h-4 w-4 text-[#facc15]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+              </svg>
+            )}
             <div>
-              <p className="font-['JetBrains_Mono'] text-[9px] text-[#facc15]/50 tracking-widest uppercase mb-0.5">
-                // Aktif Analiz
+              <p className={`font-['JetBrains_Mono'] text-[9px] tracking-widest uppercase mb-0.5 ${isCompleted ? 'text-[#22c55e]/50' : 'text-[#facc15]/50'}`}>
+                {isCompleted ? '// Analiz Tamamlandı' : '// Aktif Analiz'}
               </p>
               <div className="flex items-center gap-2">
                 <p className="font-['Montserrat'] text-sm font-bold text-white">
@@ -218,15 +204,26 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
               </div>
             </div>
           </div>
-          <div
-            className="px-3 py-1.5 rounded border font-['JetBrains_Mono'] text-xs font-bold"
-            style={{
-              color: '#facc15',
-              borderColor: 'rgba(250,204,21,0.3)',
-              backgroundColor: 'rgba(250,204,21,0.08)',
-            }}
-          >
-            {progress}%
+          <div className="flex items-center gap-3">
+            {isCompleted && (
+              <button
+                onClick={() => window.location.href = `/dashboard/history/${task.id}`}
+                className="px-5 py-2 bg-[#22c55e] text-black font-['JetBrains_Mono'] text-[10px] font-bold rounded-lg hover:bg-[#1da850] transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
+              >
+                <span className="material-symbols-outlined text-sm">visibility</span>
+                RAPORU İNCELE
+              </button>
+            )}
+            <div
+              className="px-3 py-1.5 rounded border font-['JetBrains_Mono'] text-xs font-bold"
+              style={{
+                color: isCompleted ? '#22c55e' : '#facc15',
+                borderColor: isCompleted ? 'rgba(34,197,94,0.3)' : 'rgba(250,204,21,0.3)',
+                backgroundColor: isCompleted ? 'rgba(34,197,94,0.08)' : 'rgba(250,204,21,0.08)',
+              }}
+            >
+              {progress}%
+            </div>
           </div>
         </div>
 
@@ -237,19 +234,23 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
               className="h-full rounded-full transition-all duration-1000 ease-out"
               style={{
                 width: `${progress}%`,
-                background: progress < 50
-                  ? 'linear-gradient(90deg, #facc15, #fde047)'
-                  : 'linear-gradient(90deg, #facc15, #22c55e)',
+                background: isCompleted
+                  ? 'linear-gradient(90deg, #22c55e, #4ade80)'
+                  : progress < 50
+                    ? 'linear-gradient(90deg, #facc15, #fde047)'
+                    : 'linear-gradient(90deg, #facc15, #22c55e)',
               }}
             />
           </div>
           <div className="flex items-center justify-between">
-            <p className="font-['JetBrains_Mono'] text-[10px] text-[#64748b] flex items-center gap-1.5">
-              <span className="material-symbols-outlined text-[12px] text-[#facc15]/60">sync</span>
-              {stepLabel}
+            <p className={`font-['JetBrains_Mono'] text-[10px] text-[#64748b] flex items-center gap-1.5`}>
+              <span className={`material-symbols-outlined text-[12px] ${isCompleted ? 'text-[#22c55e]/60' : 'text-[#facc15]/60'}`}>
+                {isCompleted ? 'check_circle' : 'sync'}
+              </span>
+              {isCompleted ? 'Tüm raporlar başarıyla oluşturuldu' : stepLabel}
             </p>
             <span className="font-['JetBrains_Mono'] text-[9px] text-[#45474c]">
-              {progress < 100 ? 'devam ediyor' : 'tamamlandı'}
+              {isCompleted ? 'tamamlandı' : progress < 100 ? 'devam ediyor' : 'tamamlandı'}
             </span>
           </div>
         </div>
@@ -257,16 +258,16 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
 
       {/* ── Agent Activity Log ── */}
       {logs.length > 0 && (
-        <div className="mt-4 border-t border-[#facc15]/10">
+        <div className={`mt-4 border-t ${isCompleted ? 'border-[#22c55e]/10' : 'border-[#facc15]/10'}`}>
           <div className="px-5 py-2.5 flex items-center justify-between bg-[#050505]">
-            <span className="font-['JetBrains_Mono'] text-[9px] text-[#facc15]/40 tracking-widest uppercase">
+            <span className={`font-['JetBrains_Mono'] text-[9px] tracking-widest uppercase ${isCompleted ? 'text-[#22c55e]/40' : 'text-[#facc15]/40'}`}>
               // Agent Aktivite Logu
             </span>
             <span className="font-['JetBrains_Mono'] text-[9px] text-[#45474c]">
               {logs.length} event
             </span>
           </div>
-          <div className="max-h-48 overflow-y-auto custom-scrollbar">
+          <div ref={logContainerRef} onScroll={handleLogScroll} className="max-h-48 overflow-y-auto custom-scrollbar">
             <div className="px-5 pb-4 flex flex-col gap-1">
               {logs.map((log, i) => {
                 const agentInfo = AGENT_CONFIG[log.agent] || AGENT_CONFIG.orchestrator

@@ -1,4 +1,4 @@
-import YahooFinance from 'yahoo-finance2';
+import yf from './yahoo-instance';
 
 export interface TickerQuote {
   symbol: string;
@@ -25,12 +25,11 @@ const ALL_SYMBOLS = [...BIST_SYMBOLS, ...FX_COMMODITY_SYMBOLS];
 const CACHE_TTL_MS = 10 * 60 * 1000;
 const tickerCache = new Map<string, { data: TickerQuote[]; ts: number }>();
 
-// Reusing YahooFinance default export which acts as a singleton
-const yahooFinance = YahooFinance; 
+// v3: using shared singleton from yahoo-instance.ts
 
 async function fetchTickerData(): Promise<TickerQuote[]> {
   try {
-    const results = await yahooFinance.quote(ALL_SYMBOLS, {}, { validateResult: false });
+    const results = await yf.quote(ALL_SYMBOLS, {}, { validateResult: false });
     
     // results is any[], we need to map to TickerQuote[]
     const validResults = (results as any[]).filter(q => q && q.regularMarketPrice != null);

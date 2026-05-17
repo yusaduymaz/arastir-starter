@@ -14,6 +14,32 @@ import { KAPDisclosure } from '../../types/kap';
 
 const KAP_API_BASE = 'https://www.kap.org.tr/tr/api';
 
+async function fetchWithRetry(
+  url: string,
+  options: RequestInit,
+  maxRetries: number = 2,
+  baseDelayMs: number = 2000
+): Promise<Response> {
+  let lastError: Error | null = null;
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      const response = await fetch(url, {
+        ...options,
+        signal: AbortSignal.timeout(10000), // 10s per attempt
+      });
+      return response;
+    } catch (error) {
+      lastError = error as Error;
+      if (attempt < maxRetries) {
+        const delay = baseDelayMs * Math.pow(2, attempt);
+        console.warn(`[KAP Client] Attempt ${attempt + 1} failed, retrying in ${delay}ms...`);
+        await new Promise(r => setTimeout(r, delay));
+      }
+    }
+  }
+  throw lastError;
+}
+
 interface KAPApiDisclosure {
   basic?: {
     disclosureIndex?: number;
@@ -92,7 +118,7 @@ async function fetchViaDisclosureQuery(ticker: string, limit: number): Promise<K
   };
 
   try {
-    const response = await fetch(`${KAP_API_BASE}/memberDisclosureQuery`, {
+    const response = await fetchWithRetry(`${KAP_API_BASE}/memberDisclosureQuery`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -101,7 +127,6 @@ async function fetchViaDisclosureQuery(ticker: string, limit: number): Promise<K
         'Referer': 'https://www.kap.org.tr/tr/',
         'Origin': 'https://www.kap.org.tr',
       },
-      signal: AbortSignal.timeout(15000),
       body: JSON.stringify(body),
     });
 
@@ -129,14 +154,13 @@ async function fetchViaDisclosureQuery(ticker: string, limit: number): Promise<K
  */
 async function fetchViaRecentDisclosures(ticker: string, limit: number): Promise<KAPDisclosure[]> {
   try {
-    const response = await fetch(`${KAP_API_BASE}/disclosures`, {
+    const response = await fetchWithRetry(`${KAP_API_BASE}/disclosures`, {
       method: 'GET',
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
         'Accept': 'application/json',
         'Referer': 'https://www.kap.org.tr/tr/',
       },
-      signal: AbortSignal.timeout(15000),
     });
 
     if (!response.ok) {

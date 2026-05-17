@@ -7,11 +7,29 @@ import { MarketData } from '../types/market';
 import { EvdsDataPoint } from '../lib/tcmb/client';
 import { SupabaseClient } from '@supabase/supabase-js';
 
+export interface InvestmentRecommendation {
+  action: 'AL' | 'TUT' | 'SAT';
+  score: number; // 1-10
+  confidence: 'düşük' | 'orta' | 'yüksek';
+  shortTermOutlook: string;
+  longTermOutlook: string;
+  keyFactors: string[];
+}
+
 export interface AnalystInsights {
   executiveSummary: string;
   risks: string;
   opportunities: string;
   macroContext: string;
+  investmentRecommendation?: InvestmentRecommendation;
+}
+
+function safeParseJSON(raw: string): AnalystInsights {
+  let cleaned = raw.trim();
+  if (cleaned.startsWith('```')) {
+    cleaned = cleaned.replace(/^```(?:json)?\s*/, '').replace(/\s*```$/, '');
+  }
+  return JSON.parse(cleaned) as AnalystInsights;
 }
 
 function formatMacroContext(macro: EvdsDataPoint[] | null | undefined): string {
@@ -79,12 +97,21 @@ Sektör: ${marketData.overview?.Sector ?? 'N/A'} | Endüstri: ${marketData.overv
 
     const macroSection = formatMacroContext(macroData);
 
-    const promptText = `Aşağıda ${ticker} hissesi için çekilmiş güncel veriler yer alıyor. Verileri analiz et ve profesyonel bir rapor oluştur.
-Rapor şu 4 bölümden oluşmalı ve JSON formatında dönmelidir:
-1. executiveSummary (Markdown)
-2. risks (Markdown)
-3. opportunities (Markdown)
-4. macroContext (Markdown)
+    const promptText = `Aşağıda ${ticker} hissesi için çekilmiş güncel veriler yer alıyor. Verileri analiz et ve profesyonel bir yatırım raporu oluştur.
+Rapor şu 5 bölümden oluşmalı ve JSON formatında dönmelidir:
+1. executiveSummary (Markdown) — 3-5 cümlelik profesyonel yönetici özeti
+2. risks (Markdown) — Madde işaretli risk faktörleri
+3. opportunities (Markdown) — Madde işaretli fırsat alanları
+4. macroContext (Markdown) — Makroekonomik bağlam ve etkisi
+5. investmentRecommendation (JSON object) — Yatırım tavsiyesi:
+   - action: "AL", "TUT" veya "SAT" (mevcut verilere dayalı)
+   - score: 1-10 arası puan (1=çok kötü, 10=mükemmel)
+   - confidence: "düşük", "orta" veya "yüksek" (veri kalitesine göre)
+   - shortTermOutlook: Kısa vadeli (1-3 ay) beklenti, 1-2 cümle
+   - longTermOutlook: Uzun vadeli (6-12 ay) beklenti, 1-2 cümle
+   - keyFactors: En önemli 3-5 faktör dizisi (string array)
+
+Önemli: Yatırım tavsiyesini mevcut piyasa verileri, haberler, KAP bildirimleri ve makro göstergelere dayandır. Genel ifadelerden kaçın, somut verilere referans ver.
 
 ${marketSection}${macroSection}
 KAP Verileri: ${JSON.stringify(kapData.slice(0, 5))}
@@ -94,42 +121,11 @@ Haber Verileri: ${JSON.stringify(newsData.slice(0, 5))}`;
 
     let result: AnalystInsights | null = null;
 
-    // --- 1. OpenRouter (Primary) ---
-    if (process.env.OPENROUTER_API_KEY) {
+    // --- 1. Groq (Priority 1) ---
+    if (process.env.GROQ_API_KEY) {
       try {
-        console.log('[Analyst Agent] Trying OpenRouter (Priority 1)...');
-        const openai = new OpenAI({
-          apiKey: process.env.OPENROUTER_API_KEY,
-          baseURL: 'https://openrouter.ai/api/v1',
-          defaultHeaders: {
-            'HTTP-Referer': 'https://arastir.ai',
-            'X-Title': 'Araştır AI',
-          },
-        });
-
-        const response = await openai.chat.completions.create({
-          model: 'google/gemini-2.0-flash-exp:free',
-          messages: [
-            { role: 'system', content: systemInstruction },
-            { role: 'user', content: promptText }
-          ],
-          response_format: { type: 'json_object' }
-        });
-
-        const content = response.choices[0].message.content;
-        if (content) {
-          result = JSON.parse(content) as AnalystInsights;
-          console.log('[Analyst Agent] Successfully generated with OpenRouter.');
-        }
-      } catch (err: any) {
-        console.warn(`[Analyst Agent] OpenRouter failed: ${err.message}`);
-      }
-    }
-
-    // --- 2. Groq (Secondary) ---
-    if (!result && process.env.GROQ_API_KEY) {
-      try {
-        console.log('[Analyst Agent] Trying Groq (Priority 2)...');
+        console.log('[Analyst Agent] Trying Groq (Priority 1)...');
+        const start = Date.now();
         const openai = new OpenAI({
           apiKey: process.env.GROQ_API_KEY,
           baseURL: 'https://api.groq.com/openai/v1',
@@ -146,11 +142,44 @@ Haber Verileri: ${JSON.stringify(newsData.slice(0, 5))}`;
 
         const content = response.choices[0].message.content;
         if (content) {
-          result = JSON.parse(content) as AnalystInsights;
-          console.log('[Analyst Agent] Successfully generated with Groq.');
+          result = safeParseJSON(content);
+          console.log(`[Analyst Agent] Successfully generated with Groq. (${Date.now() - start}ms)`);
         }
       } catch (err: any) {
         console.warn(`[Analyst Agent] Groq failed: ${err.message}`);
+      }
+    }
+
+    // --- 2. OpenRouter (Priority 2) ---
+    if (!result && process.env.OPENROUTER_API_KEY) {
+      try {
+        console.log('[Analyst Agent] Trying OpenRouter (Priority 2)...');
+        const start = Date.now();
+        const openai = new OpenAI({
+          apiKey: process.env.OPENROUTER_API_KEY,
+          baseURL: 'https://openrouter.ai/api/v1',
+          defaultHeaders: {
+            'HTTP-Referer': 'https://arastir.ai',
+            'X-Title': 'Arastir AI',
+          },
+        });
+
+        const response = await openai.chat.completions.create({
+          model: 'google/gemini-2.0-flash-exp:free',
+          messages: [
+            { role: 'system', content: systemInstruction },
+            { role: 'user', content: promptText }
+          ],
+          response_format: { type: 'json_object' }
+        });
+
+        const content = response.choices[0].message.content;
+        if (content) {
+          result = safeParseJSON(content);
+          console.log(`[Analyst Agent] Successfully generated with OpenRouter. (${Date.now() - start}ms)`);
+        }
+      } catch (err: any) {
+        console.warn(`[Analyst Agent] OpenRouter failed: ${err.message}`);
       }
     }
 
@@ -158,6 +187,7 @@ Haber Verileri: ${JSON.stringify(newsData.slice(0, 5))}`;
     if (!result && process.env.GOOGLE_AI_API_KEY) {
       try {
         console.log('[Analyst Agent] Trying Gemini (Fallback 1)...');
+        const start = Date.now();
         const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!);
         const model = genAI.getGenerativeModel({
           model: 'gemini-1.5-pro',
@@ -165,8 +195,8 @@ Haber Verileri: ${JSON.stringify(newsData.slice(0, 5))}`;
           generationConfig: { temperature: 0.2, responseMimeType: 'application/json' }
         });
         const response = await model.generateContent(promptText);
-        result = JSON.parse(response.response.text()) as AnalystInsights;
-        console.log('[Analyst Agent] Successfully generated with Gemini.');
+        result = safeParseJSON(response.response.text());
+        console.log(`[Analyst Agent] Successfully generated with Gemini. (${Date.now() - start}ms)`);
       } catch (err: any) {
         console.warn(`[Analyst Agent] Gemini failed: ${err.message}`);
       }
@@ -176,6 +206,7 @@ Haber Verileri: ${JSON.stringify(newsData.slice(0, 5))}`;
     if (!result && process.env.ANTHROPIC_API_KEY) {
       try {
         console.log('[Analyst Agent] Trying Anthropic (Fallback 2)...');
+        const start = Date.now();
         const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
         const msg = await anthropic.messages.create({
           model: 'claude-3-5-sonnet-20241022',
@@ -184,8 +215,8 @@ Haber Verileri: ${JSON.stringify(newsData.slice(0, 5))}`;
           messages: [{ role: 'user', content: promptText }],
         });
         const text = (msg.content[0] as any).text;
-        result = JSON.parse(text) as AnalystInsights;
-        console.log('[Analyst Agent] Successfully generated with Anthropic.');
+        result = safeParseJSON(text);
+        console.log(`[Analyst Agent] Successfully generated with Anthropic. (${Date.now() - start}ms)`);
       } catch (err: any) {
         console.warn(`[Analyst Agent] Anthropic failed: ${err.message}`);
       }

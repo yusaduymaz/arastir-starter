@@ -236,7 +236,12 @@ Plans:
   3. Three new agents — `crypto_agent` (Crypto Trading Indicators-RSI), `gold_agent` (Harem Altın), `forex_agent` (Forex API + Exchange Rates) — are registered in `agent_runs` and dispatchable per query type without altering the orchestrator schema.
   4. Dashboard shows live data cards: Altın (gram/çeyrek), USD/EUR/TRY, BTC/ETH, BIST top movers — updating via Supabase Realtime or SWR with a configurable refresh interval.
   5. Token ledger correctly debits per-API-call cost (configurable per provider tier) on every agent run.
-**Plans**: TBD
+**Plans**: 4 plans
+Plans:
+- [ ] 16-01-PLAN.md — Fix Yahoo Finance v3 + Market Agent Provider Chain
+- [ ] 16-02-PLAN.md — Fix Analyst Agent Encoding + Reorder AI Provider Chain
+- [ ] 16-03-PLAN.md — Harden KAP Client + Fix News Agent Relevance
+- [ ] 16-04-PLAN.md — Complete Agent-API Wiring & Provenance Tagging
 
 ## Progress
 
@@ -252,5 +257,5 @@ Plans:
 | 12. Data Reliability & Vercel Compatibility | 3/4 | In Progress | No |
 | 13. Dashboard Extensions | 0/4 | Not Started | No |
 | 14. Real-Time UX & Polish | 2/2 | Completed | Yes |
-| 15. External Market Data APIs (RapidAPI) | 0/7 | Not Started | No |
-| 16. Multi-Source Research Agents & Live Cards | 0/TBD | Not Started | No |
+| 15. External Market Data APIs (RapidAPI) | 7/7 | Completed | Yes |
+| 16. Multi-Source Research Agents & Live Cards | 0/4 | In Progress | No |
