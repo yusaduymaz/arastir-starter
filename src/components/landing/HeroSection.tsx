@@ -11,19 +11,19 @@ const BEZIER = [0.22, 1, 0.36, 1] as [number, number, number, number]
 
 const AGENTS = [
   { icon: 'travel_explore', label: 'Arama', color: '#4edea3' },
-  { icon: 'fact_check',     label: 'Doğrulama', color: '#facc15' },
-  { icon: 'analytics',      label: 'Analiz',    color: '#facc15' },
-  { icon: 'edit_document',  label: 'Rapor',     color: '#4edea3' },
+  { icon: 'fact_check', label: 'Doğrulama', color: '#facc15' },
+  { icon: 'analytics', label: 'Analiz', color: '#facc15' },
+  { icon: 'edit_document', label: 'Rapor', color: '#4edea3' },
 ]
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const inputRef     = useRef<HTMLDivElement>(null)
-  const a0Ref        = useRef<HTMLDivElement>(null)
-  const a1Ref        = useRef<HTMLDivElement>(null)
-  const a2Ref        = useRef<HTMLDivElement>(null)
-  const a3Ref        = useRef<HTMLDivElement>(null)
-  const outputRef    = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLDivElement>(null)
+  const a0Ref = useRef<HTMLDivElement>(null)
+  const a1Ref = useRef<HTMLDivElement>(null)
+  const a2Ref = useRef<HTMLDivElement>(null)
+  const a3Ref = useRef<HTMLDivElement>(null)
+  const outputRef = useRef<HTMLDivElement>(null)
 
   const agentRefs = [a0Ref, a1Ref, a2Ref, a3Ref]
 

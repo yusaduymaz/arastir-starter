@@ -5,17 +5,9 @@ import { ActivePipeline } from '@/components/dashboard/ActivePipeline';
 import { ProminentSearch } from '@/components/dashboard/ProminentSearch';
 import { HistoryTable } from '@/components/dashboard/HistoryTable';
 import { MarqueeTicker } from '@/components/ui/MarqueeTicker';
+import { getTickerData } from '@/lib/market/ticker-data';
 
 export const dynamic = 'force-dynamic';
-
-const TRENDING = [
-  { symbol: 'THYAO', pct: +2.34, vol: '₺4.2B' },
-  { symbol: 'SASA',  pct: +4.11, vol: '₺1.8B' },
-  { symbol: 'ASELS', pct: +1.05, vol: '₺890M' },
-  { symbol: 'KCHOL', pct: +3.20, vol: '₺2.1B' },
-  { symbol: 'EREGL', pct: -0.82, vol: '₺3.4B' },
-  { symbol: 'GARAN', pct: -1.44, vol: '₺5.7B' },
-]
 
 function Sparkline({ up }: { up: boolean }) {
   const points = up
@@ -52,6 +44,19 @@ export default async function DashboardPage() {
     if (!error && data) history = data;
   }
 
+  let tickerData: { symbol: string; price: string; change: string; changePercent: number; up: boolean }[] = [];
+  try {
+    tickerData = await getTickerData();
+  } catch {
+    // Hata durumunda bos array kalir, MarqueeTicker fallback kullanir
+  }
+
+  const trending = tickerData
+    .filter(t => t.symbol !== 'DOLAR' && t.symbol !== 'EURO' && t.symbol !== 'ALTIN')
+    .sort((a, b) => Math.abs(b.changePercent) - Math.abs(a.changePercent))
+    .slice(0, 6)
+    .map(t => ({ symbol: t.symbol, pct: t.changePercent, vol: '' }));
+
   // Show ActivePipeline for in-progress, pending, OR the most recent failed task
   // (so the user can see WHY it failed and click "Yeniden Dene")
   const activeTask = history.find(
@@ -66,7 +71,7 @@ export default async function DashboardPage() {
 
       {/* ── Row 1: Live Ticker ── */}
       <div className="blur-fade blur-fade-d1">
-        <MarqueeTicker />
+        <MarqueeTicker tickers={tickerData.map(t => ({ symbol: t.symbol, price: t.price, change: t.change, up: t.up }))} />
       </div>
 
       {/* ── Row 2: AI Search + Orbiting Circles ── */}
@@ -90,37 +95,43 @@ export default async function DashboardPage() {
             </span>
             <span className="font-['JetBrains_Mono'] text-[9px] text-[#45474c]">Son 1g</span>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-            {TRENDING.map((stock) => {
-              const up = stock.pct >= 0
-              return (
-                <div
-                  key={stock.symbol}
-                  className={`heat-${up ? 'up' : 'down'} relative flex flex-col gap-1 p-3 rounded-lg border cursor-default transition-all`}
-                  style={{
-                    backgroundColor: up ? 'rgba(34,197,94,0.05)' : 'rgba(239,68,68,0.05)',
-                    borderColor:     up ? 'rgba(34,197,94,0.2)'  : 'rgba(239,68,68,0.2)',
-                  }}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-['JetBrains_Mono'] text-xs font-bold text-white">
-                      {stock.symbol}
-                    </span>
-                    <span
-                      className="font-['JetBrains_Mono'] text-[10px] font-bold"
-                      style={{ color: up ? '#22c55e' : '#ef4444' }}
-                    >
-                      {up ? '+' : ''}{stock.pct.toFixed(2)}%
+          {trending.length === 0 ? (
+            <div className="flex items-center justify-center h-32 text-[#45474c] font-['JetBrains_Mono'] text-xs">
+              Piyasa verisi alinamadi
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {trending.map((stock) => {
+                const up = stock.pct >= 0
+                return (
+                  <div
+                    key={stock.symbol}
+                    className={`heat-${up ? 'up' : 'down'} relative flex flex-col gap-1 p-3 rounded-lg border cursor-default transition-all`}
+                    style={{
+                      backgroundColor: up ? 'rgba(34,197,94,0.05)' : 'rgba(239,68,68,0.05)',
+                      borderColor:     up ? 'rgba(34,197,94,0.2)'  : 'rgba(239,68,68,0.2)',
+                    }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-['JetBrains_Mono'] text-xs font-bold text-white">
+                        {stock.symbol}
+                      </span>
+                      <span
+                        className="font-['JetBrains_Mono'] text-[10px] font-bold"
+                        style={{ color: up ? '#22c55e' : '#ef4444' }}
+                      >
+                        {up ? '+' : ''}{stock.pct.toFixed(2)}%
+                      </span>
+                    </div>
+                    <Sparkline up={up} />
+                    <span className="font-['JetBrains_Mono'] text-[9px] text-[#45474c]">
+                      {stock.vol && `Hacim ${stock.vol}`}
                     </span>
                   </div>
-                  <Sparkline up={up} />
-                  <span className="font-['JetBrains_Mono'] text-[9px] text-[#45474c]">
-                    Hacim {stock.vol}
-                  </span>
-                </div>
-              )
-            })}
-          </div>
+                )
+              })}
+            </div>
+          )}
         </div>
 
         {/* Market Stats Column */}

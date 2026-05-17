@@ -1,3 +1,5 @@
+import { RapidApiProvider, getRapidApiEnvKeys, getRapidApiKey } from './rapidapi/types';
+
 /**
  * Centralized environment variable validation.
  * - REQUIRED: missing → throw (returns 500 to user).
@@ -28,13 +30,30 @@ export class EnvValidationError extends Error {
   }
 }
 
+function checkRapidApiKeys(): { key: string; impact: string }[] {
+  const missingKeys: { key: string; impact: string }[] = [];
+  for (const provider of Object.values(RapidApiProvider)) {
+    const keys = getRapidApiEnvKeys(provider);
+    if (!getRapidApiKey(provider)) {
+      missingKeys.push({
+        key: keys[0],
+        impact: `RapidAPI provider ${provider} will be disabled.`
+      });
+    }
+  }
+  return missingKeys;
+}
+
 export function validateEnv(): { degraded: string[] } {
   const missingRequired = REQUIRED_KEYS.filter((k) => !process.env[k]);
   if (missingRequired.length > 0) {
     throw new EnvValidationError(missingRequired);
   }
 
-  const degraded = DEGRADED_KEYS.filter(({ key }) => !process.env[key]);
+  const degraded = [
+    ...DEGRADED_KEYS.filter(({ key }) => !process.env[key]),
+    ...checkRapidApiKeys()
+  ];
 
   if (degraded.length > 0 && !degradedAlreadyLogged) {
     console.warn('[env-check] Running in degraded mode — missing optional keys:');

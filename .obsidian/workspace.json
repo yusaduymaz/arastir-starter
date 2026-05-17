@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "5c66f0fd6beeda24",
+        "id": "04fb39ab24b43591",
         "type": "tabs",
         "children": [
           {
-            "id": "3055740799487ac4",
+            "id": "2250b92cf4639475",
             "type": "leaf",
             "state": {
               "type": "graph",
@@ -176,20 +176,25 @@
       "bases:Yeni taban oluştur": false
     }
   },
-  "active": "3055740799487ac4",
+  "active": "2250b92cf4639475",
   "lastOpenFiles": [
-    "public/outputs/1778869042875-sasa/presentation.pptx",
-    "public/outputs/1778869042875-sasa/report.pdf",
-    "public/outputs/1778869042875-sasa",
-    "node_modules/openai/package.json",
-    "public/outputs/1778850866392-roketsan/presentation.pptx",
-    "public/outputs/1778850866392-roketsan/report.pdf",
-    "public/outputs/1778850866392-roketsan",
-    "supabase/migrations/20260516000005_add_data_columns_to_sessions.sql",
+    "node_modules/vitest/node_modules/picomatch/lib/utils.js",
+    "node_modules/vitest/node_modules/picomatch/lib/picomatch.js",
+    "node_modules/vitest/node_modules/picomatch/lib/scan.js",
+    "node_modules/vitest/node_modules/picomatch/lib/parse.js",
+    "node_modules/vitest/node_modules/picomatch/lib/constants.js",
+    "node_modules/vitest/node_modules/picomatch/lib",
+    "node_modules/vite/types/internal/terserOptions.d.ts",
+    "node_modules/vite/types/internal/rollupTypeCompat.d.ts",
+    "node_modules/vite/types/internal/lightningcssOptions.d.ts",
+    "node_modules/vite/types/internal/cssPreprocessorOptions.d.ts",
+    "node_modules/vite/types/internal/esbuildOptions.d.ts",
+    "node_modules/@vitest/mocker/README.md",
+    "node_modules/@vitest/utils/README.md",
+    "node_modules/@types/deep-eql/README.md",
+    "node_modules/is-typed-array/README.md",
+    "_COMMUNITY_Community 9.md",
     "node_modules/openai/src/_vendor/partial-json-parser/README.md",
-    "node_modules/openai/src/_vendor/partial-json-parser/parser.ts",
-    "node_modules/openai/src/_vendor/partial-json-parser",
-    "public/outputs/1778850029731-havelsan/presentation.pptx",
     "node_modules/openai/src/internal/qs/README.md",
     "node_modules/openai/src/internal/qs/LICENSE.md",
     "node_modules/openai/src/internal/README.md",

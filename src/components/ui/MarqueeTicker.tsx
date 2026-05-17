@@ -1,6 +1,8 @@
 'use client'
 
-const TICKERS = [
+export type TickerData = { symbol: string; price: string; change: string; up: boolean }
+
+const DEFAULT_TICKERS: TickerData[] = [
   { symbol: 'THYAO', price: '312.40', change: '+2.34%', up: true },
   { symbol: 'EREGL', price: '48.72', change: '-0.82%', up: false },
   { symbol: 'SASA',  price: '73.18', change: '+4.11%', up: true },
@@ -19,7 +21,7 @@ const TICKERS = [
   { symbol: 'ALTIN', price: '4.127', change: '+1.89%', up: true },
 ]
 
-function TickerItem({ symbol, price, change, up }: typeof TICKERS[0]) {
+function TickerItem({ symbol, price, change, up }: TickerData) {
   return (
     <div className="flex items-center gap-2 px-6 border-r border-[#22c55e]/10 shrink-0">
       <span className="font-['JetBrains_Mono'] text-xs font-bold text-[#c5c6cc] tracking-widest">
@@ -37,8 +39,11 @@ function TickerItem({ symbol, price, change, up }: typeof TICKERS[0]) {
   )
 }
 
-export function MarqueeTicker() {
-  const doubled = [...TICKERS, ...TICKERS]
+interface MarqueeTickerProps { tickers?: TickerData[] }
+
+export function MarqueeTicker({ tickers }: MarqueeTickerProps) {
+  const items = tickers && tickers.length > 0 ? tickers : DEFAULT_TICKERS
+  const doubled = [...items, ...items]
 
   return (
     <div className="relative w-full bg-[#050505] border border-[#22c55e]/15 rounded-lg overflow-hidden scanlines">

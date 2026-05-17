@@ -1,0 +1,1 @@
+PDF generation is disabled in the serverless environment to meet Vercel's 50MB function limit. Please use the PPTX export or view the report in the dashboard.

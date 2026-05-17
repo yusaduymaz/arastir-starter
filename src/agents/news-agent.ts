@@ -4,6 +4,7 @@ import { searchNewsData } from '../lib/news/newsdata_client';
 import { NewsArticle, NewsArticleSchema } from '../types/news';
 import { analyzeSentiment } from '../lib/news/sentiment';
 import { getCompanyName } from '../lib/ticker-extractor';
+import { fetchNewsFromRapidApi } from '../lib/news/providers/rapidapi';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 /**
@@ -71,8 +72,8 @@ export async function runNewsAgent(
       return formattedCached;
     }
 
-    // 2. Fetch data via both Currents API and NewsData API in parallel
-    const [currentsData, newsData] = await Promise.all([
+    // 2. Fetch data via Currents API, NewsData API, and RapidAPI providers in parallel
+    const [currentsData, newsData, rapidApiData] = await Promise.all([
       searchNews(keywords).catch(err => {
         console.error(`[News Agent] Currents API failed:`, err);
         return [];
@@ -80,11 +81,15 @@ export async function runNewsAgent(
       searchNewsData(keywords).catch(err => {
         console.error(`[News Agent] NewsData API failed:`, err);
         return [];
+      }),
+      fetchNewsFromRapidApi(keywords).catch((err: unknown) => {
+        console.error(`[News Agent] RapidAPI providers failed:`, err);
+        return [];
       })
     ]);
 
-    // Combine results from both APIs
-    const rawData = [...currentsData, ...newsData];
+    // Combine results from all APIs
+    const rawData = [...currentsData, ...newsData, ...rapidApiData];
     
     // Deduplicate by URL or title (simple deduplication by URL)
     const uniqueRawData = Array.from(new Map(rawData.map(item => [item.url, item])).values());
@@ -161,4 +166,3 @@ export async function runNewsAgent(
     throw error;
   }
 }
-

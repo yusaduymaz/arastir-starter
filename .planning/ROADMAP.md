@@ -216,7 +216,15 @@ Plans:
   3. A shared rate-limiter + in-memory cache (TTL configurable per provider) prevents 429s and reduces duplicate calls within a single research session.
   4. Each client has at least one passing smoke test hitting a known stable endpoint, gated behind a feature flag (`RAPIDAPI_LIVE_TESTS=1`) so CI runs offline by default.
   5. All errors surface via a single `RapidApiError` type carrying `provider`, `status`, `code`, and `retry_after` fields.
-**Plans**: TBD
+**Plans**: 7 plans
+Plans:
+- [x] 15-01-PLAN.md — Shared Core Infrastructure, Vitest Setup & Guard Test
+- [x] 15-02-PLAN.md — Provider Clients A (CNBC, Harem Altın)
+- [x] 15-03-PLAN.md — Provider Clients B (Finance API, Exchange Rates)
+- [x] 15-04-PLAN.md — Provider Clients C (Crypto News, YH Finance)
+- [x] 15-05-PLAN.md — Provider Clients D (Yahoo Real Time, Crypto RSI)
+- [x] 15-06-PLAN.md — Provider Clients E (Forex API, Turkey Financial)
+- [x] 15-07-PLAN.md — Provider Clients F (Real-time Finance, Turkey News)
 
 ### Phase 16: Multi-Source Research Agents & Live Data Cards
 **Goal**: Wire the Phase 15 providers into research agents and the dashboard. Extend existing market/news agents with new sources, introduce crypto + gold + forex agents under the open-closed `agent_runs` architecture, and surface live data cards on the dashboard.
@@ -244,5 +252,5 @@ Plans:
 | 12. Data Reliability & Vercel Compatibility | 3/4 | In Progress | No |
 | 13. Dashboard Extensions | 0/4 | Not Started | No |
 | 14. Real-Time UX & Polish | 2/2 | Completed | Yes |
-| 15. External Market Data APIs (RapidAPI) | 0/TBD | Not Started | No |
+| 15. External Market Data APIs (RapidAPI) | 0/7 | Not Started | No |
 | 16. Multi-Source Research Agents & Live Cards | 0/TBD | Not Started | No |

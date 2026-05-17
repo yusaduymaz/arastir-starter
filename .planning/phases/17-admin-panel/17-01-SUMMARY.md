@@ -1,0 +1,3 @@
+# Summary for Phase 17-01
+
+This plan covers the foundational backend work for the Admin Panel. It starts with updating the database schema to include user roles and an audit log table for tracking admin actions. The core of this phase is building the secure API endpoints required for managing users, overseeing research sessions, and fetching data for an analytics dashboard. Role-based access control will be implemented to ensure only authorized admins can access these administrative functions.

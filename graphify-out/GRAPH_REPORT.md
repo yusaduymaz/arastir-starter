@@ -1,16 +1,16 @@
-# Graph Report - arastir-starter  (2026-05-15)
+# Graph Report - arastir-starter  (2026-05-17)
 
 ## Corpus Check
-- 250 files · ~170,082 words
+- 381 files · ~477,367 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2572 nodes · 3151 edges · 239 communities (219 shown, 20 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 30 edges (avg confidence: 0.8)
+- 3467 nodes · 4212 edges · 311 communities (274 shown, 37 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 36 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `1af08e89`
+- Built from commit: `ba008636`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -219,60 +219,130 @@
 - [[_COMMUNITY_Community 211|Community 211]]
 - [[_COMMUNITY_Community 212|Community 212]]
 - [[_COMMUNITY_Community 238|Community 238]]
+- [[_COMMUNITY_Community 239|Community 239]]
+- [[_COMMUNITY_Community 240|Community 240]]
+- [[_COMMUNITY_Community 241|Community 241]]
+- [[_COMMUNITY_Community 242|Community 242]]
+- [[_COMMUNITY_Community 243|Community 243]]
+- [[_COMMUNITY_Community 244|Community 244]]
+- [[_COMMUNITY_Community 245|Community 245]]
+- [[_COMMUNITY_Community 246|Community 246]]
+- [[_COMMUNITY_Community 247|Community 247]]
+- [[_COMMUNITY_Community 248|Community 248]]
+- [[_COMMUNITY_Community 249|Community 249]]
+- [[_COMMUNITY_Community 250|Community 250]]
+- [[_COMMUNITY_Community 251|Community 251]]
+- [[_COMMUNITY_Community 252|Community 252]]
+- [[_COMMUNITY_Community 253|Community 253]]
+- [[_COMMUNITY_Community 254|Community 254]]
+- [[_COMMUNITY_Community 255|Community 255]]
+- [[_COMMUNITY_Community 256|Community 256]]
+- [[_COMMUNITY_Community 257|Community 257]]
+- [[_COMMUNITY_Community 258|Community 258]]
+- [[_COMMUNITY_Community 259|Community 259]]
+- [[_COMMUNITY_Community 260|Community 260]]
+- [[_COMMUNITY_Community 261|Community 261]]
+- [[_COMMUNITY_Community 262|Community 262]]
+- [[_COMMUNITY_Community 263|Community 263]]
+- [[_COMMUNITY_Community 264|Community 264]]
+- [[_COMMUNITY_Community 265|Community 265]]
+- [[_COMMUNITY_Community 266|Community 266]]
+- [[_COMMUNITY_Community 267|Community 267]]
+- [[_COMMUNITY_Community 268|Community 268]]
+- [[_COMMUNITY_Community 269|Community 269]]
+- [[_COMMUNITY_Community 270|Community 270]]
+- [[_COMMUNITY_Community 271|Community 271]]
+- [[_COMMUNITY_Community 272|Community 272]]
+- [[_COMMUNITY_Community 273|Community 273]]
+- [[_COMMUNITY_Community 274|Community 274]]
+- [[_COMMUNITY_Community 275|Community 275]]
+- [[_COMMUNITY_Community 276|Community 276]]
+- [[_COMMUNITY_Community 277|Community 277]]
+- [[_COMMUNITY_Community 278|Community 278]]
+- [[_COMMUNITY_Community 279|Community 279]]
+- [[_COMMUNITY_Community 280|Community 280]]
+- [[_COMMUNITY_Community 281|Community 281]]
+- [[_COMMUNITY_Community 282|Community 282]]
+- [[_COMMUNITY_Community 283|Community 283]]
+- [[_COMMUNITY_Community 284|Community 284]]
+- [[_COMMUNITY_Community 285|Community 285]]
+- [[_COMMUNITY_Community 286|Community 286]]
+- [[_COMMUNITY_Community 287|Community 287]]
+- [[_COMMUNITY_Community 288|Community 288]]
+- [[_COMMUNITY_Community 289|Community 289]]
+- [[_COMMUNITY_Community 290|Community 290]]
+- [[_COMMUNITY_Community 291|Community 291]]
+- [[_COMMUNITY_Community 292|Community 292]]
+- [[_COMMUNITY_Community 293|Community 293]]
+- [[_COMMUNITY_Community 294|Community 294]]
+- [[_COMMUNITY_Community 295|Community 295]]
+- [[_COMMUNITY_Community 296|Community 296]]
+- [[_COMMUNITY_Community 297|Community 297]]
+- [[_COMMUNITY_Community 298|Community 298]]
+- [[_COMMUNITY_Community 299|Community 299]]
+- [[_COMMUNITY_Community 300|Community 300]]
+- [[_COMMUNITY_Community 301|Community 301]]
+- [[_COMMUNITY_Community 302|Community 302]]
+- [[_COMMUNITY_Community 303|Community 303]]
+- [[_COMMUNITY_Community 304|Community 304]]
+- [[_COMMUNITY_Community 305|Community 305]]
+- [[_COMMUNITY_Community 306|Community 306]]
+- [[_COMMUNITY_Community 307|Community 307]]
+- [[_COMMUNITY_Community 308|Community 308]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `dependencies` - 24 edges
-2. `C` - 22 edges
-3. `Jhey Tompkins' Animation Principles` - 18 edges
-4. `ne()` - 17 edges
-5. `Jakub Krehel's Animation Principles` - 17 edges
-6. `handleClick()` - 16 edges
-7. `handleKeyDown()` - 16 edges
-8. `resumeSession()` - 16 edges
-9. `compilerOptions` - 15 edges
-10. `renderDesignVisual()` - 15 edges
+1. `Communities (239 total, 20 thin omitted)` - 185 edges
+2. `getRapidApiKey()` - 30 edges
+3. `RapidApiError` - 29 edges
+4. `dependencies` - 26 edges
+5. `C` - 22 edges
+6. `Jhey Tompkins' Animation Principles` - 18 edges
+7. `ne()` - 17 edges
+8. `createClient()` - 17 edges
+9. `Jakub Krehel's Animation Principles` - 17 edges
+10. `handleClick()` - 16 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `cn()` --calls--> `clsx`  [INFERRED]
+  src/lib/utils.ts → package.json
 - `updateGlobalBarState()` --calls--> `sync`  [INFERRED]
   .agents/skills/impeccable/scripts/live-browser.js → .obsidian/core-plugins.json
 - `checkSchema()` --calls--> `createClient()`  [INFERRED]
   scratch/check_schema.js → src/lib/supabase/server.ts
 - `migrate()` --calls--> `createClient()`  [INFERRED]
   scratch/migrate_db.js → src/lib/supabase/server.ts
-- `POST()` --calls--> `createClient()`  [INFERRED]
-  src/app/api/webhooks/clerk/route.ts → src/lib/supabase/server.ts
-- `DashboardPage()` --calls--> `createClient()`  [INFERRED]
-  src/app/dashboard/page.tsx → src/lib/supabase/server.ts
+- `main()` --calls--> `fetchDisclosures()`  [EXTRACTED]
+  scratch/test-client.ts → src/lib/kap/client.ts
 
-## Communities (239 total, 20 thin omitted)
+## Communities (311 total, 37 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.09
 Nodes (68): C, $(), ae(), at(), be(), bt(), ce(), ct() (+60 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.06
-Nodes (40): AnalystInsights, formatMacroContext(), runAnalystAgent(), runMacroAgent(), toDdMmYyyy(), runNewsAgent(), runSearchAgent(), fetchDisclosures() (+32 more)
+Cohesion: 0.05
+Nodes (45): AnalystInsights, formatMacroContext(), runAnalystAgent(), runMacroAgent(), toDdMmYyyy(), runNewsAgent(), runSearchAgent(), fetchDisclosures() (+37 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.06
 Nodes (43): ACTIONS, annotLastPinClick, annotState, apply(), bufferToBase64(), buildCollapsible(), buildColorModels(), buildRadiiModels() (+35 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.05
-Nodes (32): NAV_LINKS, METRICS, PIPELINE, TRUST, BEZIER, ComparisonSection(), NEW_WAY, OLD_WAY (+24 more)
+Cohesion: 0.13
+Nodes (10): METRICS, PIPELINE, TRUST, AGENTS, BEZIER, cardVariants, PipelineSection(), SOURCES (+2 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.04
-Nodes (48): dependencies, @anthropic-ai/sdk, @clerk/nextjs, @clerk/themes, clsx, date-fns, framer-motion, lucide-react (+40 more)
+Cohesion: 0.08
+Nodes (26): dependencies, @anthropic-ai/sdk, @clerk/nextjs, @clerk/themes, clsx, date-fns, framer-motion, @google/generative-ai (+18 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.04
 Nodes (48): 1. Different delays with finite iterations, 2. Pad keyframes to create stagger, 3. Negative delays for "already in progress" effects, 3D CSS, Advice for Complex Illustrations, Animation Fill Mode, code:css (:root {), code:css (.element {) (+40 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.06
-Nodes (41): detectCsp(), INLINE_HEADER_SIGNALS, LAYOUT_EXTS, MONOREPO_HELPER_SIGNALS, NUXT_ROUTE_RULES_SIGNALS, NUXT_SECURITY_SIGNALS, result, SCAN_EXTS (+33 more)
+Cohesion: 0.19
+Nodes (16): __dirname, ensureServerRunning(), resolveFiles(), liveCli(), runScript(), safeParse(), scanForDrift(), cli() (+8 more)
 
 ### Community 7 - "Community 7"
 Cohesion: 0.1
@@ -328,7 +398,7 @@ Nodes (24): Assess Onboarding Needs, code:block1 (No projects yet), code:javascr
 
 ### Community 20 - "Community 20"
 Cohesion: 0.18
-Nodes (21): runMarketAgent(), fetchAlphaVantage(), getApiKey(), getCompanyOverview(), getFullMarketData(), getMonthlyPrices(), getStockQuote(), marketCache (+13 more)
+Nodes (22): runMarketAgent(), fetchAlphaVantage(), getApiKey(), getCompanyOverview(), getFullMarketData(), getMonthlyPrices(), getStockQuote(), marketCache (+14 more)
 
 ### Community 21 - "Community 21"
 Cohesion: 0.08
@@ -375,8 +445,8 @@ Cohesion: 0.1
 Nodes (19): Agent Data Pipeline, code:typescript (import { z } from 'zod';), code:typescript (export interface NewsArticle {), code:typescript (import puppeteer from 'puppeteer-extra';), code:typescript (puppeteer.use(StealthPlugin());), code:typescript (} catch (error) {), code:typescript (import * as fs from 'fs';), code:typescript (export async function runNewsAgent(topic: string): Promise<s) (+11 more)
 
 ### Community 32 - "Community 32"
-Cohesion: 0.11
-Nodes (10): POST(), DashboardPage(), HistoryPage(), ReportDetailPage(), checkSchema(), { createClient }, { createClient }, migrate() (+2 more)
+Cohesion: 0.05
+Nodes (40): saveUserSettings(), AdminLayout(), GET(), POST(), POST(), NAV_ITEMS, MacroData, MacroDataCard() (+32 more)
 
 ### Community 33 - "Community 33"
 Cohesion: 0.1
@@ -439,8 +509,8 @@ Cohesion: 0.12
 Nodes (16): Avoid Redundant Copy, Confirmation Dialogs: Use Sparingly, Consistency: The Terminology Problem, Don't Blame the User, Empty States Are Opportunities, Error Message Templates, Error Messages: The Formula, Form Instructions (+8 more)
 
 ### Community 48 - "Community 48"
-Cohesion: 0.16
-Nodes (10): ActivePipeline(), TRENDING, PLACEHOLDERS, ProminentSearch(), QUICK_TICKERS, useTypewriter(), MarqueeTicker(), TICKERS (+2 more)
+Cohesion: 0.06
+Nodes (40): main(), runWriterAgent(), ActivePipeline(), ActivePipelineProps, AGENT_CONFIG, STATUS_ICON, HistoryTable(), HistoryTableProps (+32 more)
 
 ### Community 49 - "Community 49"
 Cohesion: 0.12
@@ -455,8 +525,8 @@ Cohesion: 0.12
 Nodes (15): Cleanup, code:bash (node {{scripts_path}}/live.mjs), code:bash (node {{scripts_path}}/live-server.mjs stop), code:block2 (LOOP:), code:bash (node {{scripts_path}}/live-status.mjs), Exit, Handle `accept`, Handle `discard` (+7 more)
 
 ### Community 52 - "Community 52"
-Cohesion: 0.15
-Nodes (13): 1. Read the screenshot (if present), 2. Wrap the element, 3. Load the action's reference, 5. Apply the freeform prompt (if present), 7. Parameters (composition-sized, 0–4 per variant), 8. Signal done, Aborting an in-flight session, code:bash (node {{scripts_path}}/live-poll.mjs --reply EVENT_ID error ") (+5 more)
+Cohesion: 0.12
+Nodes (16): 1. Read the screenshot (if present), 2. Wrap the element, 3. Load the action's reference, 5. Apply the freeform prompt (if present), 6. Write all variants in a single edit, 7. Parameters (composition-sized, 0–4 per variant), 8. Signal done, Aborting an in-flight session (+8 more)
 
 ### Community 53 - "Community 53"
 Cohesion: 0.12
@@ -483,8 +553,8 @@ Cohesion: 0.13
 Nodes (14): Agent Mimarisi, Araştır — AI-Powered Research Agent, code:block1 (Kullanıcı → [Orchestrator]), code:block2 (arastir/), code:bash (# Tek araştırma başlat), Coding Kuralları, Gemini CLI Komutları, graphify (+6 more)
 
 ### Community 59 - "Community 59"
-Cohesion: 0.13
-Nodes (14): Araştır — Project Roadmap, Phase 10: Vercel-Ready Pipeline Refactor, Phase 11: Multi-Agent SaaS Architecture Redesign, Phase 1: Foundation & Stable Data, Phase 2: Core Reporting Engine, Phase 3: High-Risk Data Integration - KAP, Phase 4: High-Risk Data Integration - News, Phase 5: User-Facing Application (+6 more)
+Cohesion: 0.1
+Nodes (19): Araştır — Project Roadmap, Phase 10: Vercel-Ready Pipeline Refactor, Phase 11: Multi-Agent SaaS Architecture Redesign, Phase 12: Data Reliability & Vercel Compatibility, Phase 13: Dashboard Extensions, Phase 14: Real-Time UX & Polish, Phase 15: External Market Data APIs (RapidAPI Providers), Phase 16: Multi-Source Research Agents & Live Data Cards (+11 more)
 
 ### Community 60 - "Community 60"
 Cohesion: 0.13
@@ -535,8 +605,8 @@ Cohesion: 0.15
 Nodes (12): computedHash, skillPath, source, sourceType, computedHash, skillPath, source, sourceType (+4 more)
 
 ### Community 72 - "Community 72"
-Cohesion: 0.35
-Nodes (7): main(), runWriterAgent(), generatePdfReport(), runTest(), generatePptxReport(), runTest(), ReportData
+Cohesion: 0.01
+Nodes (185): Communities (239 total, 20 thin omitted), Community 0 - "Community 0", Community 100 - "Community 100", Community 101 - "Community 101", Community 102 - "Community 102", Community 103 - "Community 103", Community 104 - "Community 104", Community 105 - "Community 105" (+177 more)
 
 ### Community 73 - "Community 73"
 Cohesion: 0.15
@@ -611,8 +681,8 @@ Cohesion: 0.18
 Nodes (10): Ana Hedef, API Entegrasyon ve Veri Katmanı Yeniden Yapılandırma Planı, Eylem Planı, Faz 1 Değişiklikleri:, Faz 1: Hızlı Kazanımlar ve Temel Düzeltmeler (En Yüksek Öncelik), Faz 2.1 Değişiklikleri:, Faz 2: Çekirdek Finansal Verilerin Entegrasyonu, Faz 3: Agent'ların Yeniden Yapılandırılması ve Temizlik (+2 more)
 
 ### Community 91 - "Community 91"
-Cohesion: 0.18
-Nodes (10): DATA - Stable Data Integration, REPORT - Reporting Engine, Requirements, SCRAPE - High-Risk Data Scraping, SETUP - Project Foundation, Traceability, UI - User Interface, UX & SCALE - Real-time & Performance (+2 more)
+Cohesion: 0.13
+Nodes (14): AGENT-RAPID - Multi-Source Agents (Phase 16), DATA - Stable Data Integration, RAPID - RapidAPI Provider Infrastructure (Phase 15), REPORT - Reporting Engine, Requirements, SCRAPE - High-Risk Data Scraping, SETUP - Project Foundation, Traceability (+6 more)
 
 ### Community 92 - "Community 92"
 Cohesion: 0.18
@@ -635,8 +705,8 @@ Cohesion: 0.18
 Nodes (11): 2. Easing & Timing, code:jsx (transition={{ type: "spring", duration: 0.45, bounce: 0 }}), code:css (:root {), code:css (@keyframes spin {), code:css (.element { animation-delay: calc(var(--index) * -0.2s); }), Custom Easing is Essential (Emil), Duration Impacts Naturalness, Easing Selection Guidelines (Jhey) (+3 more)
 
 ### Community 97 - "Community 97"
-Cohesion: 0.24
-Nodes (8): ActivePipelineProps, AGENT_CONFIG, STATUS_ICON, AgentLog, AgentLogEntry, AgentRun, DataPoint, ResearchSession
+Cohesion: 0.04
+Nodes (46): Authentication (API Routes), code:typescript (import { NextResponse } from 'next/server'), code:typescript (export default async function DashboardPage() {), code:typescript (export const dynamic = 'force-dynamic';), code:typescript ({/* -- Row 1: Live Ticker -- */}), code:typescript (const CACHE_TTL_MS = 15 * 60 * 1000;), code:typescript (export const getFullMarketData = async (ticker: string): Pro), code:typescript (export async function getYahooMarketData(ticker: string): Pr) (+38 more)
 
 ### Community 98 - "Community 98"
 Cohesion: 0.2
@@ -811,8 +881,8 @@ Cohesion: 0.33
 Nodes (6): 3. Visual Effects, Blur as a Signal (Jakub), code:css (.card {), code:css (element { background: linear-gradient(in oklch, blue, red); ), Gradients & Color Spaces (Jakub), Shadows Instead of Borders (Jakub)
 
 ### Community 141 - "Community 141"
-Cohesion: 0.33
-Nodes (3): DEGRADED_KEYS, EnvValidationError, REQUIRED_KEYS
+Cohesion: 0.26
+Nodes (9): checkRapidApiKeys(), DEGRADED_KEYS, EnvValidationError, REQUIRED_KEYS, validateEnv(), createRapidApiClient(), getRapidApiEnvKeys(), getRapidApiKey() (+1 more)
 
 ### Community 142 - "Community 142"
 Cohesion: 0.4
@@ -831,8 +901,12 @@ Cohesion: 0.6
 Nodes (3): testTuik(), FALLBACK_TUIK_THEMES_2025, getTuikData()
 
 ### Community 146 - "Community 146"
-Cohesion: 0.5
-Nodes (3): HistoryTable(), HistoryTableProps, STATUS_CONFIG
+Cohesion: 0.04
+Nodes (46): Alternatives Considered, Altin (Gold) Seri Kodu -- DOGRULANAMADI, Anti-Patterns to Avoid, Architectural Responsibility Map, Architecture Patterns, Assumptions Log, Code Examples, code:block1 ([Dashboard Page (Server Component)]) (+38 more)
+
+### Community 147 - "Community 147"
+Cohesion: 0.05
+Nodes (39): Alternatives Considered, Anti-Patterns to Avoid, Applicable ASVS Categories, Architectural Responsibility Map, Architecture Patterns, Assumptions Log, Code Examples, code:bash (npm install -D vitest @vitest/coverage-v8) (+31 more)
 
 ### Community 148 - "Community 148"
 Cohesion: 0.4
@@ -879,12 +953,12 @@ Cohesion: 0.5
 Nodes (4): 6. Shared Layout Animations (Jakub), Best Practices, code:jsx (// In one location:), FLIP Technique via layoutId
 
 ### Community 159 - "Community 159"
-Cohesion: 0.67
+Cohesion: 0.5
 Nodes (3): adapt, argumentHint, description
 
 ### Community 160 - "Community 160"
-Cohesion: 0.5
-Nodes (3): Tier, TokenLedgerEntry, UserProfile
+Cohesion: 0.06
+Nodes (33): Alternatives Considered, Anti-Patterns to Avoid, Applicable ASVS Categories, Architectural Responsibility Map, Architecture Patterns, Code Examples, code:bash (npm install zod clsx tailwind-merge framer-motion), code:block2 (Client Request -> Next.js Middleware (Clerk Auth) -> App Rou) (+25 more)
 
 ### Community 170 - "Community 170"
 Cohesion: 0.67
@@ -963,7 +1037,7 @@ Cohesion: 0.67
 Nodes (3): polish, argumentHint, description
 
 ### Community 190 - "Community 190"
-Cohesion: 0.5
+Cohesion: 0.67
 Nodes (3): quieter, argumentHint, description
 
 ### Community 191 - "Community 191"
@@ -978,29 +1052,237 @@ Nodes (3): teach, argumentHint, description
 Cohesion: 0.67
 Nodes (3): typeset, argumentHint, description
 
+### Community 210 - "Community 210"
+Cohesion: 0.06
+Nodes (33): Alternatives Considered, Anti-Patterns to Avoid, Applicable ASVS Categories, Architectural Responsibility Map, Architecture Patterns, Code Examples, code:bash (npm install zod clsx tailwind-merge framer-motion), code:block2 (Client Request -> Next.js Middleware (Clerk Auth) -> App Rou) (+25 more)
+
 ### Community 238 - "Community 238"
-Cohesion: 0.67
-Nodes (3): 6. Write all variants in a single edit, code:html (<!-- Variants: insert below this line -->), code:tsx (<style data-impeccable-css="SESSION_ID">{`)
+Cohesion: 0.1
+Nodes (19): code:tsx (const DashboardLayout = ({ children }: { children: React.Rea), code:tsx (<div className="grid grid-cols-1 md:grid-cols-3 gap-4 blur-f), code:tsx (<div className="relative group/input">), code:tsx (<div className="flex items-start gap-2">), code:tsx ({/* Status Ping */}), code:tsx (<div className="retro-grid relative flex flex-col items-cent), Color Palette (Terminal V1.0), Empty States (+11 more)
+
+### Community 239 - "Community 239"
+Cohesion: 0.18
+Nodes (14): appendOriginToDirective(), buildTagBlock(), commentClose(), commentOpen(), CONFIG_PATH, __dirname, findCspMetaTags(), getAttr() (+6 more)
+
+### Community 240 - "Community 240"
+Cohesion: 0.14
+Nodes (11): NAV_LINKS, BEZIER, ComparisonSection(), NEW_WAY, OLD_WAY, BEZIER, CTASection(), ROLES (+3 more)
+
+### Community 241 - "Community 241"
+Cohesion: 0.12
+Nodes (15): Architecture, Architecture references, Canonical References, Claude's Discretion, code:ts (const LIVE = process.env.RAPIDAPI_LIVE_TESTS === '1';), Configuration, Deferred Ideas (Phase 16 and beyond), Error handling (+7 more)
+
+### Community 242 - "Community 242"
+Cohesion: 0.13
+Nodes (15): devDependencies, autoprefixer, dotenv, eslint, eslint-config-next, postcss, tailwindcss, ts-node (+7 more)
+
+### Community 243 - "Community 243"
+Cohesion: 0.18
+Nodes (11): fetchYahooRealtimeOnly(), mapQuoteToMarketData(), MarketProviderName, RapidQuote, toSafeNumericString(), createYHFinanceApiClient(), getQuotes(), yhFinanceClient (+3 more)
+
+### Community 244 - "Community 244"
+Cohesion: 0.14
+Nodes (13): 1. Database & Consistency, 2. Orchestrator & Agent Runs, 3. Agent Definition Alignment, 4. UI/UX Fixes, Implementation Plan - Fixing Pipeline Visibility and History 404, Proposed Changes, Proposed Tasks, Task 1: History Page Table Consolidations (+5 more)
+
+### Community 245 - "Community 245"
+Cohesion: 0.26
+Nodes (8): AdminSidebar(), navigation, StatCard(), StatCardProps, cn(), BorderBeam(), BorderBeamProps, EditUserDialogProps
+
+### Community 246 - "Community 246"
+Cohesion: 0.18
+Nodes (11): detectCsp(), INLINE_HEADER_SIGNALS, LAYOUT_EXTS, MONOREPO_HELPER_SIGNALS, NUXT_ROUTE_RULES_SIGNALS, NUXT_SECURITY_SIGNALS, result, SCAN_EXTS (+3 more)
+
+### Community 247 - "Community 247"
+Cohesion: 0.24
+Nodes (7): createCryptoNewsApiClient(), cryptoNewsClient, getNews(), CryptoNewsArticle, CryptoNewsResponse, NewsProviderArticle, RAPIDAPI_ENV_KEY_ALIASES
+
+### Community 248 - "Community 248"
+Cohesion: 0.18
+Nodes (10): 1. Create Shared Types and Errors, 2. Implement Environment Variable Check, 3. Build the Core API Client Factory, 4. Implement Rate Limiter and Cache, 5. Configure Vitest for Live Tests, Implementation Steps, Key Deliverables, Plan: 15-01 - Shared Core Infrastructure, Vitest Setup & Guard Test (+2 more)
+
+### Community 249 - "Community 249"
+Cohesion: 0.2
+Nodes (9): Community Hubs (Navigation), Corpus Check, God Nodes (most connected - your core abstractions), Graph Freshness, Graph Report - arastir-starter  (2026-05-15), Knowledge Gaps, Suggested Questions, Summary (+1 more)
+
+### Community 250 - "Community 250"
+Cohesion: 0.24
+Nodes (7): createTurkeyNewsApiClient(), getNews(), turkeyNewsClient, NewsImage, NewsProvider, TurkeyNewsArticle, TurkeyNewsResponse
+
+### Community 251 - "Community 251"
+Cohesion: 0.22
+Nodes (8): Goal, Phase 17-01: Admin Panel - Database & Backend Foundation, Task 1: Apply Database Migrations, Task 2: Implement Role-Based Access Control (RBAC), Task 3: Develop Admin API Endpoints - User Management, Task 4: Develop Admin API Endpoints - Research Session Management, Task 5: Develop Admin API Endpoints - Dashboard Analytics, Tasks
+
+### Community 252 - "Community 252"
+Cohesion: 0.22
+Nodes (8): Goal, Phase 17-02: Admin Panel - Frontend UI Implementation, Task 1: Create Admin Layout and Routing, Task 2: Build the Analytics Dashboard Page, Task 3: Build the User Management Page, Task 4: Build the Research Session Management Page, Task 5: UI Polishing and Component Library Integration, Tasks
+
+### Community 253 - "Community 253"
+Cohesion: 0.31
+Nodes (5): createCryptoRsiApiClient(), cryptoRsiClient, getRsi(), RsiResponse, RapidApiError
+
+### Community 254 - "Community 254"
+Cohesion: 0.28
+Nodes (5): DataSourceCard(), DataSourceCardProps, metadata, MagicCard(), MagicCardProps
+
+### Community 255 - "Community 255"
+Cohesion: 0.28
+Nodes (6): createFinanceApiClient(), financeApiClient, getQuotes(), Quote, QuoteResponse, YahooFinanceResponse
+
+### Community 256 - "Community 256"
+Cohesion: 0.28
+Nodes (6): createRealTimeFinanceApiClient(), getQuotes(), realTimeFinanceClient, Quote, QuoteResponse, RealTimeFinanceResponse
+
+### Community 257 - "Community 257"
+Cohesion: 0.28
+Nodes (6): createYahooRealTimeApiClient(), getQuotes(), yahooRealTimeClient, Quote, QuoteResponse, YahooRealTimeResponse
+
+### Community 258 - "Community 258"
+Cohesion: 0.25
+Nodes (7): Context & Rationale, Implementation Steps, Objective, Phase 12: Data Reliability & Vercel Compatibility, Plan 12-01: Replace Puppeteer KAP Scraper with HTTP API, Scope, Verification (Goal-Backward)
+
+### Community 259 - "Community 259"
+Cohesion: 0.25
+Nodes (7): Context & Rationale, Implementation Steps, Objective, Phase 12: Data Reliability & Vercel Compatibility, Plan 12-02: Fix News Search Relevance & Sentiment, Scope, Verification (Goal-Backward)
+
+### Community 260 - "Community 260"
+Cohesion: 0.25
+Nodes (7): Context & Rationale, Implementation Steps, Objective, Phase 12: Data Reliability & Vercel Compatibility, Plan 12-03: Frontend Market & Macro Data Displays, Scope, Verification (Goal-Backward)
+
+### Community 261 - "Community 261"
+Cohesion: 0.25
+Nodes (7): Context & Rationale, Implementation Steps, Objective, Phase 12: Data Reliability & Vercel Compatibility, Plan 12-04: Session Deletion API & User Data Management, Scope, Verification (Goal-Backward)
+
+### Community 262 - "Community 262"
+Cohesion: 0.25
+Nodes (7): Context & Rationale, Implementation Steps, Objective, Phase 14: Real-Time UX & Polish, Plan 14-01: True Parallel Real-Time Progress, Scope, Verification (Goal-Backward)
+
+### Community 263 - "Community 263"
+Cohesion: 0.25
+Nodes (7): Context & Rationale, Implementation Steps, Objective, Phase 14: Real-Time UX & Polish, Plan 14-02: Streamline Dashboard Agent UI, Scope, Verification (Goal-Backward)
+
+### Community 264 - "Community 264"
+Cohesion: 0.25
+Nodes (7): 1. Market Agent Integration, 2. News Agent Integration, 3. Verification, Implementation Steps, Key Deliverables, Plan: 16-01 - Integrate RapidAPI Providers into Market & News Agents, Rationale
+
+### Community 265 - "Community 265"
+Cohesion: 0.32
+Nodes (5): cnbcClient, createCnbcApiClient(), translateSymbol(), SymbolTranslation, RapidApiClient
+
+### Community 266 - "Community 266"
+Cohesion: 0.32
+Nodes (5): createExchangeRatesApiClient(), exchangeRatesClient, getLatestRates(), ConversionRates, ExchangeRatesResponse
+
+### Community 267 - "Community 267"
+Cohesion: 0.32
+Nodes (5): createForexApiClient(), forexApiClient, getCurrencyExchangeRate(), ForexApiResponse, RealtimeCurrencyExchangeRate
+
+### Community 268 - "Community 268"
+Cohesion: 0.32
+Nodes (5): createHaremAltinApiClient(), getGoldPrices(), haremAltinClient, GoldPrice, HaremAltinResponse
+
+### Community 269 - "Community 269"
+Cohesion: 0.25
+Nodes (3): CacheEntry, globalRapidApiCache, RapidApiCache
+
+### Community 271 - "Community 271"
+Cohesion: 0.32
+Nodes (5): createTurkeyFinancialApiClient(), getBist100(), turkeyFinancialClient, Bist100Stock, TurkeyFinancialResponse
+
+### Community 272 - "Community 272"
+Cohesion: 0.29
+Nodes (6): 1. Guard Test (Architectural Safety), 2. Core Infrastructure (RAPID-02, RAPID-03, RAPID-04), 3. Provider Clients (RAPID-01, RAPID-04), Phase 15: Validation Mapping, Requirements, Validation Mapping
+
+### Community 273 - "Community 273"
+Cohesion: 0.33
+Nodes (4): AnalyticsChart(), AnalyticsChartProps, ChartDataPoint, AnalyticsData
+
+### Community 274 - "Community 274"
+Cohesion: 0.33
+Nodes (5): AGENTS, BEZIER, HeroSection(), TypingAnimation(), TypingAnimationProps
+
+### Community 275 - "Community 275"
+Cohesion: 0.33
+Nodes (5): Blockers (must fix), code:yaml (issues:), Recommendation, Structured Issues, Warnings (should fix)
+
+### Community 276 - "Community 276"
+Cohesion: 0.33
+Nodes (6): scripts, build, dev, lint, start, typecheck
+
+### Community 277 - "Community 277"
+Cohesion: 0.33
+Nodes (5): built_at, commit, edge_count, hyperedge_count, node_count
+
+### Community 278 - "Community 278"
+Cohesion: 0.4
+Nodes (4): STATS, StatsBar(), NumberTicker(), NumberTickerProps
+
+### Community 279 - "Community 279"
+Cohesion: 0.4
+Nodes (3): EditUserDialog(), UsersDataTable(), UsersDataTableProps
+
+### Community 280 - "Community 280"
+Cohesion: 0.4
+Nodes (4): Next Steps, Objective, Outcomes, Plan 11-03 Summary: Agent Orchestrator Refactor
+
+### Community 281 - "Community 281"
+Cohesion: 0.4
+Nodes (4): Next Steps, Objective, Outcomes, Plan 11-04 Summary: Frontend Dashboard Realtime Subscriptions
+
+### Community 282 - "Community 282"
+Cohesion: 0.4
+Nodes (4): Blockers and Workarounds, Deviations from Plan, Phase 12 Plan 01: Replace Puppeteer KAP Scraper with HTTP API Summary, Self-Check: PASSED
+
+### Community 283 - "Community 283"
+Cohesion: 0.4
+Nodes (4): Deviations from Plan, Known Stubs, Phase 12 Plan 04: Session Deletion API & User Data Management Summary, Threat Flags
+
+### Community 284 - "Community 284"
+Cohesion: 0.4
+Nodes (4): Next Steps, Objective, Outcomes, Plan 14-01 Summary: True Parallel Real-Time Progress
+
+### Community 285 - "Community 285"
+Cohesion: 0.4
+Nodes (4): Next Steps, Objective, Outcomes, Plan 14-02 Summary: Streamline Dashboard Agent UI
+
+### Community 286 - "Community 286"
+Cohesion: 0.4
+Nodes (4): name, private, type, version
+
+### Community 288 - "Community 288"
+Cohesion: 0.4
+Nodes (3): agentsDir, appDir, forbiddenImportPatterns
+
+### Community 289 - "Community 289"
+Cohesion: 0.5
+Nodes (3): Deviations from Plan, Phase 12 Plan 2: Fix News Search Relevance & Sentiment Summary, Self-Check: PASSED
+
+### Community 290 - "Community 290"
+Cohesion: 0.5
+Nodes (3): Deviations from Plan, Phase 12 Plan 3: Frontend Market & Macro Data Displays Summary, Self-Check: PASSED
+
+### Community 291 - "Community 291"
+Cohesion: 0.5
+Nodes (3): code:tsx (<span className="relative flex h-2 w-2">), STRIDE Threat Register, Trust Boundaries
 
 ## Knowledge Gaps
-- **1375 isolated node(s):** `nextConfig`, `name`, `version`, `private`, `type` (+1370 more)
+- **1914 isolated node(s):** `nextConfig`, `name`, `version`, `private`, `type` (+1909 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **20 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **37 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `C` connect `Community 0` to `Community 2`?**
-  _High betweenness centrality (0.006) - this node is a cross-community bridge._
-- **Why does `updateGlobalBarState()` connect `Community 101` to `Community 18`, `Community 2`, `Community 43`?**
-  _High betweenness centrality (0.005) - this node is a cross-community bridge._
-- **Why does `sync` connect `Community 101` to `Community 13`?**
-  _High betweenness centrality (0.005) - this node is a cross-community bridge._
+- **Why does `Communities (239 total, 20 thin omitted)` connect `Community 72` to `Community 249`?**
+  _High betweenness centrality (0.004) - this node is a cross-community bridge._
+- **Why does `createClient()` connect `Community 32` to `Community 48`?**
+  _High betweenness centrality (0.004) - this node is a cross-community bridge._
 - **Are the 21 inferred relationships involving `C` (e.g. with `ft()` and `me()`) actually correct?**
   _`C` has 21 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `nextConfig`, `name`, `version` to the rest of the system?**
-  _1375 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _1914 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.09 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
+  _Cohesion score 0.05 - nodes in this community are weakly interconnected._
+- **Should `Community 2` be split into smaller, more focused modules?**
   _Cohesion score 0.06 - nodes in this community are weakly interconnected._

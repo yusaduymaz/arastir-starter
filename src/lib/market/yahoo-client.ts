@@ -3,11 +3,8 @@
 // yahoo-finance2 handles `.IS` suffix natively and has no daily quota.
 // Maps Yahoo's response into the existing MarketData shape used by analyst-agent + reports.
 
-import YahooFinance from 'yahoo-finance2';
+import yahooFinance from 'yahoo-finance2';
 import type { MarketData, StockQuote, CompanyOverview, MonthlySeriesEntry } from '../../types/market';
-
-// yahoo-finance2 v3 requires an instance — module no longer exports a singleton
-const yahooFinance = new YahooFinance();
 
 const toBistSymbol = (ticker: string): string => {
   const upper = ticker.toUpperCase().trim();
@@ -114,7 +111,12 @@ export async function getYahooMarketData(ticker: string): Promise<MarketData | n
       console.warn(`[Yahoo] chart failed for ${symbol}:`, (err as Error).message);
     }
 
-    return { quote, overview, monthlySeries };
+    return { 
+      quote, 
+      overview, 
+      monthlySeries, 
+      source: { provider: 'yahoo_finance', fetched_at: Date.now(), ttl_remaining: 3600 } 
+    };
   } catch (err) {
     console.warn(`[Yahoo] getYahooMarketData failed for ${symbol}:`, (err as Error).message);
     return null;

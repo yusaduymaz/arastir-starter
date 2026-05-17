@@ -10,8 +10,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\package.json": {
-    "mtime": 1778837816.3311746,
-    "ast_hash": "b754934e0974c96eb3eacfc99fa01be3",
+    "mtime": 1778964127.1237059,
+    "ast_hash": "164a596ef4bd4d4491501688c41fa380",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\parse-buttons.js": {
@@ -25,13 +25,18 @@
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\tailwind.config.ts": {
-    "mtime": 1778692668.286443,
-    "ast_hash": "ce4e1c38e3a61558087dd1752d62814d",
+    "mtime": 1778964081.7993202,
+    "ast_hash": "3a8565612cdbcb91a4d3b2a553bc6ef9",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\tsconfig.json": {
     "mtime": 1778799901.6195536,
     "ast_hash": "25e0f831ad7458c87da4307690367a4c",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\vitest.config.ts": {
+    "mtime": 1778959068.877633,
+    "ast_hash": "da9f8e5ec3254139da67ac2a5940b9c7",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\.agents\\skills\\impeccable\\scripts\\cleanup-deprecated.mjs": {
@@ -150,28 +155,43 @@
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\.obsidian\\app.json": {
-    "mtime": 1778793899.3687048,
+    "mtime": 1778961647.2339265,
     "ast_hash": "99914b932bd37a50b983c5e7c90ae93b",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\.obsidian\\appearance.json": {
-    "mtime": 1778793899.3733847,
+    "mtime": 1778961647.3892336,
     "ast_hash": "99914b932bd37a50b983c5e7c90ae93b",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\.obsidian\\core-plugins.json": {
-    "mtime": 1778793898.8457522,
+    "mtime": 1778961645.7823567,
     "ast_hash": "7c877bea49eaeabb100563bd157b9051",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\.obsidian\\graph.json": {
-    "mtime": 1778799368.229,
-    "ast_hash": "c857015a3ffddb997bab0e8eb7838b3f",
+    "mtime": 1778965323.828,
+    "ast_hash": "356e12f7a14a6765cb00de66c9d42674",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\.obsidian\\workspace.json": {
-    "mtime": 1778806793.225603,
-    "ast_hash": "108f7b61bcfd20fd09bfe6d0dfe3be38",
+    "mtime": 1778967775.4653769,
+    "ast_hash": "314959f114e80e1058644002f2354477",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\config.json": {
+    "mtime": 1778958246.1752965,
+    "ast_hash": "00d7217b4f05debd7f0f90df1d08f7f5",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\graphs\\graph.json": {
+    "mtime": 1778838663.486086,
+    "ast_hash": "67135bd1997b90ca59de40bc4dafc0e5",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\graphs\\snapshot.json": {
+    "mtime": 1778838744.4436948,
+    "ast_hash": "b936d74176b445dc8291a462bd5bfd9f",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\.vscode\\settings.json": {
@@ -184,6 +204,11 @@
     "ast_hash": "e81065af8be34b59dcfb63c8497a9f06",
     "semantic_hash": ""
   },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\scratch\\list-users.js": {
+    "mtime": 1778963464.936023,
+    "ast_hash": "2b8128e5fbc4cb04047bc887b33bccc7",
+    "semantic_hash": ""
+  },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\scratch\\migrate_db.js": {
     "mtime": 1778698015.002208,
     "ast_hash": "ba2c73db186229e5d2b12e1bbbcee588",
@@ -192,6 +217,11 @@
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\scratch\\test-apis.mjs": {
     "mtime": 1778796100.158548,
     "ast_hash": "c99fc8b7434d016d552058c31d0d1101",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\scratch\\test-client.ts": {
+    "mtime": 1778843653.5287342,
+    "ast_hash": "699334ea83d28e6f1310066100d08d8a",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\scratch\\test-kap-disclosures.js": {
@@ -220,13 +250,13 @@
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\middleware.ts": {
-    "mtime": 1778795090.7747881,
-    "ast_hash": "7e2206ca9ab4ab1f161f936ff2e788a6",
+    "mtime": 1778963522.3384244,
+    "ast_hash": "403e024d7d3679dd55d8316356705da2",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\agents\\analyst-agent.ts": {
-    "mtime": 1778838649.3790846,
-    "ast_hash": "a8a5d96bf417c60e74b50f9900b1c0e9",
+    "mtime": 1778848912.7137554,
+    "ast_hash": "ce4f7e5a335609a5214c9af9568719ec",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\agents\\macro-agent.ts": {
@@ -235,28 +265,18 @@
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\agents\\market-agent.ts": {
-    "mtime": 1778838599.7616775,
-    "ast_hash": "34c8d8fecc56af79edd7e44c66d3b91b",
+    "mtime": 1778966871.9373536,
+    "ast_hash": "b39070c1934c141341bd1e373b628b13",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\agents\\news-agent.ts": {
-    "mtime": 1778838599.7616775,
-    "ast_hash": "08fee35b070c86c3b5890a5a04e3719a",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\agents\\run-writer.ts": {
-    "mtime": 1778672250.6994734,
-    "ast_hash": "0c0e92c312d5f3ea2f3965106a419dd2",
+    "mtime": 1778966849.9547565,
+    "ast_hash": "6d334087da7e5311327d8e464248ac41",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\agents\\search-agent.ts": {
     "mtime": 1778838541.7258563,
     "ast_hash": "ea777341c5b127cdf14f28c37fc36498",
-    "semantic_hash": ""
-  },
-  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\agents\\test-agent-02.ts": {
-    "mtime": 1778673343.460099,
-    "ast_hash": "0962170c61f314361c0ed65ac67f5feb",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\agents\\test-tcmb-agent.ts": {
@@ -270,17 +290,17 @@
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\agents\\writer-agent.ts": {
-    "mtime": 1778672234.4692118,
-    "ast_hash": "563ef38d07615e1fd26cf31c8fd6ca1d",
+    "mtime": 1778847371.5896606,
+    "ast_hash": "7d93797e27e0cdfa30aef8dd3466bbc7",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\layout.tsx": {
-    "mtime": 1778838068.3803368,
+    "mtime": 1778963845.740831,
     "ast_hash": "ce2bd2e495e1ccf82514856af8f51036",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\page.tsx": {
-    "mtime": 1778802957.8195095,
+    "mtime": 1778963845.8298116,
     "ast_hash": "bfdecfc2535528a1ada67217895283f5",
     "semantic_hash": ""
   },
@@ -309,44 +329,154 @@
     "ast_hash": "c2d36830dd88d548a38b632b11d693df",
     "semantic_hash": ""
   },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\admin\\layout.tsx": {
+    "mtime": 1778964092.1372435,
+    "ast_hash": "c9d862f8f45e2f5e06d7b723b9cdd2c5",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\admin\\page.tsx": {
+    "mtime": 1778958347.0755777,
+    "ast_hash": "e0bd5816c839e01d467977d8d25682c4",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\admin\\dashboard\\page.tsx": {
+    "mtime": 1778964113.613521,
+    "ast_hash": "eaf6dc066f9da215f27e7edfbde5b17e",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\admin\\sessions\\page.tsx": {
+    "mtime": 1778964126.012765,
+    "ast_hash": "550ccf50f682f1602e93d514c269e414",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\admin\\users\\page.tsx": {
+    "mtime": 1778964120.4917755,
+    "ast_hash": "0ea2a5ea8322998aff9b6fbe290aa7b0",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\api\\admin\\analytics\\route.ts": {
+    "mtime": 1778964180.4818914,
+    "ast_hash": "4bddb2a10ad03d04dc60eda46aec7b4a",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\api\\admin\\sessions\\route.ts": {
+    "mtime": 1778964207.7328777,
+    "ast_hash": "3028a6674e6c743fab509ffeb8f40d4d",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\api\\admin\\sessions\\[sessionId]\\route.ts": {
+    "mtime": 1778958303.7953217,
+    "ast_hash": "8526a8788929d792c244d4bf61385809",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\api\\admin\\sessions\\[sessionId]\\cancel\\route.ts": {
+    "mtime": 1778966879.841678,
+    "ast_hash": "7a16fed03d9b886700794c536f9c7190",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\api\\admin\\users\\route.ts": {
+    "mtime": 1778964188.7133374,
+    "ast_hash": "44c7bc705225523d214dd9bfba0ccf5d",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\api\\admin\\users\\[userId]\\route.ts": {
+    "mtime": 1778966885.354419,
+    "ast_hash": "84a1a812206eb7f136e0cf5b4a8f3cfd",
+    "semantic_hash": ""
+  },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\api\\webhooks\\clerk\\route.ts": {
     "mtime": 1778838291.3426638,
     "ast_hash": "ac173f38134114a0c692598b388974b4",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\dashboard\\layout.tsx": {
-    "mtime": 1778799583.5998003,
-    "ast_hash": "6cfe79af377add59f344c12fe43412bd",
+    "mtime": 1778844864.178898,
+    "ast_hash": "5b900b5c7a7e7844278e124d7d6b081d",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\dashboard\\page.tsx": {
-    "mtime": 1778805401.6555102,
-    "ast_hash": "fcc49a218acfb9778f6975bbf31de885",
+    "mtime": 1778958013.6438303,
+    "ast_hash": "ed495e2f7c22c2b44dad5448b6c62bab",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\dashboard\\data-sources\\page.tsx": {
+    "mtime": 1778958147.7007277,
+    "ast_hash": "8f4cbf898c11f6b573d0f1b0a0f49885",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\dashboard\\history\\page.tsx": {
-    "mtime": 1778711125.1601317,
-    "ast_hash": "d40e0bea3a7f04c7bbd9ed5515abdb80",
+    "mtime": 1778847295.5067768,
+    "ast_hash": "baf4ca10955689293fdbd9bd87e05218",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\dashboard\\history\\[id]\\page.tsx": {
-    "mtime": 1778700374.0575204,
-    "ast_hash": "79d2d6688d43ca4b2086df0700b49d45",
+    "mtime": 1778851093.3613484,
+    "ast_hash": "3182329f762ff3c94c65dbfcef95e664",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\dashboard\\reports\\[id]\\page.tsx": {
-    "mtime": 1778704616.4193535,
-    "ast_hash": "0d1d2afdd444ca42a108858f463ebf22",
+    "mtime": 1778844357.6862779,
+    "ast_hash": "85f374b27d365d37732d112e51b81254",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\app\\dashboard\\settings\\page.tsx": {
+    "mtime": 1778958122.2874594,
+    "ast_hash": "99c89f514332080ef4391ef692b4cac6",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\admin\\AdminSidebar.tsx": {
+    "mtime": 1778964221.5488706,
+    "ast_hash": "1fe7d03261bad19c20f895ea609c2966",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\admin\\dashboard\\AnalyticsChart.tsx": {
+    "mtime": 1778963909.2147014,
+    "ast_hash": "2366c637b7200a16f63f24ad8238b23e",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\admin\\dashboard\\StatCard.tsx": {
+    "mtime": 1778964226.759721,
+    "ast_hash": "5400b6273e13731a19fa9d4407f6ccfb",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\admin\\sessions\\SessionsDataTable.tsx": {
+    "mtime": 1778963971.5905886,
+    "ast_hash": "cd3c88cbb0f43ac400db5b556b29f4ca",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\admin\\users\\EditUserDialog.tsx": {
+    "mtime": 1778964155.5996046,
+    "ast_hash": "5b42573f4958050e42ccc58644929f88",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\admin\\users\\UsersDataTable.tsx": {
+    "mtime": 1778963934.7501216,
+    "ast_hash": "ffaa2023f86581b19cb46cddf8f08365",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\dashboard\\ActivePipeline.tsx": {
-    "mtime": 1778838083.134371,
-    "ast_hash": "65023de7e63cd210c95aa6a1d66e0e44",
+    "mtime": 1778850092.7204924,
+    "ast_hash": "e6e5c63e08df9a3828cdc97d984cd119",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\dashboard\\DataSourceCard.tsx": {
+    "mtime": 1778958168.2590628,
+    "ast_hash": "9944c76ae8778fb11021b072b2568ba2",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\dashboard\\HistoryTable.tsx": {
-    "mtime": 1778838061.6546762,
-    "ast_hash": "8c00b99b9095778d6e6e5d4ac05743d8",
+    "mtime": 1778839091.340099,
+    "ast_hash": "ec5a9e79ffc5a4214968368e5f93cfdb",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\dashboard\\MacroDataCard.tsx": {
+    "mtime": 1778844318.6762366,
+    "ast_hash": "00ef675aec046c89f6925c8636c1f872",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\dashboard\\MarketDataCard.tsx": {
+    "mtime": 1778844318.6757238,
+    "ast_hash": "6206ba97171c5f5451744a01a5228363",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\dashboard\\ProminentSearch.tsx": {
@@ -359,9 +489,19 @@
     "ast_hash": "3cd54d3752a851213a69f3efb218ce79",
     "semantic_hash": ""
   },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\dashboard\\SettingsForm.tsx": {
+    "mtime": 1778958122.2874594,
+    "ast_hash": "a520c9afc569448cfee975d52031feb1",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\dashboard\\SidebarNav.tsx": {
+    "mtime": 1778844849.2164357,
+    "ast_hash": "8ca5370035ef3c30c111a40beb22b847",
+    "semantic_hash": ""
+  },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\dashboard\\TokenDisplay.tsx": {
-    "mtime": 1778838325.8836913,
-    "ast_hash": "6022a704fb5dad286e5911c6e2e757fa",
+    "mtime": 1778844908.2468488,
+    "ast_hash": "99a749753479fde46c611b928e6cf754",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\dashboard\\TopSearchBar.tsx": {
@@ -380,8 +520,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\landing\\HeroSection.tsx": {
-    "mtime": 1778801753.5290315,
-    "ast_hash": "7c1b98fd08fabc160702a6c48445bdf6",
+    "mtime": 1778963845.8490226,
+    "ast_hash": "efb9ad33cc473ee153740687b0521e72",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\landing\\OutputSection.tsx": {
@@ -404,14 +544,19 @@
     "ast_hash": "2a8d606a57c6f4166259311e9238cc83",
     "semantic_hash": ""
   },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\ui\\BorderBeam.tsx": {
+    "mtime": 1778964141.1675782,
+    "ast_hash": "da6d63f18db2d20e42d2b0db8723ea0d",
+    "semantic_hash": ""
+  },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\ui\\MagicCard.tsx": {
     "mtime": 1778801693.5217395,
     "ast_hash": "d9f93a3a51474c695d50ecfaa8197662",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\ui\\MarqueeTicker.tsx": {
-    "mtime": 1778799523.005468,
-    "ast_hash": "4f0bfe8697dfe562b10717e26c2c2f03",
+    "mtime": 1778958013.6438303,
+    "ast_hash": "00c8730e5095d5f32a56520ef98addd7",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\ui\\NumberTicker.tsx": {
@@ -424,19 +569,39 @@
     "ast_hash": "ff06e9fbbeaea5f1fb4a48d68985dee4",
     "semantic_hash": ""
   },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\ui\\RetroGrid.tsx": {
+    "mtime": 1778964072.0558681,
+    "ast_hash": "c937bb17ded9205bcc6cd815839d93f5",
+    "semantic_hash": ""
+  },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\components\\ui\\TypingAnimation.tsx": {
     "mtime": 1778801686.6203704,
     "ast_hash": "947d33f73aa4f86586cc6af429098f63",
     "semantic_hash": ""
   },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\auth-utils.ts": {
+    "mtime": 1778963529.3049948,
+    "ast_hash": "d62e282d38d156802ef3002beed468e3",
+    "semantic_hash": ""
+  },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\env-check.ts": {
-    "mtime": 1778805269.061901,
-    "ast_hash": "330af3106d16eb946fcaa65fadd6a75e",
+    "mtime": 1778966803.381375,
+    "ast_hash": "1c6d6a18704e81e0844660c775bd9ea8",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\ticker-extractor.ts": {
     "mtime": 1778838629.1654117,
     "ast_hash": "241b2b4dc75c1ea80c0206a0187b3725",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\utils.ts": {
+    "mtime": 1778964146.3756268,
+    "ast_hash": "8595c2f874aa1ff8c7cc28df2999f354",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\actions\\settings.ts": {
+    "mtime": 1778958122.2874594,
+    "ast_hash": "bda38341387f16342e3e5db411299076",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\kap\\client.ts": {
@@ -455,13 +620,23 @@
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\market\\client.ts": {
-    "mtime": 1778806527.7312665,
-    "ast_hash": "08abb5f202372aed36c6822e3cf25a29",
+    "mtime": 1778963711.0035224,
+    "ast_hash": "960c1eefc752846c6642a117dada1e0f",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\market\\ticker-data.ts": {
+    "mtime": 1778957960.9834206,
+    "ast_hash": "3c1cf575f44b4e55705466055cd6f8d3",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\market\\yahoo-client.ts": {
-    "mtime": 1778806784.2766306,
-    "ast_hash": "047847233ad76b3308e9e470ba39a1ec",
+    "mtime": 1778963885.2979207,
+    "ast_hash": "e99257ec22df97286c2d61479474be3f",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\market\\providers\\yahoo.ts": {
+    "mtime": 1778966867.1228302,
+    "ast_hash": "984de116fe31f8775659c02bb335daa5",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\news\\api_client.ts": {
@@ -469,19 +644,24 @@
     "ast_hash": "0afdeca6749af057933c2f850113eb08",
     "semantic_hash": ""
   },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\news\\newsdata_client.ts": {
+    "mtime": 1778843270.3290195,
+    "ast_hash": "df68bdc1c6839e67765e266cfa51ec8e",
+    "semantic_hash": ""
+  },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\news\\sentiment.ts": {
     "mtime": 1778678312.3758907,
     "ast_hash": "898214ebf52017de49d8d15d527faac1",
     "semantic_hash": ""
   },
-  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\pdf\\generator.ts": {
-    "mtime": 1778834219.024173,
-    "ast_hash": "572aee7aaa17522dafc9e9c33d8d6209",
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\news\\providers\\rapidapi.ts": {
+    "mtime": 1778966856.803193,
+    "ast_hash": "65ecb0fef902e88f7c34b8d51ba8f570",
     "semantic_hash": ""
   },
-  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\pdf\\test.ts": {
-    "mtime": 1778627328.372934,
-    "ast_hash": "d9961edd8c27e9adc2324c96cfed8b6d",
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\pdf\\generator.ts": {
+    "mtime": 1778842970.90618,
+    "ast_hash": "2749409906afc5e4d03b40042fe92d98",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\pptx\\generator.ts": {
@@ -489,9 +669,214 @@
     "ast_hash": "7e9c3ee04117628f0cfd1111f5209645",
     "semantic_hash": ""
   },
-  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\pptx\\test.ts": {
-    "mtime": 1778627357.6646738,
-    "ast_hash": "d02b5d4198fb6cfde727224540e26b4a",
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\core.ts": {
+    "mtime": 1778966806.7500472,
+    "ast_hash": "3bfd9ba1fbc8080d725aa79ab710f0c1",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\types.ts": {
+    "mtime": 1778966798.4371822,
+    "ast_hash": "935986248f334dc12cf8b4f3f6adadce",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\cnbc\\cnbc.test.ts": {
+    "mtime": 1778960974.379853,
+    "ast_hash": "7200af4fb2e006b1b1bdc02ee89a9d4b",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\cnbc\\index.ts": {
+    "mtime": 1778966810.330396,
+    "ast_hash": "64ab78318038d136fdda70c783bec560",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\cnbc\\types.ts": {
+    "mtime": 1778960955.7204514,
+    "ast_hash": "d2f1d913fb9debaa6eddc7c71c1639b5",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\cryptonews\\cryptonews.test.ts": {
+    "mtime": 1778961301.0318606,
+    "ast_hash": "3c08e38fcb9faa51b8bd07b370937f64",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\cryptonews\\index.ts": {
+    "mtime": 1778966822.8150005,
+    "ast_hash": "1275c82cd1245a50fac6f0ea096d25f6",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\cryptonews\\types.ts": {
+    "mtime": 1778961283.3109603,
+    "ast_hash": "2b36f770233f22270950803d5aa2ccf4",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\cryptorsi\\cryptorsi.test.ts": {
+    "mtime": 1778961500.6430233,
+    "ast_hash": "26da41962bc385c09ee72074d871071c",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\cryptorsi\\index.ts": {
+    "mtime": 1778966832.9060528,
+    "ast_hash": "7bb63220c76365fc0f52d2c83d7566ac",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\cryptorsi\\types.ts": {
+    "mtime": 1778961471.1003516,
+    "ast_hash": "a2a56cdbfe37b02bfbcd3aa2aefc0e61",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\exchangerates\\exchangerates.test.ts": {
+    "mtime": 1778961207.6701262,
+    "ast_hash": "f841f79a72576c3e201b764b4d8d3049",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\exchangerates\\index.ts": {
+    "mtime": 1778966819.7397342,
+    "ast_hash": "71390cfa0d9b7bdf40eefb9667d3553d",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\exchangerates\\types.ts": {
+    "mtime": 1778961192.0327556,
+    "ast_hash": "b33d31d68796a4d17e4f5a96c72d047e",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\financeapi\\financeapi.test.ts": {
+    "mtime": 1778961151.8382418,
+    "ast_hash": "4713dfd78e8509372c7849f96a37e383",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\financeapi\\index.ts": {
+    "mtime": 1778966816.8583422,
+    "ast_hash": "0b37ed602b2da94dc42f07774c3fa824",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\financeapi\\types.ts": {
+    "mtime": 1778961127.3015032,
+    "ast_hash": "59e28c683c1dcc060c35c888f509dd40",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\forexapi\\forexapi.test.ts": {
+    "mtime": 1778961613.8744607,
+    "ast_hash": "bfc8f218c27b61faab6fde50b56d36b3",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\forexapi\\index.ts": {
+    "mtime": 1778966835.9486752,
+    "ast_hash": "37ab7b07ed7b1e3996939fc6394bf14f",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\forexapi\\types.ts": {
+    "mtime": 1778961581.3699682,
+    "ast_hash": "220893bbcb7e0e24f331573e712d2716",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\haremaltin\\haremaltin.test.ts": {
+    "mtime": 1778961047.765848,
+    "ast_hash": "d03ad14429d704d15d92d34828fe704a",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\haremaltin\\index.ts": {
+    "mtime": 1778966813.9352913,
+    "ast_hash": "13250220b846959ade83a5369e3ec022",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\haremaltin\\types.ts": {
+    "mtime": 1778961032.0620449,
+    "ast_hash": "42c7d0481a649974bc5271e61d6020c9",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\realtimefinance\\index.ts": {
+    "mtime": 1778966841.9432485,
+    "ast_hash": "ad1497a299a1038a80694ddcfcb65c85",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\realtimefinance\\realtimefinance.test.ts": {
+    "mtime": 1778961825.2265892,
+    "ast_hash": "330b7e0ff9f38483234dc667b7ddd591",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\realtimefinance\\types.ts": {
+    "mtime": 1778961808.176654,
+    "ast_hash": "b36239657b217d594c5547497c57be14",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\turkeyfinancial\\index.ts": {
+    "mtime": 1778966839.036214,
+    "ast_hash": "736eb16399d544bf4dc6baf15b6c25f0",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\turkeyfinancial\\turkeyfinancial.test.ts": {
+    "mtime": 1778961727.6552913,
+    "ast_hash": "89edfd67cb573b420ff50e9212183aca",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\turkeyfinancial\\types.ts": {
+    "mtime": 1778961659.3882005,
+    "ast_hash": "43f1b325c414b2c1a42b014a201f51fa",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\turkeynews\\index.ts": {
+    "mtime": 1778966845.2700703,
+    "ast_hash": "84931edf21b4ee7471d7f1250de33c3d",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\turkeynews\\turkeynews.test.ts": {
+    "mtime": 1778961988.49794,
+    "ast_hash": "71c0fcde4bbfdfb4850fe1ba8a093896",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\turkeynews\\types.ts": {
+    "mtime": 1778961920.2312982,
+    "ast_hash": "7e28c124307b9cdbd242452b41f6f314",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\yahoorealtime\\index.ts": {
+    "mtime": 1778966829.6479478,
+    "ast_hash": "67b9bd06c2c228f154aabab2626b9d7e",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\yahoorealtime\\types.ts": {
+    "mtime": 1778961398.3353217,
+    "ast_hash": "ee6126cb20ae4a322d102461e3d6e2bb",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\yahoorealtime\\yahoorealtime.test.ts": {
+    "mtime": 1778961416.5227928,
+    "ast_hash": "34d34fb51c0fe7f1624a4c1c78205481",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\yhfinance\\index.ts": {
+    "mtime": 1778966825.790476,
+    "ast_hash": "c9ac66e683a564cc48a48b0604ba8989",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\yhfinance\\types.ts": {
+    "mtime": 1778961314.482586,
+    "ast_hash": "02e0e147b9b071fdfbbb578a7cb47560",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\yhfinance\\yhfinance.test.ts": {
+    "mtime": 1778961331.7225623,
+    "ast_hash": "f760742946c66f892385ce2c357ffa1d",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\_shared\\cache.ts": {
+    "mtime": 1778966875.931725,
+    "ast_hash": "382c1c688f65da40232f023257af79fc",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\_shared\\errors.ts": {
+    "mtime": 1778959143.7196274,
+    "ast_hash": "a8a525bf1dccb431ce3a0be8624002ed",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\rapidapi\\__tests__\\guard.test.ts": {
+    "mtime": 1778959073.7158954,
+    "ast_hash": "c23acfe0d320a676aa93dbdf0810e31f",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\supabase\\admin.ts": {
+    "mtime": 1778964165.5186148,
+    "ast_hash": "d2469eb6108f6daa751d583f81f04d21",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\supabase\\client.ts": {
@@ -519,14 +904,19 @@
     "ast_hash": "2e0431992f0fea5d42f28c638146f6b7",
     "semantic_hash": ""
   },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\lib\\validations\\settings.ts": {
+    "mtime": 1778958122.2874594,
+    "ast_hash": "1446293077f7440929d4dea2d74a187b",
+    "semantic_hash": ""
+  },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\types\\kap.ts": {
     "mtime": 1778673973.5585532,
     "ast_hash": "a53e95c8f7a55356a6e16fd23d0a6a43",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\types\\market.ts": {
-    "mtime": 1778797253.0118933,
-    "ast_hash": "dcfbd22673943d1fa2d2e133311b0c49",
+    "mtime": 1778963224.7621543,
+    "ast_hash": "67d1bd786e2011a1c9bbc29af4843011",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\types\\news.ts": {
@@ -540,8 +930,8 @@
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\src\\types\\saas.ts": {
-    "mtime": 1778837995.233398,
-    "ast_hash": "e3f9f3ac24e5fb1adf11f4e4a4737ac7",
+    "mtime": 1778957960.9885542,
+    "ast_hash": "a706867cb1e11becb8bdc71776638c39",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\supabase\\migrations\\20240513000000_clerk_auth.sql": {
@@ -589,19 +979,59 @@
     "ast_hash": "3f4f88078dca20d836fdf3af07e96b2e",
     "semantic_hash": ""
   },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\supabase\\migrations\\20260516000002_add_fetched_news_table.sql": {
+    "mtime": 1778845642.074576,
+    "ast_hash": "a0af232ad7dff1cef15fecffe102aac5",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\supabase\\migrations\\20260516000003_add_user_settings.sql": {
+    "mtime": 1778844824.7389512,
+    "ast_hash": "bbb27c90899239c195d0503152b7a914",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\supabase\\migrations\\20260516000004_enable_realtime.sql": {
+    "mtime": 1778847343.0963557,
+    "ast_hash": "950a2069a69acbdb48491eef3e9a2189",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\supabase\\migrations\\20260516000005_add_data_columns_to_sessions.sql": {
+    "mtime": 1778850685.649229,
+    "ast_hash": "8a3d89b0e18831fc2e7151c9cecf0c62",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\supabase\\migrations\\20260517000000_user_settings.sql": {
+    "mtime": 1778958617.6068165,
+    "ast_hash": "f32a66943b43154eb857267dd9910b06",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\supabase\\migrations\\20260517000001_add_user_roles.sql": {
+    "mtime": 1778958695.2281303,
+    "ast_hash": "281eb075e9e48a6045df120508e4fb2a",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\supabase\\migrations\\20260517000002_create_admin_audit_log.sql": {
+    "mtime": 1778958785.0897338,
+    "ast_hash": "3b12489229739af99e7ff2a2e9783030",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\supabase\\migrations\\20260517000003_structured_data_models.sql": {
+    "mtime": 1778963767.1472285,
+    "ast_hash": "f14545b7858a7f629204322e02bac8f8",
+    "semantic_hash": ""
+  },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\supabase\\migrations\\schema.sql": {
     "mtime": 1778696983.5304482,
     "ast_hash": "dff0cc21c9ecb858599964c7398a8e30",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\DESIGN.md": {
-    "mtime": 1778795902.8968701,
+    "mtime": 1778963788.7893884,
     "ast_hash": "7df0a394aaf6b51904281c95d11da137",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\GEMINI.md": {
-    "mtime": 1778838410.1172101,
-    "ast_hash": "af289576b1e5b178039ccc6cbf0201b6",
+    "mtime": 1778843943.010059,
+    "ast_hash": "642f0ac361240ba1a5761021b494a3e0",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\README.md": {
@@ -864,19 +1294,34 @@
     "ast_hash": "a61606c0443205fe3341e31b3e369b2a",
     "semantic_hash": ""
   },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\PLAN-FIX-PIPELINE.md": {
+    "mtime": 1778847285.6991422,
+    "ast_hash": "1adaba7b973adb2f17a3d7c4f8908219",
+    "semantic_hash": ""
+  },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\REQUIREMENTS.md": {
-    "mtime": 1778706975.1530497,
-    "ast_hash": "ab71b7a4c057b1f0eab378a8a1b544e9",
+    "mtime": 1778957390.2563498,
+    "ast_hash": "bd8d5bf3148e4291c0cef60befed4055",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\ROADMAP.md": {
-    "mtime": 1778837655.8718705,
-    "ast_hash": "79be1eb7b0e4837182012e86786fb2f8",
+    "mtime": 1778962387.77535,
+    "ast_hash": "a908d1363755ac385a1c4b47c5393dd5",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\STATE.md": {
-    "mtime": 1778838225.7771337,
-    "ast_hash": "fda7cb14804f1e39ca48157e5a908704",
+    "mtime": 1778846315.2261887,
+    "ast_hash": "3c841c226b7fd1b10267c92529294c08",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\graphs\\graph.html": {
+    "mtime": 1778838663.641289,
+    "ast_hash": "d0af520c0c0b38d8817ce75a3c40a025",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\graphs\\GRAPH_REPORT.md": {
+    "mtime": 1778838663.584978,
+    "ast_hash": "8021b72311d3cfaa9bc87ea8111977da",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\01-foundation\\01-01-PLAN.md": {
@@ -1244,9 +1689,224 @@
     "ast_hash": "c096bfca9fa848fc59cca7733d20cf52",
     "semantic_hash": ""
   },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\11-multi-agent-saas-redesign\\11-03-SUMMARY.md": {
+    "mtime": 1778839230.0117352,
+    "ast_hash": "ec886bf0ecc590fcdbcfbc87da5e7be5",
+    "semantic_hash": ""
+  },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\11-multi-agent-saas-redesign\\11-04-PLAN.md": {
     "mtime": 1778837691.63939,
     "ast_hash": "d8082274ffd56596e34003bf797dfe64",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\11-multi-agent-saas-redesign\\11-04-SUMMARY.md": {
+    "mtime": 1778839230.010221,
+    "ast_hash": "9f94e82d14a7729cb4f808ac37467037",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\12-data-reliability-and-vercel\\12-01-PLAN.md": {
+    "mtime": 1778842791.8617437,
+    "ast_hash": "68263a91cd69a51b1d6113e42ea4b7bd",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\12-data-reliability-and-vercel\\12-01-SUMMARY.md": {
+    "mtime": 1778844028.2927604,
+    "ast_hash": "0e7654e4d2268b65e20e77b874fcff80",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\12-data-reliability-and-vercel\\12-02-PLAN.md": {
+    "mtime": 1778842791.8674073,
+    "ast_hash": "770a7713fe98ab38f6b14c6c76f25f84",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\12-data-reliability-and-vercel\\12-02-SUMMARY.md": {
+    "mtime": 1778844218.9386075,
+    "ast_hash": "cb1370e04266c2ce048c39181e6e255f",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\12-data-reliability-and-vercel\\12-03-PLAN.md": {
+    "mtime": 1778842791.8617437,
+    "ast_hash": "d7a18005ac70f611968a139d655fbf0c",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\12-data-reliability-and-vercel\\12-03-SUMMARY.md": {
+    "mtime": 1778844403.491281,
+    "ast_hash": "2a926a56f6268eba353fe7907dfbbf1e",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\12-data-reliability-and-vercel\\12-04-PLAN.md": {
+    "mtime": 1778842791.8674073,
+    "ast_hash": "f3ae7f01928aa6fc04a19a580b2f2ac6",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\12-data-reliability-and-vercel\\12-04-SUMMARY.md": {
+    "mtime": 1778844531.691612,
+    "ast_hash": "fb9b6a76bac167e4ea9f694bf77642ef",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\13-dashboard-extensions\\13-01-PLAN.md": {
+    "mtime": 1778844653.4240046,
+    "ast_hash": "57d32a7698826f6cfbaef9a8738a4869",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\13-dashboard-extensions\\13-01-SUMMARY.md": {
+    "mtime": 1778958072.7810643,
+    "ast_hash": "9b544cc4a89371c928ae7ebc3a1e44a7",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\13-dashboard-extensions\\13-02-PLAN.md": {
+    "mtime": 1778844653.4255764,
+    "ast_hash": "2312bdccf0a7588499f325f1a2c1d701",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\13-dashboard-extensions\\13-02-SUMMARY.md": {
+    "mtime": 1778958184.0813181,
+    "ast_hash": "9ba4118f8974f47430fb5908dcf51adb",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\13-dashboard-extensions\\13-03-PLAN.md": {
+    "mtime": 1778844653.4255764,
+    "ast_hash": "7509f5cfe90e9b5cfc6f561b92a330a9",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\13-dashboard-extensions\\13-03-SUMMARY.md": {
+    "mtime": 1778958184.0813181,
+    "ast_hash": "cbef7fc5628a6d7b59c47f5fdb0deaef",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\13-dashboard-extensions\\13-04-PATTERNS.md": {
+    "mtime": 1778956839.0144355,
+    "ast_hash": "980aba1d341c866da10d66cd90477eca",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\13-dashboard-extensions\\13-04-PLAN.md": {
+    "mtime": 1778957660.4941175,
+    "ast_hash": "74fa8ffd4aaab8dfe4c4bfed1bfaf7d8",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\13-dashboard-extensions\\13-04-RESEARCH.md": {
+    "mtime": 1778957185.0124075,
+    "ast_hash": "8c331e4ad948d3c2349bdb5484af1dcb",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\13-dashboard-extensions\\13-04-SUMMARY.md": {
+    "mtime": 1778958072.7810643,
+    "ast_hash": "e08eb6c4358b49288bfdf83840edf6eb",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\13-dashboard-extensions\\13-RESEARCH.md": {
+    "mtime": 1778844506.341574,
+    "ast_hash": "b2a4001de8ccde9e0cb382f0ad10ba9d",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\13-dashboard-extensions\\GOAL-VERIFICATION.md": {
+    "mtime": 1778844800.591498,
+    "ast_hash": "044ac2fbf3f97c83fdc0cd375e900069",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\13-dashboard-extensions\\PATTERNS.md": {
+    "mtime": 1778844365.822781,
+    "ast_hash": "4b7163748d08293a0406746466fd8e55",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\13-dashboard-extensions\\RESEARCH.md": {
+    "mtime": 1778844527.269259,
+    "ast_hash": "b2a4001de8ccde9e0cb382f0ad10ba9d",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\14-realtime-ux-polish\\14-01-PLAN.md": {
+    "mtime": 1778845612.0915196,
+    "ast_hash": "89fea347a92b3f7e637318a7d3376db4",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\14-realtime-ux-polish\\14-01-SUMMARY.md": {
+    "mtime": 1778846302.679055,
+    "ast_hash": "d789491e9f581fd9f79261669dfb907d",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\14-realtime-ux-polish\\14-02-PLAN.md": {
+    "mtime": 1778845612.0915196,
+    "ast_hash": "b6ef9dbe53c611d9b77e566538f898fd",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\14-realtime-ux-polish\\14-02-SUMMARY.md": {
+    "mtime": 1778846302.6780548,
+    "ast_hash": "1af1dda907117d2f641a7fe59e33c839",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\15-rapidapi-providers\\15-01-PLAN.md": {
+    "mtime": 1778959619.4594402,
+    "ast_hash": "c896ba23fe967843670b1aa7b86d7bb9",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\15-rapidapi-providers\\15-02-PLAN.md": {
+    "mtime": 1778961076.082858,
+    "ast_hash": "fbf55ca570efd55cd8f524a9f609173b",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\15-rapidapi-providers\\15-03-PLAN.md": {
+    "mtime": 1778961237.7899487,
+    "ast_hash": "981a264c9ed6d03b3de574a5b8ebb59f",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\15-rapidapi-providers\\15-04-PLAN.md": {
+    "mtime": 1778961360.8834813,
+    "ast_hash": "d52df930e54b865eef80ca2c3f7a6cc6",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\15-rapidapi-providers\\15-05-PLAN.md": {
+    "mtime": 1778961527.9760807,
+    "ast_hash": "facaaf3e6d2cabd4dec707c855988907",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\15-rapidapi-providers\\15-06-PLAN.md": {
+    "mtime": 1778961760.186513,
+    "ast_hash": "8e1cc387f1724dc31009d158ae92b638",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\15-rapidapi-providers\\15-07-PLAN.md": {
+    "mtime": 1778962333.2036667,
+    "ast_hash": "2fcd275edac36a6bb384661b7faec681",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\15-rapidapi-providers\\15-CONTEXT.md": {
+    "mtime": 1778957440.492836,
+    "ast_hash": "8c17a84f949714635669552334a9fffb",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\15-rapidapi-providers\\15-RESEARCH.md": {
+    "mtime": 1778958103.6920757,
+    "ast_hash": "2c663f9985b24bf46362a7d22cec259f",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\15-rapidapi-providers\\VALIDATION.md": {
+    "mtime": 1778958497.0835056,
+    "ast_hash": "ed5fb72d9fd6bada1dc6c8864c268ee9",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\16-multi-source-research-agents\\16-01-PLAN.md": {
+    "mtime": 1778962685.374791,
+    "ast_hash": "9c4dbf61cad5449757db4072704caafc",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\17-admin-panel\\17-01-PLAN.md": {
+    "mtime": 1778958513.464462,
+    "ast_hash": "f55eb6a4adde0d826fdbca22299451fe",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\17-admin-panel\\17-01-SUMMARY.md": {
+    "mtime": 1778958513.464462,
+    "ast_hash": "6d9ff9d73bd2ed488eddaf99d1fcf34b",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\17-admin-panel\\17-02-PLAN.md": {
+    "mtime": 1778958517.4094517,
+    "ast_hash": "db5516d7a304597ac9913f9f1199ffee",
+    "semantic_hash": ""
+  },
+  "C:\\Users\\duyma\\Desktop\\arastir-starter\\.planning\\phases\\17-admin-panel\\17-02-SUMMARY.md": {
+    "mtime": 1778958513.464462,
+    "ast_hash": "73b4cbb5a662a9c112111ec45374a20f",
     "semantic_hash": ""
   },
   "C:\\Users\\duyma\\Desktop\\arastir-starter\\tasarim\\admin.html": {

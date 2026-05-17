@@ -171,8 +171,9 @@ export const getFullMarketData = async (ticker: string): Promise<MarketData> => 
   const yahooResult = await getYahooMarketData(ticker);
   if (yahooResult) {
     console.log(`[Market] Source: Yahoo Finance for ${cacheKey}`);
-    marketCache.set(cacheKey, { data: yahooResult, ts: Date.now() });
-    return yahooResult;
+    const data: MarketData = { ...yahooResult, source: { provider: 'yahoo_finance', fetched_at: Date.now(), ttl_remaining: 3600 } };
+    marketCache.set(cacheKey, { data, ts: Date.now() });
+    return data;
   }
 
   // Fallback: Alpha Vantage (rate-limited)
@@ -183,7 +184,12 @@ export const getFullMarketData = async (ticker: string): Promise<MarketData> => 
   await new Promise(r => setTimeout(r, 1200));
   const monthlySeries = await getMonthlyPrices(ticker, 12);
 
-  const data: MarketData = { quote, overview, monthlySeries };
+  const data: MarketData = { 
+    quote, 
+    overview, 
+    monthlySeries, 
+    source: { provider: 'alpha_vantage', fetched_at: Date.now(), ttl_remaining: 3600 } 
+  };
   marketCache.set(cacheKey, { data, ts: Date.now() });
   return data;
 };

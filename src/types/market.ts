@@ -46,4 +46,9 @@ export interface MarketData {
   quote: StockQuote;
   overview: CompanyOverview | null;
   monthlySeries: Record<string, MonthlySeriesEntry>;
+  source: {
+    provider: string;
+    fetched_at: number;
+    ttl_remaining: number;
+  };
 }
