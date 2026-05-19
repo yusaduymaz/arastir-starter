@@ -1,3 +1,6 @@
+// @react-pdf/renderer requires Node.js runtime (not Edge Runtime)
+export const runtime = 'nodejs';
+
 import { NextResponse } from 'next/server'
 import { verifySignature } from '@upstash/qstash/nextjs'
 import { createClient } from '@supabase/supabase-js'
@@ -239,7 +242,20 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
     console.log(`[Pipeline] Running AI Analyst Agent...`);
     const { runAnalystAgent } = require('@/agents/analyst-agent');
 
-    let insights = {
+    let insights: {
+      executiveSummary: string;
+      risks: string;
+      opportunities: string;
+      macroContext: string;
+      investmentRecommendation?: {
+        action: 'AL' | 'TUT' | 'SAT';
+        score: number;
+        confidence: 'düşük' | 'orta' | 'yüksek';
+        shortTermOutlook: string;
+        longTermOutlook: string;
+        keyFactors: string[];
+      };
+    } = {
       executiveSummary: "Analiz edilemedi.",
       risks: "Belirlenemedi.",
       opportunities: "Belirlenemedi.",
@@ -286,6 +302,31 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
       macroContext: insights.macroContext || undefined,
       risks: insights.risks,
       opportunities: insights.opportunities,
+      // New enriched fields for professional PDF report
+      investmentRecommendation: insights.investmentRecommendation,
+      newsArticles: newsData.slice(0, 8).map((article: any) => ({
+        title: article.title || '',
+        source: article.source || 'Bilinmeyen',
+        date: article.date || new Date().toISOString(),
+        sentiment: article.sentiment,
+        content: article.content,
+      })),
+      kapDisclosures: kapData.slice(0, 10).map((kap: any) => ({
+        title: kap.title || kap.baslik || '',
+        date: kap.date || kap.tarih || new Date().toISOString(),
+        summary: kap.summary || kap.ozet,
+      })),
+      marketData: marketData ? {
+        price: marketData.quote?.price,
+        changePercent: marketData.quote?.changePercent,
+        volume: marketData.quote?.volume,
+        marketCap: marketData.overview?.MarketCapitalization,
+        peRatio: marketData.overview?.PERatio,
+        eps: marketData.overview?.EPS,
+        week52High: marketData.overview?.['52WeekHigh'],
+        week52Low: marketData.overview?.['52WeekLow'],
+        sector: marketData.overview?.Sector,
+      } : undefined,
       data: [
         { label: 'Son KAP Bildirimleri', value: kapData.length },
         { label: 'Incelenen Haber Sayisi', value: newsData.length },
