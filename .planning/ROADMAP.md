@@ -302,15 +302,15 @@ Plans:
 | 3. High-Risk Data Integration - KAP | 3/3 | Completed | Yes |
 | 4. High-Risk Data Integration - News | 3/3 | Completed | Yes |
 | 5. User-Facing Application | 3/3 | Completed | Yes |
-| 10. Vercel-Ready Pipeline Refactor | 1/4 | In Progress | No |
+| 10. Vercel-Ready Pipeline Refactor | 4/4 | Completed | Yes |
 | 11. Multi-Agent SaaS Architecture | 4/4 | Completed | Yes |
 | 12. Data Reliability & Vercel Compatibility | 3/4 | In Progress | No |
 | 13. Dashboard Extensions | 0/4 | Not Started | No |
 | 14. Real-Time UX & Polish | 2/2 | Completed | Yes |
 | 15. External Market Data APIs (RapidAPI) | 7/7 | Completed | Yes |
-| 16. Multi-Source Research Agents & Live Cards | 0/4 | In Progress | No |
+| 16. Multi-Source Research Agents & Live Cards | 4/4 | In Progress | Yes |
 | 19. SaaS Stripe Billing & Pricing UI | 4/4 | Completed | Yes |
 | 17. Admin Panel | 2/2 | Completed | Yes |
-| 18. Admin Dashboard Fixes & Enhancements | 0/4 | Not Started | No |
+| 18. Admin Dashboard Fixes & Enhancements | 4/4 | Not Started | Yes |
 | 20. Production Hardening & Asenkron Mimari | 4/4 | Completed | Yes |
 
