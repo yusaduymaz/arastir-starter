@@ -43,36 +43,89 @@ export async function PUT(
 
     const { userId: adminId } = auth();
     const body = await request.json();
-    const { role } = body;
+    const { role, token_adjustment } = body;
 
     const supabase = createAdminClient();
 
-    // Update user role
-    const { data: updatedUser, error } = await supabase
-      .from('users')
-      .update({ role })
-      .eq('id', params.userId)
-      .select()
-      .single();
+    // Update user role (only if role is defined)
+    if (role !== undefined) {
+      const { error: roleError } = await supabase
+        .from('users')
+        .update({ role })
+        .eq('id', params.userId);
 
-    if (error) {
-      console.error('Error updating user role:', error);
-      return new NextResponse('Internal Server Error', { status: 500 });
+      if (roleError) {
+        console.error('Error updating user role:', roleError);
+        return new NextResponse('Internal Server Error', { status: 500 });
+      }
+
+      // Log role update
+      if (adminId) {
+        try {
+          await supabase.from('admin_audit_logs').insert({
+            admin_id: adminId,
+            action: 'UPDATE_USER_ROLE',
+            target_type: 'user',
+            target_id: params.userId,
+            details: { new_role: role },
+          });
+        } catch {
+          // Audit log table may be unavailable in some environments.
+        }
+      }
     }
 
-    // Log the action (Audit logs usually need the adminId)
-    if (adminId) {
+    // Handle token adjustment (only if defined and non-zero)
+    if (token_adjustment !== undefined && token_adjustment !== 0) {
       try {
-        await supabase.from('admin_audit_logs').insert({
+        await supabase.from('token_ledger').insert({
+          user_id: params.userId,
+          delta: token_adjustment,
+          reason: 'admin_adjustment',
           admin_id: adminId,
-          action: 'UPDATE_USER_ROLE',
-          target_type: 'user',
-          target_id: params.userId,
-          details: { new_role: role },
-        }).select().single();
+        });
       } catch {
-        // Audit log table may be unavailable in some environments.
+        // Fallback: update tokens_balance directly
+        const { data: currentUser } = await supabase
+          .from('users')
+          .select('tokens_balance')
+          .eq('id', params.userId)
+          .single();
+
+        const currentBalance = currentUser?.tokens_balance || 0;
+        const newBalance = Math.max(0, currentBalance + token_adjustment);
+
+        await supabase
+          .from('users')
+          .update({ tokens_balance: newBalance })
+          .eq('id', params.userId);
       }
+
+      // Log token adjustment
+      if (adminId) {
+        try {
+          await supabase.from('admin_audit_logs').insert({
+            admin_id: adminId,
+            action: 'ADJUST_USER_TOKENS',
+            target_type: 'user',
+            target_id: params.userId,
+            details: { delta: token_adjustment },
+          });
+        } catch {
+          // Audit log table may be unavailable.
+        }
+      }
+    }
+
+    // Re-fetch user after all updates
+    const { data: updatedUser, error: fetchError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', params.userId)
+      .single();
+
+    if (fetchError || !updatedUser) {
+      return new NextResponse('User not found after update', { status: 404 });
     }
 
     return NextResponse.json(updatedUser);

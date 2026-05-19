@@ -1,4 +1,4 @@
-import { X, Shield, Mail } from 'lucide-react';
+import { X, Shield, Mail, Coins } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { BorderBeam } from '@/components/ui/BorderBeam';
 
@@ -11,12 +11,14 @@ interface EditUserDialogProps {
 
 export function EditUserDialog({ user, isOpen, onClose, onUserUpdated }: EditUserDialogProps) {
   const [role, setRole] = useState('user');
+  const [tokenAdjustment, setTokenAdjustment] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (user) {
       setRole(user.role || 'user');
+      setTokenAdjustment('');
     }
   }, [user]);
 
@@ -28,19 +30,22 @@ export function EditUserDialog({ user, isOpen, onClose, onUserUpdated }: EditUse
     setError(null);
 
     try {
+      const adjustmentNum = parseInt(tokenAdjustment, 10) || 0;
+
       const res = await fetch(`/api/admin/users/${user.user_id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ role }),
+        body: JSON.stringify({ role, token_adjustment: adjustmentNum }),
       });
 
       if (!res.ok) {
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
         throw new Error(data.error || 'Güncelleme başarısız oldu');
       }
 
+      setTokenAdjustment('');
       onUserUpdated();
       onClose();
     } catch (err: any) {
@@ -94,6 +99,24 @@ export function EditUserDialog({ user, isOpen, onClose, onUserUpdated }: EditUse
               <option value="user" className="bg-[#0D0D0D]">User (Standart)</option>
               <option value="admin" className="bg-[#0D0D0D]">Admin (Yönetici)</option>
             </select>
+          </div>
+
+          <div className="space-y-2">
+            <label className="flex items-center gap-2 text-xs font-mono text-[#64748b] uppercase tracking-widest">
+              <Coins size={12} /> Token Yönetimi
+            </label>
+            <div className="bg-black/40 border border-[#22c55e]/10 p-3 rounded-lg text-sm text-[#FACC15]/80 font-mono">
+              Mevcut Bakiye: {user?.tokens_balance ?? 0} TOKEN
+            </div>
+            <input
+              type="number"
+              value={tokenAdjustment}
+              onChange={(e) => setTokenAdjustment(e.target.value)}
+              placeholder="+100 veya -50"
+              className="w-full bg-black border border-[#22c55e]/20 rounded-lg p-3 text-sm text-white focus:outline-none focus:border-[#4edea3] focus:ring-1 focus:ring-[#4edea3] transition-all"
+              disabled={loading}
+            />
+            <p className="text-[10px] text-[#45474c] font-mono">Pozitif = ekle, Negatif = çıkar (0 ise değişmez)</p>
           </div>
 
           {error && (
