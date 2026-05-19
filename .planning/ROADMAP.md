@@ -313,4 +313,17 @@ Plans:
 | 17. Admin Panel | 2/2 | Completed | Yes |
 | 18. Admin Dashboard Fixes & Enhancements | 4/4 | Not Started | Yes |
 | 20. Production Hardening & Asenkron Mimari | 4/4 | Completed | Yes |
+| 21. Error Handling & Loading States | 2/2 | Completed | Yes |
 
+### Phase 21: Error Handling & Loading States
+**Goal**: Improve UX by adding comprehensive global and component-level error handling, and implement loading states (e.g., page transition loaders from landing to dashboard) for smoother navigation.
+**Depends on**: Phase 20
+**Requirements**: UX-04, ERR-01
+**Success Criteria** (what must be TRUE):
+  1. Top-level layout and feature pages have React Error Boundaries for graceful degradation.
+  2. Page transitions (especially Landing to Dashboard) display an intermediate loading screen or skeleton.
+  3. API errors are properly caught and displayed to the user via toast notifications or error components instead of silent failures.
+**Plans**: 2 plans
+Plans:
+- [x] 21-01-PLAN.md — Global Error Handling & Error Boundaries
+- [x] 21-02-PLAN.md — Page Transition Loading States & Skeletons
