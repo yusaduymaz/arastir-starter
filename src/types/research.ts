@@ -14,6 +14,37 @@ export interface ReportData {
   macroContext?: string;
   // Fallback or extra data
   data?: DataPoint[];
+  investmentRecommendation?: {
+    action: 'AL' | 'TUT' | 'SAT';
+    score: number;        // 1-10
+    confidence: 'düşük' | 'orta' | 'yüksek';
+    shortTermOutlook: string;
+    longTermOutlook: string;
+    keyFactors: string[];
+  };
+  newsArticles?: Array<{
+    title: string;
+    source: string;
+    date: string;
+    sentiment?: string;
+    content?: string;
+  }>;
+  kapDisclosures?: Array<{
+    title: string;
+    date: string;
+    summary?: string;
+  }>;
+  marketData?: {
+    price?: string | number;
+    changePercent?: string | number;
+    volume?: string | number;
+    marketCap?: string | number;
+    peRatio?: string | number;
+    eps?: string | number;
+    week52High?: string | number;
+    week52Low?: string | number;
+    sector?: string;
+  };
 }
 
 // Agent log entry for real-time pipeline tracking (legacy or UI specific)
