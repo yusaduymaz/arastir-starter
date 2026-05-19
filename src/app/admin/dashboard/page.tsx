@@ -123,7 +123,7 @@ export default function AdminDashboard() {
             {[
               { label: 'Kullanıcıları Yönet', href: '/admin/users' },
               { label: 'Oturum İzleme', href: '/admin/sessions' },
-              { label: 'Sistem Logları', href: '#' },
+              { label: 'Sistem Logları', href: '/admin/logs' },
               { label: 'API Durumu', href: '#' },
             ].map((action) => (
               <a

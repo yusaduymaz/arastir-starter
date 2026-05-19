@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Users, Activity, LogOut, Terminal } from 'lucide-react';
+import { LayoutDashboard, Users, Activity, LogOut, Terminal, FileText } from 'lucide-react';
 import { SignOutButton } from '@clerk/nextjs';
 import { cn } from '@/lib/utils';
 
@@ -10,6 +10,7 @@ const navigation = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
   { name: 'Kullanıcılar', href: '/admin/users', icon: Users },
   { name: 'Oturumlar', href: '/admin/sessions', icon: Activity },
+  { name: 'Sistem Logları', href: '/admin/logs', icon: FileText },
 ];
 
 export function AdminSidebar() {
