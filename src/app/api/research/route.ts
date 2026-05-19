@@ -113,26 +113,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true, id: clonedRecord.id, cached: true, ticker }, { status: 202 });
     }
 
-    // Check Tokens
+    // Ensure User Exists (Lazy Creation for local-dev scenarios where Clerk webhook didn't fire)
     const { data: userRow } = await supabase
       .from('users')
-      .select('tier')
+      .select('id')
       .eq('id', userId)
       .single()
 
-    const { data: balanceRow } = await supabase
-      .from('user_balances')
-      .select('balance')
-      .eq('user_id', userId)
-      .single()
-
-    let finalUserRecord = null;
-    if (userRow && balanceRow) {
-      finalUserRecord = { tier: userRow.tier, balance: balanceRow.balance }
-    }
-
-    // Webhook lokalde calismadigy icin kullanici yoksa otomatik olustur (Lazy Creation)
-    if (!finalUserRecord) {
+    if (!userRow) {
       const user = await currentUser();
       const email = user?.emailAddresses?.[0]?.emailAddress || 'local-dev@example.com';
 
@@ -143,37 +131,22 @@ export async function POST(request: Request) {
       await supabase
         .from('token_ledger')
         .insert({ user_id: userId, amount: 5, transaction_type: 'grant', description: 'Lazy creation bonus' })
-
-      const { data: fetchedUser } = await supabase
-        .from('users')
-        .select('tier')
-        .eq('id', userId)
-        .single()
-
-      const { data: fetchedBalance } = await supabase
-        .from('user_balances')
-        .select('balance')
-        .eq('user_id', userId)
-        .single()
-
-      if (!fetchedUser || !fetchedBalance) {
-        return NextResponse.json({ error: 'Kullanici profili olusturulamadi.' }, { status: 500 })
-      }
-      finalUserRecord = { tier: fetchedUser.tier, balance: fetchedBalance.balance };
     }
 
-    if (!finalUserRecord || finalUserRecord.balance <= 0) {
-      return NextResponse.json({ error: 'Yetersiz token. Lutfen planinizi yukseltin.' }, { status: 403 })
-    }
-
-    // Deduct 1 token
-    const { error: deductError } = await supabase
-      .from('token_ledger')
-      .insert({ user_id: userId, amount: -1, transaction_type: 'usage', description: `Research query for ${ticker}` })
+    // Attempt to deduct 1 token using the atomic RPC
+    const { data: hasTokens, error: deductError } = await supabase.rpc('deduct_token_if_sufficient', {
+      p_user_id: userId,
+      p_amount: 1,
+      p_description: `Research query for ${ticker}`
+    });
 
     if (deductError) {
-      console.error('Token deduction error:', deductError)
-      return NextResponse.json({ error: 'Token dusuleemdi' }, { status: 500 })
+      console.error('Token deduction RPC error:', deductError);
+      return NextResponse.json({ error: 'Token dusulemedi' }, { status: 500 });
+    }
+
+    if (!hasTokens) {
+      return NextResponse.json({ error: 'Yetersiz token. Lutfen planinizi yukseltin.' }, { status: 403 });
     }
 
     // 1. Create pending record WITH extracted ticker
