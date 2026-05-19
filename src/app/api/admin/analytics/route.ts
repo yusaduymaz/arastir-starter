@@ -56,22 +56,28 @@ export async function GET(request: Request) {
       .select('created_at')
       .gte('created_at', thirtyDaysAgoStr);
 
-    // Grouping by date
-    const groupByDate = (data: any[]) => {
-      const grouped = data?.reduce((acc: any, item: any) => {
+    // Grouping by date with full 30-day zero-fill
+    const groupByDateFilled = (data: { created_at: string }[], days: number = 30) => {
+      // Count existing data by date
+      const counts: Record<string, number> = {};
+      data.forEach((item) => {
         const date = item.created_at.split('T')[0];
-        acc[date] = (acc[date] || 0) + 1;
-        return acc;
-      }, {});
+        counts[date] = (counts[date] || 0) + 1;
+      });
 
-      // Convert to array of { date, count } and sort by date
-      return Object.entries(grouped || {})
-        .map(([date, count]) => ({ date, count }))
-        .sort((a: any, b: any) => a.date.localeCompare(b.date));
+      // Generate full date range from (days) ago to today
+      const result: { date: string; count: number }[] = [];
+      for (let i = days - 1; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        const dateStr = d.toISOString().split('T')[0];
+        result.push({ date: dateStr, count: counts[dateStr] || 0 });
+      }
+      return result;
     };
 
-    const userSignupsLast30Days = groupByDate(recentUsers || []);
-    const sessionsLast30Days = groupByDate(recentSessions || []);
+    const userSignupsLast30Days = groupByDateFilled(recentUsers || []);
+    const sessionsLast30Days = groupByDateFilled(recentSessions || []);
 
     return NextResponse.json({
       totalUsers: totalUsers || 0,
