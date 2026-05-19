@@ -314,6 +314,9 @@ Plans:
 | 18. Admin Dashboard Fixes & Enhancements | 4/4 | Not Started | Yes |
 | 20. Production Hardening & Asenkron Mimari | 4/4 | Completed | Yes |
 | 21. Error Handling & Loading States | 2/2 | Completed | Yes |
+| 22. Rapor Kalitesi & Veri Zenginleştirme | 1/4 | In Progress | No |
+| 23. Teknik Analiz & Karşılaştırmalı Göstergeler | 0/3 | Not Started | No |
+| 24. Profesyonel PDF Rapor Yeniden Tasarımı | 0/2 | Not Started | No |
 
 ### Phase 21: Error Handling & Loading States
 **Goal**: Improve UX by adding comprehensive global and component-level error handling, and implement loading states (e.g., page transition loaders from landing to dashboard) for smoother navigation.
@@ -327,3 +330,50 @@ Plans:
 Plans:
 - [x] 21-01-PLAN.md — Global Error Handling & Error Boundaries
 - [x] 21-02-PLAN.md — Page Transition Loading States & Skeletons
+
+### Phase 22: Rapor Kalitesi & Veri Zenginleştirme
+**Goal**: Rapordaki kritik eksikleri kapat: AL/TUT/SAT tavsiyesini görünür kıl, TCMB verilerindeki N/A sorununu düzelt, her veri bloğuna "son güncelleme" zaman damgası ekle ve Yahoo Finance'dan çekilen temel finansal rasyoları genişlet (P/B, ROE, ROA, Beta, Free Float, Net Marj).
+**Depends on**: Phase 21
+**Requirements**: RPT-01, RPT-02, RPT-03, RPT-04
+**Success Criteria** (what must be TRUE):
+  1. Rapor sayfasının üst kısmında AL/TUT/SAT kartı (InvestmentCard) güven skoru ile birlikte her zaman görünür.
+  2. TCMB endpoint'i TÜFE ve Politika Faizi verisini dönemediğinde "N/A" yerine son bilinen değeri veya açıklayıcı fallback mesajını gösterir.
+  3. Fiyat, makro ve haber bloklarının her birinde "X dakika önce güncellendi" şeklinde zaman damgası gösterilir.
+  4. Rapor sayfasında P/B, ROE, ROA, Beta, Net Marj ve Free Float rasyoları Temel Göstergeler kartında listelenir.
+  5. Yeni rasyolar Yahoo Finance `quoteSummary` endpoint'inden çekilir; eksik alan varsa "-" ile gösterilir, sessizce patlamaz.
+**Plans**: 3 plans
+Plans:
+- [ ] 22-01-PLAN.md — AL/TUT/SAT Kartı Entegrasyonu & TCMB Graceful Fallback
+- [ ] 22-02-PLAN.md — Stale Data Timestamp & Temel Finansal Rasyolar
+- [ ] 22-03-PLAN.md — Yahoo Finance quoteSummary Genişletmesi & Tip Güncellemeleri
+
+### Phase 23: Teknik Analiz & Karşılaştırmalı Göstergeler
+**Goal**: PriceChart üzerine MA20/MA50/MA200 overlay'leri ve ayrı bir RSI paneli ekle; hacim anomali tespiti ile anormal işlem günlerini vurgula; BIST100 relative performance karşılaştırması ile hissenin endekse göre performansını göster.
+**Depends on**: Phase 22
+**Requirements**: TA-01, TA-02, TA-03
+**Success Criteria** (what must be TRUE):
+  1. PriceChart üzerinde MA20, MA50 ve MA200 toggle edilebilir çizgiler olarak görüntülenir; varsayılan olarak MA50 açık.
+  2. Fiyat grafiğinin altında ayrı bir RSI (14) paneli bulunur; 70 üstü kırmızı, 30 altı yeşil bölge ile işaretlenir.
+  3. Hacim çubuğu grafiği ortalama hacmin 2 katını aşan günleri turuncu/kırmızı ile vurgular ve tooltip'te "Anormal Hacim: X" gösterir.
+  4. Raporda BIST100 ile aynı dönem relative performance karşılaştırması (örn. "ASELSAN +91% | BIST100 +42%") gösterilir.
+  5. Tüm hesaplamalar (MA, RSI, hacim ortalaması) istemci tarafında mevcut OHLCV verisinden türetilir; ekstra API çağrısı gerektirmez.
+**Plans**: 3 plans
+Plans:
+- [ ] 23-01-PLAN.md — MA20/50/200 Toggle Overlays & RSI Panel
+- [ ] 23-02-PLAN.md — Hacim Anomali Tespiti & Görsel Vurgu
+- [ ] 23-03-PLAN.md — BIST100 Relative Performance Karşılaştırması
+
+### Phase 24: Profesyonel PDF Rapor Yeniden Tasarımı
+**Goal**: Mevcut jsPDF tabanlı, Türkçe karakter bozukluğu olan ve ham Markdown içeren 2 sayfalık PDF çıktısını, `@react-pdf/renderer` kullanarak profesyonel, kurumsal görünümlü 10–12 sayfalık bir rapora dönüştürmek.
+**Depends on**: Phase 21
+**Requirements**: PDF-01, PDF-02, PDF-03
+**Success Criteria** (what must be TRUE):
+  1. Üretilen PDF'de Türkçe karakterler (ş, ı, ğ, ü, ö, ç) hiç bozulmadan görünür.
+  2. PDF 12 bölüm sayfası içerir: kapak, içindekiler, yönetici özeti, yatırım tavsiyesi, piyasa verileri, KAP bildirimleri, haberler, riskler, fırsatlar, makro bağlam, veri özeti, yasal uyarı.
+  3. AI çıktısındaki Markdown işaretleri (`#`, `*`, `**`) PDF'de görünmez; düzgün formatlanmış başlık/madde olarak render edilir.
+  4. `investmentRecommendation` (AL/TUT/SAT rozeti, puan, görünüm) PDF'e yansır.
+  5. Tasarım kurumsal standartlarda: tutarlı renk paleti (lacivert/mavi/yeşil/kırmızı), tipografi hiyerarşisi, her sayfada header/footer ve sayfa numaralandırması.
+**Plans**: 2 plans
+Plans:
+- [ ] 24-01-PLAN.md — Kütüphane Migrasyonu: jsPDF → @react-pdf/renderer + Türkçe Font Desteği
+- [ ] 24-02-PLAN.md — Profesyonel 10–12 Sayfalık Kurumsal PDF Tasarımı
