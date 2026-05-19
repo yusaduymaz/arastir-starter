@@ -124,7 +124,7 @@ export default function AdminDashboard() {
               { label: 'Kullanıcıları Yönet', href: '/admin/users' },
               { label: 'Oturum İzleme', href: '/admin/sessions' },
               { label: 'Sistem Logları', href: '/admin/logs' },
-              { label: 'API Durumu', href: '#' },
+              { label: 'API Durumu', href: '/admin/api-status' },
             ].map((action) => (
               <a
                 key={action.label}
