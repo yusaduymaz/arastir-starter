@@ -277,6 +277,22 @@ Plans:
 - [ ] 19-03-PLAN.md — Dashboard Settings Abonelik Tab (Wave 2)
 - [ ] 19-04-PLAN.md — Stripe API Routes: Checkout + Portal + Webhook (Wave 3)
 
+### Phase 20: Production Hardening & Asenkron Mimari
+**Goal**: Güvenli, ölçeklenebilir ve Vercel production ortamında kesintiye uğramayacak bir altyapı kurmak.
+**Depends on**: Phase 14
+**Requirements**: HARDEN-01, HARDEN-02, HARDEN-03, HARDEN-04
+**Success Criteria** (what must be TRUE):
+  1. `executeResearchPipeline` fonksiyonu bir Upstash QStash (veya Inngest) webhook'u olarak arka planda çalıştırılmalı ve Vercel timeout sorunları aşılmalıdır.
+  2. Token düşüm işlemi Supabase RPC ile (Atomic Transaction) gerçekleştirilmeli ve race condition'lar engellenmelidir.
+  3. API endpoint'lerinde Upstash Redis tabanlı Rate Limiting devreye alınmalıdır.
+  4. Sentry (veya muadili) entegre edilerek üretim ortamında unhandled rejection ve agent çökmeleri anlık izlenebilmelidir.
+**Plans**: 4 plans
+Plans:
+- [ ] 20-01-PLAN.md — Arka Plan İş Kuyruğu (Upstash QStash) Entegrasyonu
+- [ ] 20-02-PLAN.md — Supabase RPC ile Atomik Token Ledger
+- [ ] 20-03-PLAN.md — Upstash Redis Rate Limiting
+- [ ] 20-04-PLAN.md — Sentry Error Tracking ve Loglama
+
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
@@ -296,3 +312,4 @@ Plans:
 | 19. SaaS Stripe Billing & Pricing UI | 4/4 | Completed | Yes |
 | 17. Admin Panel | 2/2 | Completed | Yes |
 | 18. Admin Dashboard Fixes & Enhancements | 0/4 | Not Started | No |
+| 20. Production Hardening & Asenkron Mimari | 0/4 | Not Started | No |
