@@ -2,7 +2,7 @@ import React from "react";
 import { SettingsForm } from "@/components/dashboard/SettingsForm";
 import { auth } from "@clerk/nextjs/server";
 import { createClient } from "@supabase/supabase-js";
-import { UserSettings } from "@/types/saas";
+import { UserSettings, Tier, SubscriptionStatus } from "@/types/saas";
 
 export const metadata = {
   title: "Ayarlar | Araştır Terminal",
@@ -27,9 +27,42 @@ export default async function SettingsPage() {
       .select('*')
       .eq('user_id', userId)
       .single();
-      
+
     if (settings) {
       initialSettings = settings;
+    }
+  }
+
+  let subscriptionData = {
+    tier: 'free' as Tier,
+    subscriptionStatus: 'inactive' as SubscriptionStatus,
+    tokensBalance: 5,
+    currentPeriodEnd: null as string | null,
+    cancelAtPeriodEnd: false,
+  };
+
+  if (userId) {
+    const [{ data: userProfile }, { data: balanceData }] = await Promise.all([
+      supabase
+        .from('users')
+        .select('tier, subscription_status, current_period_end, cancel_at_period_end')
+        .eq('id', userId)
+        .single(),
+      supabase
+        .from('user_balances')
+        .select('balance')
+        .eq('user_id', userId)
+        .single(),
+    ]);
+
+    if (userProfile) {
+      subscriptionData = {
+        tier: (userProfile.tier ?? 'free') as Tier,
+        subscriptionStatus: (userProfile.subscription_status ?? 'inactive') as SubscriptionStatus,
+        tokensBalance: balanceData?.balance ?? 5,
+        currentPeriodEnd: userProfile.current_period_end ?? null,
+        cancelAtPeriodEnd: userProfile.cancel_at_period_end ?? false,
+      };
     }
   }
 
@@ -49,7 +82,7 @@ export default async function SettingsPage() {
         <span className="font-['JetBrains_Mono'] text-[10px] text-[#22c55e]/50 tracking-widest uppercase">
           // AYARLAR
         </span>
-        <SettingsForm initialSettings={initialSettings} />
+        <SettingsForm initialSettings={initialSettings} subscription={subscriptionData} />
       </div>
 
       {/* Decorative terminal artifacts */}

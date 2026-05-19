@@ -8,11 +8,12 @@ import { ComparisonSection } from '@/components/landing/ComparisonSection';
 import { PipelineSection } from '@/components/landing/PipelineSection';
 import { OutputSection } from '@/components/landing/OutputSection';
 import { CTASection } from '@/components/landing/CTASection';
+import { PricingSection } from '@/components/landing/PricingSection';
 
 const NAV_LINKS = [
   { href: '#pipeline', label: 'Özellikler' },
   { href: '#pipeline', label: 'Nasıl Çalışır' },
-  { href: '#cta', label: 'Fiyatlandırma' },
+  { href: '#pricing', label: 'Fiyatlandırma' },
 ]
 
 export default function LandingPage() {
@@ -85,6 +86,9 @@ export default function LandingPage() {
         <ComparisonSection />
         <PipelineSection />
         <OutputSection />
+        <div id="pricing">
+          <PricingSection />
+        </div>
         <div id="cta">
           <CTASection />
         </div>

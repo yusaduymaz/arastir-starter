@@ -77,28 +77,16 @@ export async function PUT(
 
     // Handle token adjustment (only if defined and non-zero)
     if (token_adjustment !== undefined && token_adjustment !== 0) {
-      try {
-        await supabase.from('token_ledger').insert({
-          user_id: params.userId,
-          delta: token_adjustment,
-          reason: 'admin_adjustment',
-          admin_id: adminId,
-        });
-      } catch {
-        // Fallback: update tokens_balance directly
-        const { data: currentUser } = await supabase
-          .from('users')
-          .select('tokens_balance')
-          .eq('id', params.userId)
-          .single();
+      const { error: ledgerError } = await supabase.from('token_ledger').insert({
+        user_id: params.userId,
+        amount: token_adjustment,
+        transaction_type: token_adjustment > 0 ? 'grant' : 'refund',
+        description: `Admin ayarlaması (${adminId ?? 'bilinmeyen'})`,
+      });
 
-        const currentBalance = currentUser?.tokens_balance || 0;
-        const newBalance = Math.max(0, currentBalance + token_adjustment);
-
-        await supabase
-          .from('users')
-          .update({ tokens_balance: newBalance })
-          .eq('id', params.userId);
+      if (ledgerError) {
+        console.error('Error inserting token ledger entry:', ledgerError);
+        return new NextResponse('Token ledger update failed', { status: 500 });
       }
 
       // Log token adjustment

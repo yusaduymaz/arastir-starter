@@ -4,8 +4,10 @@ import React from "react";
 import Link from "next/link";
 import { TokenDisplay } from "@/components/dashboard/TokenDisplay";
 import { SidebarNav } from "@/components/dashboard/SidebarNav";
+import { isAdmin } from "@/lib/auth-utils";
 
-const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
+  const adminUser = await isAdmin();
   return (
     <div className="bg-black text-on-surface h-screen overflow-hidden flex font-body-md mesh-bg">
 
@@ -52,12 +54,32 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
           </div>
 
-          {/* Bottom: user */}
-          <div className="flex items-center gap-3 pt-4 border-t border-[#22c55e]/10">
-            <UserButton afterSignOutUrl="/" />
-            <div className="flex flex-col">
-              <span className="text-[11px] text-[#c5c6cc] font-medium">Kullanıcı</span>
-              <span className="font-['JetBrains_Mono'] text-[9px] text-[#22c55e]/60">● Online</span>
+          {/* Bottom: admin button + user */}
+          <div className="flex flex-col gap-3">
+            {adminUser && (
+              <Link
+                href="/admin"
+                className="flex items-center gap-2 w-full px-3 py-2 rounded border border-[#22c55e]/30 bg-[#22c55e]/5 hover:bg-[#22c55e]/10 hover:border-[#22c55e]/50 transition-colors group"
+              >
+                <svg
+                  className="w-3.5 h-3.5 text-[#22c55e] shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+                <span className="font-['JetBrains_Mono'] text-[10px] text-[#22c55e] tracking-wider uppercase group-hover:text-[#4ade80]">
+                  Admin Paneli
+                </span>
+              </Link>
+            )}
+            <div className="flex items-center gap-3 pt-3 border-t border-[#22c55e]/10">
+              <UserButton afterSignOutUrl="/" />
+              <div className="flex flex-col">
+                <span className="text-[11px] text-[#c5c6cc] font-medium">Kullanıcı</span>
+                <span className="font-['JetBrains_Mono'] text-[9px] text-[#22c55e]/60">● Online</span>
+              </div>
             </div>
           </div>
         </div>

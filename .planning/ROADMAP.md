@@ -243,6 +243,40 @@ Plans:
 - [ ] 16-03-PLAN.md — Harden KAP Client + Fix News Agent Relevance
 - [ ] 16-04-PLAN.md — Complete Agent-API Wiring & Provenance Tagging
 
+### Phase 18: Admin Dashboard Fixes & Enhancements
+**Goal**: Fix the admin analytics charts (empty/blank due to missing zero-fill), implement token add/remove operations for users, create Sistem Logları and API Durumu pages with proper sidebar navigation, and fix all broken `href: '#'` quick-action links on the admin dashboard.
+**Depends on**: Phase 17
+**Requirements**: ADMIN-FIX-01, ADMIN-FIX-02, ADMIN-FIX-03, ADMIN-FIX-04
+**Success Criteria** (what must be TRUE):
+  1. Günlük Kayıt Akışı and Araştırma Yoğunluğu charts always render 30 bars (zero-filled days).
+  2. Admin can add or subtract tokens for any user from the EditUserDialog.
+  3. `/admin/logs` page exists and shows admin audit logs; linked in sidebar and dashboard.
+  4. `/admin/api-status` page exists and shows provider config status; linked in sidebar and dashboard.
+  5. Admin dashboard quick-actions contain no `href: '#'` entries.
+**Plans**: 4 plans
+Plans:
+- [ ] 18-01-PLAN.md — Fix Analytics Charts (30-Day Zero-Fill)
+- [ ] 18-02-PLAN.md — Token Add/Remove — API Extension + EditUserDialog UI
+- [ ] 18-03-PLAN.md — Sistem Logları Page + AdminSidebar Entry
+- [ ] 18-04-PLAN.md — API Durumu Page + AdminSidebar Entry
+
+### Phase 19: SaaS Stripe Billing & Pricing UI
+**Goal**: Transition the app into a fully monetized SaaS product. Add a Pricing section to the landing page with 3 paid tiers + Enterprise, integrate Stripe Checkout and Customer Portal for subscription management, and add an Abonelik (Subscription) tab to the dashboard Settings page where users can view their current plan and manage billing.
+**Depends on**: Phase 18
+**Requirements**: STRIPE-01, STRIPE-02, STRIPE-03, STRIPE-04, STRIPE-05, STRIPE-06, STRIPE-07
+**Success Criteria** (what must be TRUE):
+  1. Landing page has a `/pricing` section with Starter (₺299/ay · 30 token), Pro (₺799/ay · 100 token), Agency (₺2499/ay · 500 token), and Enterprise cards.
+  2. Clicking a plan CTA initiates Stripe Checkout; successful payment activates the subscription in Supabase.
+  3. Dashboard Settings has an "Abonelik" tab showing current tier, token balance, renewal date, and cancel status.
+  4. Subscribed users can open Stripe Customer Portal to cancel, change plan, or update payment info.
+  5. Stripe webhooks keep `users.tier`, `subscription_status`, and `tokens_balance` in sync on all subscription lifecycle events.
+**Plans**: 4 plans
+Plans:
+- [ ] 19-01-PLAN.md — DB Schema + Stripe Client (Wave 1)
+- [ ] 19-02-PLAN.md — Landing Page PricingSection (Wave 1)
+- [ ] 19-03-PLAN.md — Dashboard Settings Abonelik Tab (Wave 2)
+- [ ] 19-04-PLAN.md — Stripe API Routes: Checkout + Portal + Webhook (Wave 3)
+
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
@@ -259,3 +293,6 @@ Plans:
 | 14. Real-Time UX & Polish | 2/2 | Completed | Yes |
 | 15. External Market Data APIs (RapidAPI) | 7/7 | Completed | Yes |
 | 16. Multi-Source Research Agents & Live Cards | 0/4 | In Progress | No |
+| 19. SaaS Stripe Billing & Pricing UI | 4/4 | Completed | Yes |
+| 17. Admin Panel | 2/2 | Completed | Yes |
+| 18. Admin Dashboard Fixes & Enhancements | 0/4 | Not Started | No |
