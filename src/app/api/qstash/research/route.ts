@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { verifySignature } from '@upstash/qstash/nextjs'
 import { createClient } from '@supabase/supabase-js'
+import * as Sentry from '@sentry/nextjs'
 import * as path from 'path'
 import { TickerExtractionResult } from '@/lib/ticker-extractor'
 import { AgentLogEntry } from '@/types/research'
@@ -357,6 +358,7 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
 
   } catch (error: any) {
     console.error(`[Pipeline Error]`, error);
+    Sentry.captureException(error);
 
     await appendAgentLog(supabase, recordId, {
       agent: 'orchestrator',
@@ -400,6 +402,7 @@ async function handler(request: Request) {
     return NextResponse.json({ success: true })
   } catch (err: any) {
     console.error('QStash worker error:', err)
+    Sentry.captureException(err)
     return NextResponse.json({ error: err.message }, { status: 500 })
   }
 }

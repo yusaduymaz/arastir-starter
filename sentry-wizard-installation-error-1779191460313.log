@@ -1,0 +1,28 @@
+npm error code ERESOLVE
+npm error ERESOLVE could not resolve
+npm error
+npm error While resolving: @clerk/nextjs@4.31.8
+npm error Found: next@14.2.5
+npm error node_modules/next
+npm error   next@"14.2.5" from the root project
+npm error   peer next@"^13.2.0 || ^14.0 || ^15.0.0-rc.0 || ^16.0.0-0" from @sentry/nextjs@10.53.1
+npm error   node_modules/@sentry/nextjs
+npm error     @sentry/nextjs@"10" from the root project
+npm error
+npm error Could not resolve dependency:
+npm error peer next@"^10 || ^13.5.7 || ^14.2.25 || ^15.2.3" from @clerk/nextjs@4.31.8
+npm error node_modules/@clerk/nextjs
+npm error   @clerk/nextjs@"^4.31.8" from the root project
+npm error
+npm error Conflicting peer dependency: next@15.5.18
+npm error node_modules/next
+npm error   peer next@"^10 || ^13.5.7 || ^14.2.25 || ^15.2.3" from @clerk/nextjs@4.31.8
+npm error   node_modules/@clerk/nextjs
+npm error     @clerk/nextjs@"^4.31.8" from the root project
+npm error
+npm error Fix the upstream dependency conflict, or retry this command with --force or --legacy-peer-deps to accept an incorrect (and potentially broken) dependency resolution.
+npm error
+npm error
+npm error For a full report see:
+npm error C:\Users\duyma\AppData\Local\npm-cache\_logs\2026-05-19T11_50_57_416Z-eresolve-report.txt
+npm error A complete log of this run can be found in: C:\Users\duyma\AppData\Local\npm-cache\_logs\2026-05-19T11_50_57_416Z-debug-0.log

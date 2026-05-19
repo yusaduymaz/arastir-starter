@@ -288,10 +288,10 @@ Plans:
   4. Sentry (veya muadili) entegre edilerek üretim ortamında unhandled rejection ve agent çökmeleri anlık izlenebilmelidir.
 **Plans**: 4 plans
 Plans:
-- [ ] 20-01-PLAN.md — Arka Plan İş Kuyruğu (Upstash QStash) Entegrasyonu
-- [ ] 20-02-PLAN.md — Supabase RPC ile Atomik Token Ledger
-- [ ] 20-03-PLAN.md — Upstash Redis Rate Limiting
-- [ ] 20-04-PLAN.md — Sentry Error Tracking ve Loglama
+- [x] 20-01-PLAN.md — Arka Plan İş Kuyruğu (Upstash QStash) Entegrasyonu
+- [x] 20-02-PLAN.md — Supabase RPC ile Atomik Token Ledger
+- [x] 20-03-PLAN.md — Upstash Redis Rate Limiting
+- [x] 20-04-PLAN.md — Sentry Error Tracking ve Loglama
 
 ## Progress
 
@@ -312,4 +312,5 @@ Plans:
 | 19. SaaS Stripe Billing & Pricing UI | 4/4 | Completed | Yes |
 | 17. Admin Panel | 2/2 | Completed | Yes |
 | 18. Admin Dashboard Fixes & Enhancements | 0/4 | Not Started | No |
-| 20. Production Hardening & Asenkron Mimari | 0/4 | Not Started | No |
+| 20. Production Hardening & Asenkron Mimari | 4/4 | Completed | Yes |
+

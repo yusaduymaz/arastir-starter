@@ -18,6 +18,7 @@ import { extractTicker } from '@/lib/ticker-extractor'
 import { validateEnv, EnvValidationError } from '@/lib/env-check'
 import { Client } from '@upstash/qstash'
 import { ratelimit } from '@/lib/ratelimit'
+import * as Sentry from '@sentry/nextjs'
 
 const qstash = new Client({
   token: process.env.QSTASH_TOKEN || ''
@@ -208,6 +209,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, id: record.id, ticker }, { status: 202 })
 
   } catch (err: any) {
+    Sentry.captureException(err)
     return NextResponse.json({ error: err.message }, { status: 500 })
   }
 }
