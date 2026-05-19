@@ -17,6 +17,7 @@ import { createClient } from '@supabase/supabase-js'
 import { extractTicker } from '@/lib/ticker-extractor'
 import { validateEnv, EnvValidationError } from '@/lib/env-check'
 import { Client } from '@upstash/qstash'
+import { ratelimit } from '@/lib/ratelimit'
 
 const qstash = new Client({
   token: process.env.QSTASH_TOKEN || ''
@@ -42,6 +43,18 @@ export async function POST(request: Request) {
 
     if (!userId) {
       return NextResponse.json({ error: 'Yetkisiz erisim' }, { status: 401 })
+    }
+
+    // Rate Limiting
+    const ip = request.headers.get('x-forwarded-for') || '127.0.0.1';
+    const identifier = userId || ip;
+    const { success: rateLimitSuccess } = await ratelimit.limit(identifier);
+
+    if (!rateLimitSuccess) {
+      return NextResponse.json(
+        { error: 'Cok fazla istek gonderdiniz. Lutfen biraz bekleyip tekrar deneyin.' },
+        { status: 429 }
+      );
     }
 
     const body = await request.json()
