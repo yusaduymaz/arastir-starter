@@ -50,7 +50,7 @@ const nextConfig = {
   },
 }
 
-const finalConfig = process.env.NODE_ENV === "production" && process.env.SENTRY_AUTH_TOKEN
+const finalConfig = process.env.NODE_ENV === "production" && process.env.SENTRY_AUTH_TOKEN && process.env.ENABLE_SENTRY === "true"
   ? withSentryConfig(nextConfig, {
       // For all available options, see:
       // https://www.npmjs.com/package/@sentry/webpack-plugin#options
