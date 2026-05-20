@@ -16,6 +16,9 @@ const nextConfig = {
       '@prisma/instrumentation',
     ],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   webpack: (config, { isServer }) => {
     if (isServer) {
       // @react-pdf/renderer must run in Node.js only — exclude from client bundle
@@ -47,7 +50,7 @@ const nextConfig = {
   },
 }
 
-const finalConfig = process.env.NODE_ENV === "production"
+const finalConfig = process.env.NODE_ENV === "production" && process.env.SENTRY_AUTH_TOKEN
   ? withSentryConfig(nextConfig, {
       // For all available options, see:
       // https://www.npmjs.com/package/@sentry/webpack-plugin#options

@@ -4,6 +4,8 @@ import { auth } from "@clerk/nextjs/server";
 import { createClient } from "@supabase/supabase-js";
 import { UserSettings, Tier, SubscriptionStatus } from "@/types/saas";
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: "Ayarlar | Araştır Terminal",
   description: "Kullanıcı tercihleri ve API ayarları",

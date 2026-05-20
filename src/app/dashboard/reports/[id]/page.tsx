@@ -6,6 +6,8 @@ import { notFound } from 'next/navigation';
 import { MarketDataCard } from '@/components/dashboard/MarketDataCard';
 import { MacroDataCard } from '@/components/dashboard/MacroDataCard';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ReportDetailPage({ params }: { params: { id: string } }) {
   const { userId } = auth();
   if (!userId) return notFound();
