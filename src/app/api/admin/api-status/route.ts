@@ -2,21 +2,31 @@ import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { isAdmin } from '@/lib/auth-utils';
 
-const PROVIDERS = [
-  { name: 'KAP', envVar: 'RAPIDAPI_KEY' },
-  { name: 'TCMB', envVar: 'TCMB_API_KEY' },
-  { name: 'CNBC', envVar: 'RAPIDAPI_CNBC_KEY' },
-  { name: 'Harem Altın', envVar: 'RAPIDAPI_HAREM_KEY' },
-  { name: 'Finance API', envVar: 'RAPIDAPI_FINANCE_API_KEY' },
-  { name: 'Exchange Rates', envVar: 'RAPIDAPI_EXCHANGE_RATES_KEY' },
-  { name: 'Crypto News', envVar: 'RAPIDAPI_CRYPTO_NEWS_KEY' },
-  { name: 'Yahoo Finance (YH)', envVar: 'RAPIDAPI_YH_FINANCE_KEY' },
-  { name: 'Yahoo Finance Real-Time', envVar: 'RAPIDAPI_YAHOO_RT_KEY' },
-  { name: 'Crypto RSI', envVar: 'RAPIDAPI_CRYPTO_RSI_KEY' },
-  { name: 'Forex API', envVar: 'RAPIDAPI_FOREX_KEY' },
-  { name: 'Turkey Financial Data', envVar: 'RAPIDAPI_TURKEY_FINANCIAL_KEY' },
-  { name: 'Real-time Finance Data', envVar: 'RAPIDAPI_REALTIME_FINANCE_KEY' },
-  { name: 'Turkey News Live', envVar: 'RAPIDAPI_TURKEY_NEWS_KEY' },
+import { RapidApiProvider, getRapidApiKey } from '@/lib/rapidapi/types';
+
+interface ProviderCheck {
+  name: string;
+  type: 'custom' | 'rapidapi';
+  envVar: string;
+  provider?: RapidApiProvider;
+  check?: () => boolean;
+}
+
+const PROVIDERS: ProviderCheck[] = [
+  { name: 'KAP', type: 'custom', check: () => true, envVar: 'Public (No Key Needed)' },
+  { name: 'TCMB', type: 'custom', check: () => !!process.env.TCMB_EVDS_API_KEY, envVar: 'TCMB_EVDS_API_KEY' },
+  { name: 'CNBC', type: 'rapidapi', provider: RapidApiProvider.CNBC, envVar: 'RAPIDAPI_CNBC_KEY' },
+  { name: 'Harem Altın', type: 'rapidapi', provider: RapidApiProvider.HaremAltin, envVar: 'RAPIDAPI_HAREM_ALTIN_KEY' },
+  { name: 'Finance API', type: 'rapidapi', provider: RapidApiProvider.FinanceAPI, envVar: 'RAPIDAPI_FINANCE_API_KEY' },
+  { name: 'Exchange Rates', type: 'rapidapi', provider: RapidApiProvider.ExchangeRates, envVar: 'RAPIDAPI_EXCHANGE_RATES_KEY' },
+  { name: 'Crypto News', type: 'rapidapi', provider: RapidApiProvider.CryptoNews, envVar: 'RAPIDAPI_CRYPTO_NEWS_KEY' },
+  { name: 'Yahoo Finance (YH)', type: 'rapidapi', provider: RapidApiProvider.YFinance, envVar: 'RAPIDAPI_YH_FINANCE_KEY' },
+  { name: 'Yahoo Finance Real-Time', type: 'rapidapi', provider: RapidApiProvider.YahooRealTime, envVar: 'RAPIDAPI_YAHOO_REALTIME_KEY' },
+  { name: 'Crypto RSI', type: 'rapidapi', provider: RapidApiProvider.CryptoRSI, envVar: 'RAPIDAPI_CRYPTO_INDICATORS_KEY' },
+  { name: 'Forex API', type: 'rapidapi', provider: RapidApiProvider.ForexAPI, envVar: 'RAPIDAPI_FOREX_KEY' },
+  { name: 'Turkey Financial Data', type: 'rapidapi', provider: RapidApiProvider.TurkeyFinancial, envVar: 'RAPIDAPI_TURKEY_FINANCE_KEY' },
+  { name: 'Real-time Finance Data', type: 'rapidapi', provider: RapidApiProvider.RealTimeFinance, envVar: 'RAPIDAPI_RT_FINANCE_KEY' },
+  { name: 'Turkey News Live', type: 'rapidapi', provider: RapidApiProvider.TurkeyNews, envVar: 'RAPIDAPI_TURKEY_NEWS_KEY' },
 ];
 
 export async function GET() {
@@ -37,10 +47,19 @@ export async function GET() {
     const clerkConfigured = !!(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY && process.env.CLERK_SECRET_KEY);
 
     // Check providers
-    const providers = PROVIDERS.map((p) => ({
-      ...p,
-      configured: !!process.env[p.envVar],
-    }));
+    const providers = PROVIDERS.map((p) => {
+      let configured = false;
+      if (p.type === 'custom' && p.check) {
+        configured = p.check();
+      } else if (p.type === 'rapidapi' && p.provider) {
+        configured = !!getRapidApiKey(p.provider);
+      }
+      return {
+        name: p.name,
+        envVar: p.envVar,
+        configured,
+      };
+    });
 
     return NextResponse.json({
       services: {

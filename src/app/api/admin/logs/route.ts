@@ -20,13 +20,32 @@ export async function GET(request: Request) {
 
     let agentLogs: any[] = [];
     try {
-      const { data } = await supabase
-        .from('agent_logs')
-        .select('id, session_id, agent_name, level, message, created_at')
+      const { data: sessions } = await supabase
+        .from('research_sessions')
+        .select('id, query, extracted_ticker, agent_logs, created_at')
         .order('created_at', { ascending: false })
         .limit(limit);
-      agentLogs = data || [];
-    } catch { /* agent_logs table may not exist */ }
+
+      if (sessions) {
+        sessions.forEach(session => {
+          const logsList = session.agent_logs || [];
+          if (Array.isArray(logsList)) {
+            logsList.forEach((log: any, index: number) => {
+              agentLogs.push({
+                id: `${session.id}-${index}`,
+                session_id: session.id,
+                agent_name: log.agent || 'orchestrator',
+                level: log.status || 'info',
+                message: log.message || '',
+                created_at: log.timestamp || session.created_at,
+              });
+            });
+          }
+        });
+      }
+    } catch (e) {
+      console.error('Error fetching/extracting agent logs:', e);
+    }
 
     const merged = [
       ...(auditLogs || []).map((l) => ({ ...l, source: 'audit' as const })),

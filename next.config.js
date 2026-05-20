@@ -12,6 +12,8 @@ const nextConfig = {
       'clone-deep',
       'pptxgenjs',
       '@react-pdf/renderer',
+      '@opentelemetry/instrumentation',
+      '@prisma/instrumentation',
     ],
   },
   webpack: (config, { isServer }) => {

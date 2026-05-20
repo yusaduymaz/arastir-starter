@@ -50,7 +50,7 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
       }, (payload) => {
         const updated = payload.new as ResearchSession
         setTask(updated)
-        if (updated.status === 'failed') {
+        if (updated.status === 'failed' || updated.status === 'completed') {
           setTimeout(() => router.refresh(), 2000)
         }
       })
@@ -85,9 +85,33 @@ export function ActivePipeline({ initialTask }: ActivePipelineProps) {
       })
       .subscribe()
 
+    // Polling fallback: realtime can miss events under rapid sequential DB updates.
+    // Poll every 5s while running so a missed completion event is caught within 5s.
+    const pollInterval = setInterval(async () => {
+      setTask(prev => {
+        if (prev.status !== 'running') return prev
+        return prev
+      })
+      const { data } = await supabase
+        .from('research_sessions')
+        .select('*')
+        .eq('id', initialTask.id)
+        .single()
+      if (data) {
+        setTask(current => {
+          if (current.status === 'running' && (data.status === 'completed' || data.status === 'failed')) {
+            setTimeout(() => router.refresh(), 2000)
+          }
+          if (current.status === 'running') return data as ResearchSession
+          return current
+        })
+      }
+    }, 5000)
+
     return () => {
       supabase.removeChannel(taskChannel)
       supabase.removeChannel(runsChannel)
+      clearInterval(pollInterval)
     }
   }, [initialTask.id, router])
 

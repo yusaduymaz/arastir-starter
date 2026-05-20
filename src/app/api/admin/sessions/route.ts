@@ -20,7 +20,7 @@ export async function GET(request: Request) {
 
     let query = supabase
       .from('research_sessions')
-      .select('*, users(email)', { count: 'exact' });
+      .select('*', { count: 'exact' });
 
     if (statusFilter) {
       query = query.eq('status', statusFilter);
@@ -35,8 +35,29 @@ export async function GET(request: Request) {
       return new NextResponse('Internal Server Error', { status: 500 });
     }
 
+    // Since there is no foreign key relation in the DB schema between research_sessions and users,
+    // we fetch user emails separately to avoid PostgREST PGRST200 errors.
+    let sessionsWithUser = sessions || [];
+    if (sessions && sessions.length > 0) {
+      const userIds = Array.from(new Set(sessions.map(s => s.user_id).filter(Boolean)));
+      if (userIds.length > 0) {
+        const { data: users, error: usersError } = await supabase
+          .from('users')
+          .select('id, email')
+          .in('id', userIds);
+        
+        if (!usersError && users) {
+          const userMap = new Map(users.map(u => [u.id, u]));
+          sessionsWithUser = sessions.map(session => ({
+            ...session,
+            users: userMap.get(session.user_id) || null
+          }));
+        }
+      }
+    }
+
     return NextResponse.json({
-      sessions,
+      sessions: sessionsWithUser,
       total: count,
       page,
       limit,

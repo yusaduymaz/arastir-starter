@@ -1,16 +1,16 @@
-# Graph Report - arastir-starter  (2026-05-17)
+# Graph Report - arastir-starter  (2026-05-20)
 
 ## Corpus Check
-- 381 files · ~477,367 words
+- 490 files · ~523,402 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 3467 nodes · 4212 edges · 311 communities (274 shown, 37 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 36 edges (avg confidence: 0.8)
+- 4235 nodes · 5228 edges · 387 communities (338 shown, 49 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 41 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ba008636`
+- Built from commit: `7c5a08e2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -289,18 +289,84 @@
 - [[_COMMUNITY_Community 306|Community 306]]
 - [[_COMMUNITY_Community 307|Community 307]]
 - [[_COMMUNITY_Community 308|Community 308]]
+- [[_COMMUNITY_Community 311|Community 311]]
+- [[_COMMUNITY_Community 312|Community 312]]
+- [[_COMMUNITY_Community 313|Community 313]]
+- [[_COMMUNITY_Community 314|Community 314]]
+- [[_COMMUNITY_Community 315|Community 315]]
+- [[_COMMUNITY_Community 316|Community 316]]
+- [[_COMMUNITY_Community 317|Community 317]]
+- [[_COMMUNITY_Community 318|Community 318]]
+- [[_COMMUNITY_Community 319|Community 319]]
+- [[_COMMUNITY_Community 320|Community 320]]
+- [[_COMMUNITY_Community 321|Community 321]]
+- [[_COMMUNITY_Community 322|Community 322]]
+- [[_COMMUNITY_Community 323|Community 323]]
+- [[_COMMUNITY_Community 324|Community 324]]
+- [[_COMMUNITY_Community 325|Community 325]]
+- [[_COMMUNITY_Community 326|Community 326]]
+- [[_COMMUNITY_Community 327|Community 327]]
+- [[_COMMUNITY_Community 328|Community 328]]
+- [[_COMMUNITY_Community 329|Community 329]]
+- [[_COMMUNITY_Community 330|Community 330]]
+- [[_COMMUNITY_Community 331|Community 331]]
+- [[_COMMUNITY_Community 332|Community 332]]
+- [[_COMMUNITY_Community 333|Community 333]]
+- [[_COMMUNITY_Community 334|Community 334]]
+- [[_COMMUNITY_Community 335|Community 335]]
+- [[_COMMUNITY_Community 336|Community 336]]
+- [[_COMMUNITY_Community 337|Community 337]]
+- [[_COMMUNITY_Community 338|Community 338]]
+- [[_COMMUNITY_Community 339|Community 339]]
+- [[_COMMUNITY_Community 340|Community 340]]
+- [[_COMMUNITY_Community 341|Community 341]]
+- [[_COMMUNITY_Community 342|Community 342]]
+- [[_COMMUNITY_Community 343|Community 343]]
+- [[_COMMUNITY_Community 344|Community 344]]
+- [[_COMMUNITY_Community 345|Community 345]]
+- [[_COMMUNITY_Community 346|Community 346]]
+- [[_COMMUNITY_Community 347|Community 347]]
+- [[_COMMUNITY_Community 348|Community 348]]
+- [[_COMMUNITY_Community 349|Community 349]]
+- [[_COMMUNITY_Community 350|Community 350]]
+- [[_COMMUNITY_Community 351|Community 351]]
+- [[_COMMUNITY_Community 352|Community 352]]
+- [[_COMMUNITY_Community 353|Community 353]]
+- [[_COMMUNITY_Community 354|Community 354]]
+- [[_COMMUNITY_Community 355|Community 355]]
+- [[_COMMUNITY_Community 356|Community 356]]
+- [[_COMMUNITY_Community 357|Community 357]]
+- [[_COMMUNITY_Community 358|Community 358]]
+- [[_COMMUNITY_Community 359|Community 359]]
+- [[_COMMUNITY_Community 360|Community 360]]
+- [[_COMMUNITY_Community 362|Community 362]]
+- [[_COMMUNITY_Community 363|Community 363]]
+- [[_COMMUNITY_Community 364|Community 364]]
+- [[_COMMUNITY_Community 365|Community 365]]
+- [[_COMMUNITY_Community 366|Community 366]]
+- [[_COMMUNITY_Community 367|Community 367]]
+- [[_COMMUNITY_Community 368|Community 368]]
+- [[_COMMUNITY_Community 369|Community 369]]
+- [[_COMMUNITY_Community 370|Community 370]]
+- [[_COMMUNITY_Community 371|Community 371]]
+- [[_COMMUNITY_Community 372|Community 372]]
+- [[_COMMUNITY_Community 373|Community 373]]
+- [[_COMMUNITY_Community 382|Community 382]]
+- [[_COMMUNITY_Community 384|Community 384]]
+- [[_COMMUNITY_Community 385|Community 385]]
+- [[_COMMUNITY_Community 386|Community 386]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `Communities (239 total, 20 thin omitted)` - 185 edges
-2. `getRapidApiKey()` - 30 edges
-3. `RapidApiError` - 29 edges
-4. `dependencies` - 26 edges
-5. `C` - 22 edges
-6. `Jhey Tompkins' Animation Principles` - 18 edges
-7. `ne()` - 17 edges
-8. `createClient()` - 17 edges
-9. `Jakub Krehel's Animation Principles` - 17 edges
-10. `handleClick()` - 16 edges
+2. `dependencies` - 32 edges
+3. `getRapidApiKey()` - 31 edges
+4. `RapidApiError` - 29 edges
+5. `reportDate()` - 25 edges
+6. `reportCompany()` - 25 edges
+7. `C` - 22 edges
+8. `isAdmin()` - 22 edges
+9. `ReportData` - 22 edges
+10. `createClient()` - 20 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `cn()` --calls--> `clsx`  [INFERRED]
@@ -314,7 +380,7 @@
 - `main()` --calls--> `fetchDisclosures()`  [EXTRACTED]
   scratch/test-client.ts → src/lib/kap/client.ts
 
-## Communities (311 total, 37 thin omitted)
+## Communities (387 total, 49 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.09
@@ -322,7 +388,7 @@ Nodes (68): C, $(), ae(), at(), be(), bt(), ce(), ct() (+60 more)
 
 ### Community 1 - "Community 1"
 Cohesion: 0.05
-Nodes (45): AnalystInsights, formatMacroContext(), runAnalystAgent(), runMacroAgent(), toDdMmYyyy(), runNewsAgent(), runSearchAgent(), fetchDisclosures() (+37 more)
+Nodes (48): AnalystInsights, formatMacroContext(), InvestmentRecommendation, runAnalystAgent(), safeParseJSON(), runMacroAgent(), toDdMmYyyy(), runNewsAgent() (+40 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.06
@@ -333,8 +399,8 @@ Cohesion: 0.13
 Nodes (10): METRICS, PIPELINE, TRUST, AGENTS, BEZIER, cardVariants, PipelineSection(), SOURCES (+2 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.08
-Nodes (26): dependencies, @anthropic-ai/sdk, @clerk/nextjs, @clerk/themes, clsx, date-fns, framer-motion, @google/generative-ai (+18 more)
+Cohesion: 0.06
+Nodes (31): dependencies, @anthropic-ai/sdk, @clerk/nextjs, @clerk/themes, date-fns, framer-motion, @google/generative-ai, lucide-react (+23 more)
 
 ### Community 5 - "Community 5"
 Cohesion: 0.04
@@ -397,8 +463,8 @@ Cohesion: 0.08
 Nodes (24): Assess Onboarding Needs, code:block1 (No projects yet), code:javascript (// Track which onboarding steps user has seen), Context Over Ceremony, Contextual Help, Design Onboarding Experiences, Documentation & Help, Empty State Design (+16 more)
 
 ### Community 20 - "Community 20"
-Cohesion: 0.18
-Nodes (22): runMarketAgent(), fetchAlphaVantage(), getApiKey(), getCompanyOverview(), getFullMarketData(), getMonthlyPrices(), getStockQuote(), marketCache (+14 more)
+Cohesion: 0.16
+Nodes (26): runMarketAgent(), input, result, fetchAlphaVantage(), getApiKey(), getCompanyOverview(), getFullMarketData(), getMonthlyPrices() (+18 more)
 
 ### Community 21 - "Community 21"
 Cohesion: 0.08
@@ -445,16 +511,16 @@ Cohesion: 0.1
 Nodes (19): Agent Data Pipeline, code:typescript (import { z } from 'zod';), code:typescript (export interface NewsArticle {), code:typescript (import puppeteer from 'puppeteer-extra';), code:typescript (puppeteer.use(StealthPlugin());), code:typescript (} catch (error) {), code:typescript (import * as fs from 'fs';), code:typescript (export async function runNewsAgent(topic: string): Promise<s) (+11 more)
 
 ### Community 32 - "Community 32"
-Cohesion: 0.05
-Nodes (40): saveUserSettings(), AdminLayout(), GET(), POST(), POST(), NAV_ITEMS, MacroData, MacroDataCard() (+32 more)
+Cohesion: 0.11
+Nodes (11): POST(), checkSchema(), { createClient }, { createClient }, migrate(), GET(), SettingsPage(), afterAuth() (+3 more)
 
 ### Community 33 - "Community 33"
 Cohesion: 0.1
 Nodes (19): Clean Up, Code Quality, Color & Contrast, Content & Copy, Design System Discovery, Edge Cases & Error States, Final Verification, Forms & Inputs (+11 more)
 
 ### Community 34 - "Community 34"
-Cohesion: 0.11
-Nodes (18): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+10 more)
+Cohesion: 0.1
+Nodes (19): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+11 more)
 
 ### Community 35 - "Community 35"
 Cohesion: 0.11
@@ -509,8 +575,8 @@ Cohesion: 0.12
 Nodes (16): Avoid Redundant Copy, Confirmation Dialogs: Use Sparingly, Consistency: The Terminology Problem, Don't Blame the User, Empty States Are Opportunities, Error Message Templates, Error Messages: The Formula, Form Instructions (+8 more)
 
 ### Community 48 - "Community 48"
-Cohesion: 0.06
-Nodes (40): main(), runWriterAgent(), ActivePipeline(), ActivePipelineProps, AGENT_CONFIG, STATUS_ICON, HistoryTable(), HistoryTableProps (+32 more)
+Cohesion: 0.08
+Nodes (22): ActivePipeline(), DashboardPage(), TRENDING, PLACEHOLDERS, ProminentSearch(), QUICK_TICKERS, useTypewriter(), ALL_SYMBOLS (+14 more)
 
 ### Community 49 - "Community 49"
 Cohesion: 0.12
@@ -525,8 +591,8 @@ Cohesion: 0.12
 Nodes (15): Cleanup, code:bash (node {{scripts_path}}/live.mjs), code:bash (node {{scripts_path}}/live-server.mjs stop), code:block2 (LOOP:), code:bash (node {{scripts_path}}/live-status.mjs), Exit, Handle `accept`, Handle `discard` (+7 more)
 
 ### Community 52 - "Community 52"
-Cohesion: 0.12
-Nodes (16): 1. Read the screenshot (if present), 2. Wrap the element, 3. Load the action's reference, 5. Apply the freeform prompt (if present), 6. Write all variants in a single edit, 7. Parameters (composition-sized, 0–4 per variant), 8. Signal done, Aborting an in-flight session (+8 more)
+Cohesion: 0.15
+Nodes (13): 1. Read the screenshot (if present), 2. Wrap the element, 3. Load the action's reference, 5. Apply the freeform prompt (if present), 7. Parameters (composition-sized, 0–4 per variant), 8. Signal done, Aborting an in-flight session, code:bash (node {{scripts_path}}/live-poll.mjs --reply EVENT_ID error ") (+5 more)
 
 ### Community 53 - "Community 53"
 Cohesion: 0.12
@@ -553,8 +619,8 @@ Cohesion: 0.13
 Nodes (14): Agent Mimarisi, Araştır — AI-Powered Research Agent, code:block1 (Kullanıcı → [Orchestrator]), code:block2 (arastir/), code:bash (# Tek araştırma başlat), Coding Kuralları, Gemini CLI Komutları, graphify (+6 more)
 
 ### Community 59 - "Community 59"
-Cohesion: 0.1
-Nodes (19): Araştır — Project Roadmap, Phase 10: Vercel-Ready Pipeline Refactor, Phase 11: Multi-Agent SaaS Architecture Redesign, Phase 12: Data Reliability & Vercel Compatibility, Phase 13: Dashboard Extensions, Phase 14: Real-Time UX & Polish, Phase 15: External Market Data APIs (RapidAPI Providers), Phase 16: Multi-Source Research Agents & Live Data Cards (+11 more)
+Cohesion: 0.07
+Nodes (27): Araştır — Project Roadmap, Milestones, Phase 10: Vercel-Ready Pipeline Refactor, Phase 11: Multi-Agent SaaS Architecture Redesign, Phase 12: Data Reliability & Vercel Compatibility, Phase 13: Dashboard Extensions, Phase 14: Real-Time UX & Polish, Phase 15: External Market Data APIs (RapidAPI Providers) (+19 more)
 
 ### Community 60 - "Community 60"
 Cohesion: 0.13
@@ -641,8 +707,8 @@ Cohesion: 0.24
 Nodes (12): beginEditPin(), cancelEditingPin(), finalizeEditingPin(), localCoords(), onAnnotDown(), onAnnotInputKey(), onAnnotMove(), onAnnotUp() (+4 more)
 
 ### Community 81 - "Community 81"
-Cohesion: 0.17
-Nodes (12): buildAnnotationsForCapture(), buildPinElement(), captureAndEmit(), captureElementToBlob(), collectFontCssText(), compileShader(), hideShaderOverlay(), inlineFontUrls() (+4 more)
+Cohesion: 0.06
+Nodes (78): main(), runWriterAgent(), ReportDocument(), ActivePipelineProps, AGENT_CONFIG, STATUS_ICON, HistoryTable(), HistoryTableProps (+70 more)
 
 ### Community 82 - "Community 82"
 Cohesion: 0.32
@@ -837,8 +903,8 @@ Cohesion: 0.29
 Nodes (6): Auto-fixed Issues, Deviations from Plan, Key Commits, Objective, Phase 11 Plan 01: Database Architecture Overhaul Summary, Tasks Completed
 
 ### Community 130 - "Community 130"
-Cohesion: 0.29
-Nodes (7): checkpointPayload(), handleAccept(), handleDiscard(), maybePrefetchPage(), readVisibleVariantFromDOM(), sendCheckpoint(), sendEvent()
+Cohesion: 0.06
+Nodes (36): Action, { container }, recommendation, validActions, MacroData, MacroDataCard(), MarketData, MarketDataCard() (+28 more)
 
 ### Community 131 - "Community 131"
 Cohesion: 0.29
@@ -953,7 +1019,7 @@ Cohesion: 0.5
 Nodes (4): 6. Shared Layout Animations (Jakub), Best Practices, code:jsx (// In one location:), FLIP Technique via layoutId
 
 ### Community 159 - "Community 159"
-Cohesion: 0.5
+Cohesion: 0.67
 Nodes (3): adapt, argumentHint, description
 
 ### Community 160 - "Community 160"
@@ -1037,7 +1103,7 @@ Cohesion: 0.67
 Nodes (3): polish, argumentHint, description
 
 ### Community 190 - "Community 190"
-Cohesion: 0.67
+Cohesion: 0.5
 Nodes (3): quieter, argumentHint, description
 
 ### Community 191 - "Community 191"
@@ -1066,15 +1132,15 @@ Nodes (14): appendOriginToDirective(), buildTagBlock(), commentClose(), commentO
 
 ### Community 240 - "Community 240"
 Cohesion: 0.14
-Nodes (11): NAV_LINKS, BEZIER, ComparisonSection(), NEW_WAY, OLD_WAY, BEZIER, CTASection(), ROLES (+3 more)
+Nodes (12): NAV_LINKS, BEZIER, ComparisonSection(), NEW_WAY, OLD_WAY, BEZIER, CTASection(), ROLES (+4 more)
 
 ### Community 241 - "Community 241"
 Cohesion: 0.12
 Nodes (15): Architecture, Architecture references, Canonical References, Claude's Discretion, code:ts (const LIVE = process.env.RAPIDAPI_LIVE_TESTS === '1';), Configuration, Deferred Ideas (Phase 16 and beyond), Error handling (+7 more)
 
 ### Community 242 - "Community 242"
-Cohesion: 0.13
-Nodes (15): devDependencies, autoprefixer, dotenv, eslint, eslint-config-next, postcss, tailwindcss, ts-node (+7 more)
+Cohesion: 0.11
+Nodes (19): devDependencies, autoprefixer, dotenv, eslint, eslint-config-next, jsdom, postcss, tailwindcss (+11 more)
 
 ### Community 243 - "Community 243"
 Cohesion: 0.18
@@ -1085,8 +1151,8 @@ Cohesion: 0.14
 Nodes (13): 1. Database & Consistency, 2. Orchestrator & Agent Runs, 3. Agent Definition Alignment, 4. UI/UX Fixes, Implementation Plan - Fixing Pipeline Visibility and History 404, Proposed Changes, Proposed Tasks, Task 1: History Page Table Consolidations (+5 more)
 
 ### Community 245 - "Community 245"
-Cohesion: 0.26
-Nodes (8): AdminSidebar(), navigation, StatCard(), StatCardProps, cn(), BorderBeam(), BorderBeamProps, EditUserDialogProps
+Cohesion: 0.17
+Nodes (11): navigation, clsx, AnalyticsChart(), AnalyticsChartProps, ChartDataPoint, AnalyticsData, StatCard(), StatCardProps (+3 more)
 
 ### Community 246 - "Community 246"
 Cohesion: 0.18
@@ -1121,8 +1187,8 @@ Cohesion: 0.31
 Nodes (5): createCryptoRsiApiClient(), cryptoRsiClient, getRsi(), RsiResponse, RapidApiError
 
 ### Community 254 - "Community 254"
-Cohesion: 0.28
-Nodes (5): DataSourceCard(), DataSourceCardProps, metadata, MagicCard(), MagicCardProps
+Cohesion: 0.16
+Nodes (9): DataSourceCard(), DataSourceCardProps, categories, metadata, BEZIER, OUTPUT_FEATURES, OutputSection(), MagicCard() (+1 more)
 
 ### Community 255 - "Community 255"
 Cohesion: 0.28
@@ -1161,8 +1227,8 @@ Cohesion: 0.25
 Nodes (7): Context & Rationale, Implementation Steps, Objective, Phase 14: Real-Time UX & Polish, Plan 14-02: Streamline Dashboard Agent UI, Scope, Verification (Goal-Backward)
 
 ### Community 264 - "Community 264"
-Cohesion: 0.25
-Nodes (7): 1. Market Agent Integration, 2. News Agent Integration, 3. Verification, Implementation Steps, Key Deliverables, Plan: 16-01 - Integrate RapidAPI Providers into Market & News Agents, Rationale
+Cohesion: 0.11
+Nodes (18): 1. Market Agent Integration, 2. News Agent Integration, 3. Verification, code:typescript (// src/lib/market/yahoo-instance.ts), code:typescript (const raw = obj['Global Quote'];), Context, Implementation Steps, Key Deliverables (+10 more)
 
 ### Community 265 - "Community 265"
 Cohesion: 0.32
@@ -1193,8 +1259,8 @@ Cohesion: 0.29
 Nodes (6): 1. Guard Test (Architectural Safety), 2. Core Infrastructure (RAPID-02, RAPID-03, RAPID-04), 3. Provider Clients (RAPID-01, RAPID-04), Phase 15: Validation Mapping, Requirements, Validation Mapping
 
 ### Community 273 - "Community 273"
-Cohesion: 0.33
-Nodes (4): AnalyticsChart(), AnalyticsChartProps, ChartDataPoint, AnalyticsData
+Cohesion: 0.07
+Nodes (29): code:block1 (PRIMARY_DARK   = #0F172A   (lacivert koyu — başlıklar, heade), code:tsx (import { Document } from '@react-pdf/renderer';), Design Spec, Files Changed, Goal, Implementation Tasks, Plan 22-02 — Profesyonel 10–12 Sayfalık Kurumsal PDF Tasarımı, Renk Paleti (+21 more)
 
 ### Community 274 - "Community 274"
 Cohesion: 0.33
@@ -1213,12 +1279,12 @@ Cohesion: 0.33
 Nodes (5): built_at, commit, edge_count, hyperedge_count, node_count
 
 ### Community 278 - "Community 278"
-Cohesion: 0.4
-Nodes (4): STATS, StatsBar(), NumberTicker(), NumberTickerProps
+Cohesion: 0.07
+Nodes (27): Alternatives Considered, Architectural Responsibility Map, Architecture Patterns, Assumptions Log, BIST100 Comparison Data Model Addition, Code Examples, code:block1 (src/), code:typescript (export function calculateSMA(data: number[], period: number)) (+19 more)
 
 ### Community 279 - "Community 279"
-Cohesion: 0.4
-Nodes (3): EditUserDialog(), UsersDataTable(), UsersDataTableProps
+Cohesion: 0.32
+Nodes (4): EditUserDialog(), EditUserDialogProps, UsersDataTable(), UsersDataTableProps
 
 ### Community 280 - "Community 280"
 Cohesion: 0.4
@@ -1245,8 +1311,8 @@ Cohesion: 0.4
 Nodes (4): Next Steps, Objective, Outcomes, Plan 14-02 Summary: Streamline Dashboard Agent UI
 
 ### Community 286 - "Community 286"
-Cohesion: 0.4
-Nodes (4): name, private, type, version
+Cohesion: 0.17
+Nodes (12): buildAnnotationsForCapture(), buildPinElement(), captureAndEmit(), captureElementToBlob(), collectFontCssText(), compileShader(), hideShaderOverlay(), inlineFontUrls() (+4 more)
 
 ### Community 288 - "Community 288"
 Cohesion: 0.4
@@ -1264,25 +1330,241 @@ Nodes (3): Deviations from Plan, Phase 12 Plan 3: Frontend Market & Macro Data D
 Cohesion: 0.5
 Nodes (3): code:tsx (<span className="relative flex h-2 w-2">), STRIDE Threat Register, Trust Boundaries
 
+### Community 311 - "Community 311"
+Cohesion: 0.26
+Nodes (13): GET(), GET(), ProviderCheck, PROVIDERS, POST(), isAdmin(), GET(), GET() (+5 more)
+
+### Community 312 - "Community 312"
+Cohesion: 0.1
+Nodes (19): code:typescript (import { ResponsiveContainer, LineChart, Line, XAxis, YAxis,), code:typescript (<div className="w-full h-[220px]">), code:typescript (if (data.length === 0) return null), code:typescript (// Pure TypeScript utility, no external imports except types), code:typescript (export interface TickerExtractionResult {), code:typescript (import React from 'react';), code:typescript (<div className="flex flex-col items-end">), code:typescript (if (!data) {) (+11 more)
+
+### Community 313 - "Community 313"
+Cohesion: 0.1
+Nodes (19): code:bash (npm install @react-pdf/renderer), code:typescript (investmentRecommendation?: {), code:typescript (// Markdown işaretlerini düz metne çevirir — PDF renderer iç), code:typescript (import React from 'react';), code:bash (mkdir -p public/fonts), code:typescript (const reportData: ReportData = {), Context, Files Changed (+11 more)
+
+### Community 314 - "Community 314"
+Cohesion: 0.14
+Nodes (16): saveUserSettings(), initialState, SettingsForm(), SettingsFormProps, formatDate(), STATUS_LABELS, SubscriptionTab(), SubscriptionTabProps (+8 more)
+
+### Community 315 - "Community 315"
+Cohesion: 0.11
+Nodes (18): 1. Pipeline Failure Analysis (BIMAS Test Run — 2026-05-17 20:06), 2. Agent-API Mapping (Current vs. Target), 3. Technical Decisions, Bug 1: Yahoo Finance v3 Breaking Change (CRITICAL), Bug 2: Alpha Vantage Fallback Crash (HIGH), Bug 3: OpenRouter ByteString Encoding (HIGH), Bug 4: KAP Client Timeout — No Retry (MEDIUM), Bug 5: News Agent Returns 0 Articles (MEDIUM) (+10 more)
+
+### Community 316 - "Community 316"
+Cohesion: 0.12
+Nodes (16): code:ts (interface SubscriptionTabProps {), code:ts (// Read from useSearchParams() in a useEffect:), code:ts (let subscriptionData = {), code:tsx (<SettingsForm initialSettings={initialSettings} subscription), code:block2 (Border card with terminal aesthetic (border-[#22c55e]/20, bg), code:block3 (Label: "Araştırma Kullanımı"), code:block4 (If currentPeriodEnd exists:), code:tsx (// Free tier:) (+8 more)
+
+### Community 317 - "Community 317"
+Cohesion: 0.12
+Nodes (16): AGENT-RAPID - Multi-Source Agents (Phase 16), DATA - Stable Data Integration, Original REQUIREMENTS.md Content, Phase 22 Requirements (RPT series), RAPID - RapidAPI Provider Infrastructure (Phase 15), REPORT - Reporting Engine, Requirements Archive — v22, SCRAPE - High-Risk Data Scraping (+8 more)
+
+### Community 318 - "Community 318"
+Cohesion: 0.12
+Nodes (16): Anti-Desenler, code:block1 ([Kullanıcı Tarayıcısı]), code:block2 ([Market Agent]), code:block3 (src/), code:typescript (// SORUN: investmentRec null ise kart hiç render olmuyor), code:typescript (// Her zaman render et; veri yoksa fallback state göster), code:typescript (// Önerilen fallback mantığı:), code:typescript (// Piyasa verisi için:) (+8 more)
+
+### Community 319 - "Community 319"
+Cohesion: 0.12
+Nodes (15): BLOCKER 1 — RPT-01: InvestmentCard conditional guard survives, BLOCKER 2 — RPT-02: getLatestNonNull absent; TCMB still degrades to 'N/A', code:tsx (// STILL PRESENT (should have been replaced by Phase 22-01):), code:tsx (// STILL PRESENT (should have been replaced by Phase 22-01):), code:tsx ({overview && (overview.PBRatio || overview.ROE || overview.R), Cross-Phase Integration, Executive Summary, Milestone 22 Audit — Rapor Kalitesi & Veri Zenginleştirme (+7 more)
+
+### Community 320 - "Community 320"
+Cohesion: 0.13
+Nodes (14): Agent-API Final Mapping (Reference), code:typescript (export async function runMarketAgent(...): Promise<MarketDat), code:typescript (const analyzedData = filteredRawData.map(article => {), code:typescript (const agentStart = Date.now();), code:typescript (const agentSuccessCount = [searchResult, newsResult, marketR), Context, Plan 16-04: Complete Agent-API Wiring & Provenance Tagging, Rollback (+6 more)
+
+### Community 321 - "Community 321"
+Cohesion: 0.14
+Nodes (13): Architecture Decision, code:sql (ALTER TABLE users), code:block10 (# ─── Stripe ───────────────────────────────────────────────), code:sql (CREATE INDEX IF NOT EXISTS idx_users_stripe_customer ON user), code:sql (ALTER TABLE users DROP CONSTRAINT IF EXISTS users_tier_check), code:block4 (-- free: 5 tokens/month (manual grant or webhook)), code:ts (export type Tier = 'free' | 'starter' | 'pro' | 'agency' | '), code:ts (export type SubscriptionStatus = 'active' | 'trialing' | 'pa) (+5 more)
+
+### Community 322 - "Community 322"
+Cohesion: 0.15
+Nodes (12): code:typescript (defaultHeaders: {), code:typescript (defaultHeaders: {), code:typescript (function safeParseJSON(raw: string): AnalystInsights {), code:typescript (const start = Date.now();), Context, Plan 16-02: Fix Analyst Agent Encoding + Reorder AI Provider Chain, Rollback, Task 1: Fix OpenRouter ASCII Header Encoding (+4 more)
+
+### Community 323 - "Community 323"
+Cohesion: 0.15
+Nodes (11): code:typescript (// 2.5 Relevance Filter — strict for tickers, but with fallb), code:typescript (console.log(`[News Agent] Sources: Currents=${currentsData.l), Context, Plan 16-03: Harden KAP Client + Fix News Agent Relevance, Rollback, Task 1: Implement KAP Retry with Exponential Backoff, Task 2: Relax News Agent Relevance Filter, Task 3: Fix News Article Date Mapping (+3 more)
+
+### Community 324 - "Community 324"
+Cohesion: 0.15
+Nodes (9): code:typescript (export interface MarketData {), code:tsx ({/* Temel Finansal Göstergeler */}), code:typescript (// src/types/market.ts (22-03 planı sonrası)), code:typescript (// supabase query örneği:), code:typescript (import React from 'react';), code:typescript (function timeAgo(fetchedAt: number | string): string {), code:typescript (const { data: agentTimestamps } = await supabase), STRIDE Threat Register (+1 more)
+
+### Community 325 - "Community 325"
+Cohesion: 0.17
+Nodes (11): 18-01: Analytics Chart 30-Day Zero-Fill, 18-02: Token Add/Remove, 18-03: Sistem Logları, 18-04: API Durumu, Changes Detail, Deviations from Plan, Known Stubs, Phase 18 Plans 01-04: Admin Dashboard Fixes & Enhancements Summary (+3 more)
+
+### Community 326 - "Community 326"
+Cohesion: 0.17
+Nodes (11): code:block1 (User clicks "Pro'ya Geç"), code:ts (function getTierFromPriceId(priceId: string): Tier {), code:ts (import { NextRequest, NextResponse } from 'next/server';), code:ts (import { NextRequest, NextResponse } from 'next/server';), code:ts (import { NextRequest, NextResponse } from 'next/server';), code:tsx (import Link from 'next/link';), Important: Webhook Signature Verification, Price ID → Tier Mapping (+3 more)
+
+### Community 327 - "Community 327"
+Cohesion: 0.17
+Nodes (11): Accomplishments, Auto-fixed Issues, Decisions Made, Deviations from Plan, Files Created, Issues Encountered, Known Stubs, Next Phase Readiness (+3 more)
+
+### Community 328 - "Community 328"
+Cohesion: 0.17
+Nodes (11): Açık Sorular (RESOLVED), El Yapımı Çözme (Don't Hand-Roll), Faz Gereksinimleri, Güvenlik Alanı, Metadata, Mimari Sorumluluk Haritası, Ortam Uygunluğu, Phase 22: Rapor Kalitesi & Veri Zenginleştirme — Research (+3 more)
+
+### Community 329 - "Community 329"
+Cohesion: 0.18
+Nodes (10): code:typescript (interface InvestmentRecommendation {), code:typescript (export const CompanyOverviewSchema = z.object({), code:typescript (export type EvdsDataPoint = z.infer<typeof EvdsDataPointSche), code:typescript (// environment: 'node', globals: true), code:block5 (describe('InvestmentCard', () => {), code:typescript (// WAVE 0 — Bu fonksiyon 22-01-PLAN.md Görev 2 ile history/[), code:typescript (// WAVE 0 — Bu fonksiyon 22-02-PLAN.md Görev 1 ile history/[), code:typescript (import { CompanyOverviewSchema } from '@/types/market';) (+2 more)
+
+### Community 330 - "Community 330"
+Cohesion: 0.18
+Nodes (10): Active, Araştır — Project Overview, Context, Core Value, Current State, Key Decisions, Out of Scope, Requirements (+2 more)
+
+### Community 331 - "Community 331"
+Cohesion: 0.2
+Nodes (9): Issues Deferred, Issues Resolved, Key Decisions, Key Deliverables, Milestone Summary, Milestone v22: Rapor Kalitesi & Veri Zenginleştirme, Overview, Phase 22: Rapor Kalitesi & Veri Zenginleştirme (+1 more)
+
+### Community 332 - "Community 332"
+Cohesion: 0.22
+Nodes (8): code:json ({), Context & Rationale, Implementation, must_haves, Objective, Phase 18: Admin Dashboard Fixes & Enhancements, Plan 18-04: API Durumu Page + AdminSidebar Entry, Verification (Goal-Backward)
+
+### Community 333 - "Community 333"
+Cohesion: 0.22
+Nodes (8): code:block1 (<section id="pricing">), code:ts (const PLANS = [), code:ts (import { PricingSection } from '@/components/landing/Pricing), code:tsx (<OutputSection />), code:ts (const NAV_LINKS = [), Current State, Feature List per Tier, Pricing Tiers to Display
+
+### Community 334 - "Community 334"
+Cohesion: 0.22
+Nodes (7): code:typescript (export const CompanyOverviewSchema = z.object({), code:typescript (const fmt = (n: unknown): string => {), code:block4 (PBRatio: z.string().default(''),       // F/DD (Fiyat/Defter), code:block5 (const fd = summary?.financialData || {};), code:block6 (PBRatio: fmt(stats.priceToBook?.raw ?? stats.priceToBook),), STRIDE Threat Register, Trust Boundaries
+
+### Community 335 - "Community 335"
+Cohesion: 0.22
+Nodes (9): code:typescript (// src/components/dashboard/report/InvestmentCard.tsx), code:typescript (// history/[id]/page.tsx - makro veri gösterimi için yardımc), code:typescript (// src/lib/market/yahoo-client.ts - güncelleme), code:typescript (// src/types/market.ts - CompanyOverviewSchema genişletmesi), code:typescript (// src/app/dashboard/history/[id]/page.tsx), InvestmentCard Always-Show Pattern, Kod Örnekleri, TCMB Graceful Fallback (+1 more)
+
+### Community 336 - "Community 336"
+Cohesion: 0.22
+Nodes (8): Accepted Risks Log, Additional Findings, Phase 22 — Security, Security Audit 2026-05-20 (full-phase closure), Security Audit Trail, Sign-Off, Threat Register, Trust Boundaries
+
+### Community 337 - "Community 337"
+Cohesion: 0.22
+Nodes (8): Manual-Only Verifications, Per-Task Verification Map, Phase 22 — Validation Strategy, Sampling Rate, Test Infrastructure, Validation Audit 2026-05-20, Validation Sign-Off, Wave 0 Requirements
+
+### Community 338 - "Community 338"
+Cohesion: 0.33
+Nodes (5): POST(), stripe, POST(), getTierFromPriceId(), POST()
+
+### Community 339 - "Community 339"
+Cohesion: 0.25
+Nodes (7): Context & Rationale, Implementation, must_haves, Objective, Phase 18: Admin Dashboard Fixes & Enhancements, Plan 18-01: Fix Analytics Charts (30-Day Zero-Fill), Verification (Goal-Backward)
+
+### Community 340 - "Community 340"
+Cohesion: 0.25
+Nodes (7): Context & Rationale, Implementation, must_haves, Objective, Phase 18: Admin Dashboard Fixes & Enhancements, Plan 18-02: Token Add/Remove — API Extension + EditUserDialog UI, Verification (Goal-Backward)
+
+### Community 341 - "Community 341"
+Cohesion: 0.25
+Nodes (7): Context & Rationale, Implementation, must_haves, Objective, Phase 18: Admin Dashboard Fixes & Enhancements, Plan 18-03: Sistem Logları Page + AdminSidebar Entry, Verification (Goal-Backward)
+
+### Community 342 - "Community 342"
+Cohesion: 0.25
+Nodes (7): Canonical References, Error Boundaries, Implementation Decisions, Loading States, Next.js Documentation, Phase 21: Error Handling & Loading States - Context, Phase Boundary
+
+### Community 343 - "Community 343"
+Cohesion: 0.25
+Nodes (7): code:typescript (interface InvestmentRecommendation {), code:typescript (// SORUN: investmentRec null ise kart hiç render olmuyor), code:typescript (const latest = macro_data[macro_data.length - 1];), code:block4 (bg-[#080808] border border-[#1a1a1a] rounded-xl p-6 flex fle), code:block5 (function getLatestNonNull(data: any[], field: string): strin), STRIDE Threat Register, Trust Boundaries
+
+### Community 344 - "Community 344"
+Cohesion: 0.32
+Nodes (5): DashboardLayout(), NAV_ITEMS, NAV_ITEMS, SidebarNav(), TokenDisplay()
+
+### Community 345 - "Community 345"
+Cohesion: 0.29
+Nodes (6): Context & Rationale, Execution, Implementation Steps, Objective, Plan 20-01: Arka Plan İş Kuyruğu (Upstash QStash) Entegrasyonu, Verification
+
+### Community 346 - "Community 346"
+Cohesion: 0.29
+Nodes (6): Context & Rationale, Execution, Implementation Steps, Objective, Plan 20-02: Supabase RPC ile Atomik Token Ledger, Verification
+
+### Community 347 - "Community 347"
+Cohesion: 0.29
+Nodes (6): Context & Rationale, Execution, Implementation Steps, Objective, Plan 20-03: Upstash Redis Rate Limiting, Verification
+
+### Community 348 - "Community 348"
+Cohesion: 0.29
+Nodes (6): Context & Rationale, Execution, Implementation Steps, Objective, Plan 20-04: Sentry Error Tracking ve Loglama, Verification
+
+### Community 349 - "Community 349"
+Cohesion: 0.29
+Nodes (6): Accomplishments, Deviations from Plan, Known Stubs, Next Phase Readiness, Phase 22 Plan 01: InvestmentCard & TCMB Fallback Summary, Verification
+
+### Community 350 - "Community 350"
+Cohesion: 0.29
+Nodes (6): Accomplishments, Deviations from Plan, Phase 22 Plan 02: timeAgo Zaman Damgası + Temel Göstergeler Kartı, Self-Check: PASSED, Task Commits, Verification
+
+### Community 351 - "Community 351"
+Cohesion: 0.33
+Nodes (5): Phase 21: Error Handling & Loading States - Plan 1: Global Error Handling & Error Boundaries, Task 1: Create Root Error Boundary, Task 2: Create Dashboard Error Boundary, Task 3: Create Admin Error Boundary, Task 4: Verify Server Action/API Error Handling
+
+### Community 352 - "Community 352"
+Cohesion: 0.33
+Nodes (5): Phase 21: Error Handling & Loading States - Plan 2: Page Transition Loading States & Skeletons, Task 1: Create Dashboard Loading State, Task 2: Create Root Loading State, Task 3: Create Admin Loading State, Task 4: Verify Suspense Boundaries
+
+### Community 353 - "Community 353"
+Cohesion: 0.33
+Nodes (5): Accomplishments, Phase 22 Plan 03: Yahoo Finance financialData + CompanyOverview Genişletme, Self-Check: PASSED, Task Commits, Verification
+
+### Community 354 - "Community 354"
+Cohesion: 0.33
+Nodes (6): Tuzak 1: İki Ayrı Rapor Sayfası Karışıklığı, Tuzak 2: FloatShares Yüzde Değil Hisse Adedi, Tuzak 3: ROE/ROA/NetMargin Oran vs Yüzde, Tuzak 4: TCMB Aylık Gecikme, Tuzak 5: `source.fetched_at` ms vs saniye, Yaygın Tuzaklar
+
+### Community 355 - "Community 355"
+Cohesion: 0.33
+Nodes (5): Archived, Delivered, Milestones, Requirements, v22 — Rapor Kalitesi & Veri Zenginleştirme
+
+### Community 356 - "Community 356"
+Cohesion: 0.4
+Nodes (3): ApiStatusData, Provider, ServiceStatus
+
+### Community 358 - "Community 358"
+Cohesion: 0.5
+Nodes (4): Doğrulama Mimarisi, Gereksinim → Test Haritası, Test Altyapısı, Wave 0 Eksikleri
+
+### Community 359 - "Community 359"
+Cohesion: 0.29
+Nodes (7): checkpointPayload(), handleAccept(), handleDiscard(), maybePrefetchPage(), readVisibleVariantFromDOM(), sendCheckpoint(), sendEvent()
+
+### Community 360 - "Community 360"
+Cohesion: 0.5
+Nodes (3): AdminSidebar(), AdminLayout(), RetroGrid()
+
+### Community 368 - "Community 368"
+Cohesion: 0.67
+Nodes (3): Birincil (HIGH güven), İkincil (MEDIUM güven), Kaynaklar
+
+### Community 369 - "Community 369"
+Cohesion: 0.67
+Nodes (3): Mevcut (Değişmeyecek), Standart Yığın, Yeni Gereksinim Yok
+
+### Community 384 - "Community 384"
+Cohesion: 0.4
+Nodes (4): STATS, StatsBar(), NumberTicker(), NumberTickerProps
+
+### Community 385 - "Community 385"
+Cohesion: 0.4
+Nodes (4): name, private, type, version
+
+### Community 386 - "Community 386"
+Cohesion: 0.67
+Nodes (3): 6. Write all variants in a single edit, code:html (<!-- Variants: insert below this line -->), code:tsx (<style data-impeccable-css="SESSION_ID">{`)
+
 ## Knowledge Gaps
-- **1914 isolated node(s):** `nextConfig`, `name`, `version`, `private`, `type` (+1909 more)
+- **2361 isolated node(s):** `require`, `nextConfig`, `name`, `version`, `private` (+2356 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **37 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **49 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Communities (239 total, 20 thin omitted)` connect `Community 72` to `Community 249`?**
-  _High betweenness centrality (0.004) - this node is a cross-community bridge._
-- **Why does `createClient()` connect `Community 32` to `Community 48`?**
-  _High betweenness centrality (0.004) - this node is a cross-community bridge._
-- **Are the 21 inferred relationships involving `C` (e.g. with `ft()` and `me()`) actually correct?**
-  _`C` has 21 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `nextConfig`, `name`, `version` to the rest of the system?**
-  _1914 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Why does `createClient()` connect `Community 32` to `Community 130`, `Community 48`, `Community 81`, `Community 338`, `Community 311`, `Community 344`, `Community 314`?**
+  _High betweenness centrality (0.014) - this node is a cross-community bridge._
+- **Why does `isAdmin()` connect `Community 311` to `Community 360`, `Community 32`, `Community 344`?**
+  _High betweenness centrality (0.009) - this node is a cross-community bridge._
+- **What connects `require`, `nextConfig`, `name` to the rest of the system?**
+  _2361 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.09 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.05 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
   _Cohesion score 0.06 - nodes in this community are weakly interconnected._
+- **Should `Community 3` be split into smaller, more focused modules?**
+  _Cohesion score 0.13 - nodes in this community are weakly interconnected._

@@ -61,11 +61,14 @@ export async function runAnalystAgent(
       .eq('session_id', sessionId)
       .eq('status', 'completed');
 
-    if (error || !runs) {
-      throw new Error('Failed to fetch preceding agent runs');
+    if (error) {
+      console.error('[Analyst Agent] Failed to fetch agent_runs:', error.message, error.details, error.hint);
+      throw new Error(`Failed to fetch preceding agent runs: ${error.message}`);
     }
 
-    const kapData: KAPDisclosure[] = runs.find(r => r.agent_name === 'search')?.output_data || [];
+    const completedRuns = runs ?? [];
+
+    const kapData: KAPDisclosure[] = completedRuns.find(r => r.agent_name === 'search')?.output_data || [];
 
     const { data: fetchedNewsRecords, error: newsError } = await supabase
       .from('fetched_news')
@@ -84,8 +87,8 @@ export async function runAnalystAgent(
       }));
     }
 
-    const marketData: MarketData | null = runs.find(r => r.agent_name === 'market')?.output_data || null;
-    const macroData: EvdsDataPoint[] | null = runs.find(r => r.agent_name === 'macro')?.output_data || null;
+    const marketData: MarketData | null = completedRuns.find(r => r.agent_name === 'market')?.output_data || null;
+    const macroData: EvdsDataPoint[] | null = completedRuns.find(r => r.agent_name === 'macro')?.output_data || null;
 
     const marketSection = marketData
       ? `\nPiyasa Verileri:
