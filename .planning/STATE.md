@@ -7,9 +7,9 @@
 
 ## Current Position
 - **Current Phase**: 22
-- **Current Plan**: 2
-- **Status**: In Progress
-- **Progress**: [█████░░░░░░░░░░░░░░░] 25%
+- **Current Plan**: all complete
+- **Status**: Verification Pending
+- **Progress**: [████████████████████] 100%
 
 ## Performance Metrics
 - **Velocity**: TBD
@@ -25,6 +25,8 @@
 - Phase 14 successfully executed. The frontend now subscribes directly to the `agent_runs` table using Supabase Channels, providing a true parallel progress bar. The hardcoded 7-agent grid was replaced with dynamic mapping, hiding internal agents like `writer` and `orchestrator`, and displaying only relevant running data agents like "Piyasa" or "KAP Verisi".
 - Phase 22-00: @testing-library/react kurulu olmadığı için InvestmentCard testinde it.todo sözleşme yaklaşımı kullanıldı. timeAgo inline fonksiyonunda diffMs < 60_000 ms kontrolü ile 30sn edge case düzeltildi.
 - Phase 22-01: InvestmentCard null-safe hale getirildi ve history rapor sayfasında koşulsuz render ediliyor. TCMB makro tablosu getLatestNonNull ile son non-null değeri gösteriyor; TÜFE/Faiz yoksa "Veri henüz yayınlanmadı" metni kullanılıyor. tsconfig vitest globals ile tsc uyumlu hale getirildi.
+- Phase 22-03: CompanyOverviewSchema PBRatio/Beta/FloatShares/ROE/ROA/NetMargin alanları eklendi. yahoo-client financialData modülü eklendi; ROE/ROA/NetMargin 0-1 → yüzde dönüşümü yapılıyor.
+- Phase 22-02: timeAgo helper ve zaman damgası UI eklendi (piyasa/makro/haber). Temel Göstergeler kartı (P/B, Beta, ROE, ROA, Net Marj, Halka Açık Hisse Adedi) rapor sayfasında görünüyor.
 
 ### Open Questions
 - (none yet)
@@ -36,7 +38,7 @@
 - Phase 14, 20, 21 tamamlandı. Phases 22-23 raporun kalite eksiklerini kapatmak için eklendi.
 
 ## Session Continuity
-- **Last Session**: 2026-05-19T23:47:44+03:00
-- **Stopped at**: 22-01-PLAN.md tamamlandı. InvestmentCard null fallback ve TCMB latest non-null fallback doğrulandı.
-- **Last Command**: `/gsd-execute-phase 22` (plan 01)
-- **Next Command**: `/gsd-execute-phase 22` (plan 02)
+- **Last Session**: 2026-05-20T13:31:00+03:00
+- **Stopped at**: Phase 22 tüm planlar tamamlandı (22-00, 22-01, 22-02, 22-03). Verification pending.
+- **Last Command**: `/gsd-execute-phase 22` (tüm planlar)
+- **Next Command**: `/gsd-verify-work 22`
