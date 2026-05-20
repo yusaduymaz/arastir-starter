@@ -24,6 +24,31 @@ const qstash = new Client({
   token: process.env.QSTASH_TOKEN || ''
 })
 
+function isLoopbackHost(hostname: string) {
+  return ['localhost', '127.0.0.1', '::1', '[::1]', '0.0.0.0'].includes(hostname)
+}
+
+function normalizeBaseUrl(value: string) {
+  const withProtocol = /^https?:\/\//i.test(value) ? value : `https://${value}`
+  return withProtocol.replace(/\/+$/, '')
+}
+
+function getQstashWebhookUrl(request: Request) {
+  const configuredBaseUrl =
+    process.env.NEXT_PUBLIC_APP_URL ||
+    process.env.APP_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '')
+
+  const requestHost = request.headers.get('host') || 'localhost:3000'
+  const requestProtocol = process.env.NODE_ENV === 'development' ? 'http' : 'https'
+  const baseUrl = configuredBaseUrl
+    ? normalizeBaseUrl(configuredBaseUrl)
+    : `${requestProtocol}://${requestHost}`
+
+  const url = new URL('/api/qstash/research', baseUrl)
+  return url.toString()
+}
+
 export async function POST(request: Request) {
   try {
     // Env validation — fails fast on missing required keys, logs once for missing degraded keys
@@ -191,18 +216,56 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: `Veritabani hatasi: ${dbError.message}` }, { status: 500 })
     }
 
-    // 2. Fire and forget by publishing to QStash
-    const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
-    const host = request.headers.get('host') || 'localhost:3000';
-    const webhookUrl = `${protocol}://${host}/api/qstash/research`;
+    const jobPayload = {
+      ticker,
+      recordId: record.id,
+      extraction
+    };
+
+    // 2. Fire and forget by publishing to QStash.
+    // QStash requires a public destination URL. In local development, trigger
+    // the worker through the local Next server instead of sending ::1/localhost
+    // to QStash.
+    const webhookUrl = getQstashWebhookUrl(request);
+    const webhookHost = new URL(webhookUrl).hostname;
+
+    if (process.env.NODE_ENV === 'development' && isLoopbackHost(webhookHost)) {
+      void fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(jobPayload),
+      }).catch(async (error) => {
+        console.error('[Orchestrator] Local worker trigger failed:', error);
+        await supabase
+          .from('research_sessions')
+          .update({
+            status: 'failed',
+            error_message: error.message || 'Local worker baslatilamadi.',
+          })
+          .eq('id', record.id);
+      });
+
+      return NextResponse.json({ success: true, id: record.id, ticker }, { status: 202 })
+    }
+
+    if (isLoopbackHost(webhookHost)) {
+      await supabase
+        .from('research_sessions')
+        .update({
+          status: 'failed',
+          error_message: 'QStash public URL gerektirir. NEXT_PUBLIC_APP_URL veya APP_URL public HTTPS domain olmalidir.',
+        })
+        .eq('id', record.id);
+
+      return NextResponse.json(
+        { error: 'QStash hedef URL public degil. NEXT_PUBLIC_APP_URL veya APP_URL public HTTPS domain olarak ayarlanmali.' },
+        { status: 500 }
+      )
+    }
 
     await qstash.publishJSON({
       url: webhookUrl,
-      body: {
-        ticker,
-        recordId: record.id,
-        extraction
-      },
+      body: jobPayload,
     });
 
     // 3. Return immediately WITH the extracted ticker so frontend can show it

@@ -54,7 +54,7 @@ export async function runMarketAgent(
       data = {
         quote: avQuote,
         overview: avOverview,
-        monthlySeries: {},
+        timeSeries: {},
         source: { provider: 'alpha_vantage', fetched_at: Date.now(), ttl_remaining: 3600 }
       };
       provider = 'alpha_vantage';

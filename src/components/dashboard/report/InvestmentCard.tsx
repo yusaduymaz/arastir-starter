@@ -10,7 +10,7 @@ interface InvestmentRecommendation {
 }
 
 interface InvestmentCardProps {
-  recommendation: InvestmentRecommendation
+  recommendation: InvestmentRecommendation | null
   ticker: string
 }
 
@@ -27,6 +27,16 @@ const CONFIDENCE_STYLES: Record<string, { bg: string; text: string }> = {
 }
 
 export function InvestmentCard({ recommendation, ticker }: InvestmentCardProps) {
+  if (!recommendation) {
+    return (
+      <div className="bg-[#080808] border border-[#1a1a1a] rounded-xl p-6 flex flex-col items-center justify-center min-h-[200px]">
+        <p className="font-['JetBrains_Mono'] text-[11px] text-[#45474c]">
+          // Yatırım tavsiyesi analiz edilemedi.
+        </p>
+      </div>
+    )
+  }
+
   const r = recommendation
   const actionStyle = ACTION_STYLES[r.action] || ACTION_STYLES.TUT
   const confStyle = CONFIDENCE_STYLES[r.confidence] || CONFIDENCE_STYLES['orta']

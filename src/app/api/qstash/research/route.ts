@@ -7,7 +7,7 @@ import { createClient } from '@supabase/supabase-js'
 import * as Sentry from '@sentry/nextjs'
 import * as path from 'path'
 import { TickerExtractionResult } from '@/lib/ticker-extractor'
-import { AgentLogEntry } from '@/types/research'
+import { AgentLogEntry, ReportData } from '@/types/research'
 
 import { runSearchAgent } from '@/agents/search-agent'
 import { runNewsAgent } from '@/agents/news-agent'
@@ -240,7 +240,7 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
     });
 
     console.log(`[Pipeline] Running AI Analyst Agent...`);
-    const { runAnalystAgent } = require('@/agents/analyst-agent');
+    const { runAnalystAgent } = await import('@/agents/analyst-agent');
 
     let insights: {
       executiveSummary: string;
@@ -294,8 +294,8 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
       message: `Rapor Uretici baslatildi -- PDF ve PPTX olusturuluyor...`,
     });
 
-    const reportData = {
-      title: `${ticker} Sektorel Analiz Raporu`,
+    const reportData: ReportData = {
+      title: `${ticker} Sektörel Analiz Raporu`,
       source: 'KAP, Currents API, Yahoo Finance & TCMB EVDS',
       dateGenerated: new Date().toISOString(),
       executiveSummary: insights.executiveSummary,
@@ -329,9 +329,9 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
       } : undefined,
       data: [
         { label: 'Son KAP Bildirimleri', value: kapData.length },
-        { label: 'Incelenen Haber Sayisi', value: newsData.length },
-        { label: 'Guncel Fiyat (TL)', value: marketData?.quote?.price ?? 'N/A' },
-        { label: 'Gunluk Degisim', value: marketData?.quote?.changePercent ?? 'N/A' },
+        { label: 'İncelenen Haber Sayısı', value: newsData.length },
+        { label: 'Güncel Fiyat (TL)', value: marketData?.quote?.price ?? 'N/A' },
+        { label: 'Günlük Değişim', value: marketData?.quote?.changePercent ?? 'N/A' },
       ]
     };
 
@@ -339,7 +339,7 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
     const slug = ticker.toLowerCase();
     const outputDir = path.resolve(process.cwd(), 'public', 'outputs', `${timestamp}-${slug}`);
 
-    const { runWriterAgent } = require('@/agents/writer-agent');
+    const { runWriterAgent } = await import('@/agents/writer-agent');
 
     console.log(`[Pipeline] Generating PDF and PPTX documents...`);
     try {
@@ -390,6 +390,7 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
           risks: insights.risks,
           opportunities: insights.opportunities,
           macroContext: insights.macroContext,
+          investmentRecommendation: insights.investmentRecommendation,
           data: reportData.data
         }
       })
@@ -449,4 +450,13 @@ async function handler(request: Request) {
 }
 
 // verifySignature handles QStash authentication automatically
-export const POST = process.env.NODE_ENV === 'development' ? handler : verifySignature(handler)
+// Cast needed: verifySignature is typed for Pages Router but we use App Router
+const _verifiedHandler = process.env.NODE_ENV === 'development'
+  ? handler
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  : verifySignature(handler as any);
+
+export async function POST(request: Request): Promise<Response> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return _verifiedHandler(request as any, undefined as any) as unknown as Promise<Response>;
+}

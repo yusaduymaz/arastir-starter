@@ -8,6 +8,8 @@ import { PriceChart } from '@/components/dashboard/report/PriceChart';
 import { SentimentChart } from '@/components/dashboard/report/SentimentChart';
 import { MacroChart } from '@/components/dashboard/report/MacroChart';
 import { InvestmentCard } from '@/components/dashboard/report/InvestmentCard';
+import { RsiChart } from '@/components/dashboard/report/RsiChart';
+import { RelativePerformance } from '@/components/dashboard/report/RelativePerformance';
 
 export const dynamic = 'force-dynamic';
 
@@ -54,7 +56,8 @@ export default async function ReportDetailPage({ params }: { params: { id: strin
   const ticker = report.extracted_ticker || report.query;
   const quote = market_data?.quote;
   const overview = market_data?.overview;
-  const monthlySeries = market_data?.monthlySeries;
+  const timeSeries = market_data?.timeSeries;
+  const benchmarkSeries = market_data?.benchmarkSeries;
   const changePercent = parseFloat(quote?.changePercent || '0');
   const isUp = changePercent >= 0;
   const investmentRec = synthesis_data?.investmentRecommendation;
@@ -180,18 +183,28 @@ export default async function ReportDetailPage({ params }: { params: { id: strin
               </div>
             )}
 
+            {/* ── Relative Performance Analysis ── */}
+            {timeSeries && Object.keys(timeSeries).length > 0 && (
+              <RelativePerformance 
+                ticker={ticker} 
+                timeSeries={timeSeries} 
+                benchmarkSeries={benchmarkSeries} 
+              />
+            )}
+
             {/* ── Row 2: Price Chart + Investment Card ── */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Price Chart */}
-              {monthlySeries && Object.keys(monthlySeries).length > 0 && (
-                <div className="bg-[#080808] border border-[#22c55e]/12 rounded-xl p-5">
-                  <div className="flex items-center justify-between mb-4">
+              {/* Price & Technical Indicators Chart */}
+              {timeSeries && Object.keys(timeSeries).length > 0 && (
+                <div className="bg-[#080808] border border-[#22c55e]/12 rounded-xl p-5 flex flex-col gap-4">
+                  <div className="flex items-center justify-between">
                     <span className="font-['JetBrains_Mono'] text-[9px] text-[#22c55e]/50 tracking-widest uppercase">
-                      // Fiyat Grafigi (12 Ay)
+                      // Fiyat Grafiği & Teknik Göstergeler
                     </span>
                     <Activity size={14} className="text-[#22c55e]/30" />
                   </div>
-                  <PriceChart monthlySeries={monthlySeries} />
+                  <PriceChart timeSeries={timeSeries} />
+                  <RsiChart timeSeries={timeSeries} />
                 </div>
               )}
 
@@ -201,7 +214,7 @@ export default async function ReportDetailPage({ params }: { params: { id: strin
               )}
 
               {/* If no chart but has recommendation, full width */}
-              {!monthlySeries && !investmentRec && null}
+              {!timeSeries && !investmentRec && null}
             </div>
 
             {/* ── Row 3: AI Synthesis ── */}

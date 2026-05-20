@@ -4,7 +4,7 @@
 // Maps Yahoo's response into the existing MarketData shape used by analyst-agent + reports.
 
 import yf from './yahoo-instance';
-import type { MarketData, StockQuote, CompanyOverview, MonthlySeriesEntry } from '../../types/market';
+import type { MarketData, StockQuote, CompanyOverview, TimeSeriesEntry } from '../../types/market';
 
 const toBistSymbol = (ticker: string): string => {
   const upper = ticker.toUpperCase().trim();
@@ -83,23 +83,52 @@ export async function getYahooMarketData(ticker: string): Promise<MarketData | n
       console.warn(`[Yahoo] quoteSummary failed for ${symbol}:`, (err as Error).message);
     }
 
-    // 3. Monthly series — last 12 months via chart
-    const monthlySeries: Record<string, MonthlySeriesEntry> = {};
+    // 3. Daily series — last 2 years via chart
+    const timeSeries: Record<string, TimeSeriesEntry> = {};
+    const benchmarkSeries: Record<string, TimeSeriesEntry> = {};
     try {
       const period2 = new Date();
       const period1 = new Date();
-      period1.setFullYear(period2.getFullYear() - 1);
+      period1.setFullYear(period2.getFullYear() - 2);
 
-      const chart: any = await yf.chart(
-        symbol,
-        { period1, period2, interval: '1mo' },
-        { validateResult: false }
-      );
-      const quotes = chart?.quotes || [];
-      for (const q of quotes) {
+      // Run both chart requests in parallel
+      const [chartStock, chartBenchmark] = await Promise.all([
+        yf.chart(
+          symbol,
+          { period1, period2, interval: '1d' },
+          { validateResult: false }
+        ).catch(err => {
+          console.warn(`[Yahoo] chart failed for ${symbol}:`, err.message);
+          return null;
+        }) as Promise<any>,
+        yf.chart(
+          'XU100.IS',
+          { period1, period2, interval: '1d' },
+          { validateResult: false }
+        ).catch(err => {
+          console.warn(`[Yahoo] chart failed for XU100.IS:`, err.message);
+          return null;
+        }) as Promise<any>
+      ]);
+
+      const quotesStock = chartStock?.quotes || [];
+      for (const q of quotesStock) {
         if (!q?.date) continue;
         const dateKey = new Date(q.date).toISOString().slice(0, 10);
-        monthlySeries[dateKey] = {
+        timeSeries[dateKey] = {
+          '1. open': fmt(q.open),
+          '2. high': fmt(q.high),
+          '3. low': fmt(q.low),
+          '4. close': fmt(q.close),
+          '5. volume': fmt(q.volume),
+        };
+      }
+
+      const quotesBenchmark = chartBenchmark?.quotes || [];
+      for (const q of quotesBenchmark) {
+        if (!q?.date) continue;
+        const dateKey = new Date(q.date).toISOString().slice(0, 10);
+        benchmarkSeries[dateKey] = {
           '1. open': fmt(q.open),
           '2. high': fmt(q.high),
           '3. low': fmt(q.low),
@@ -108,13 +137,14 @@ export async function getYahooMarketData(ticker: string): Promise<MarketData | n
         };
       }
     } catch (err) {
-      console.warn(`[Yahoo] chart failed for ${symbol}:`, (err as Error).message);
+      console.warn(`[Yahoo] charts fetching/mapping failed:`, (err as Error).message);
     }
 
     return { 
       quote, 
       overview, 
-      monthlySeries, 
+      timeSeries, 
+      benchmarkSeries,
       source: { provider: 'yahoo_finance', fetched_at: Date.now(), ttl_remaining: 3600 } 
     };
   } catch (err) {

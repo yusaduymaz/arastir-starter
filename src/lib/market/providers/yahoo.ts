@@ -33,7 +33,7 @@ function mapQuoteToMarketData(quote: RapidQuote, provider: MarketProviderName): 
       changePercent: toSafeNumericString(quote.regularMarketChangePercent),
     },
     overview: null,
-    monthlySeries: {},
+    timeSeries: {},
     source: { provider, fetched_at: Date.now(), ttl_remaining: 3600 },
   };
 }

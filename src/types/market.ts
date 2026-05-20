@@ -30,7 +30,7 @@ export const CompanyOverviewSchema = z.object({
   '52WeekLow': z.string().default(''),
 }).passthrough();
 
-export const MonthlySeriesEntrySchema = z.object({
+export const TimeSeriesEntrySchema = z.object({
   '1. open': z.string(),
   '2. high': z.string(),
   '3. low': z.string(),
@@ -40,12 +40,13 @@ export const MonthlySeriesEntrySchema = z.object({
 
 export type StockQuote = z.infer<typeof StockQuoteSchema>;
 export type CompanyOverview = z.infer<typeof CompanyOverviewSchema>;
-export type MonthlySeriesEntry = z.infer<typeof MonthlySeriesEntrySchema>;
+export type TimeSeriesEntry = z.infer<typeof TimeSeriesEntrySchema>;
 
 export interface MarketData {
   quote: StockQuote;
   overview: CompanyOverview | null;
-  monthlySeries: Record<string, MonthlySeriesEntry>;
+  timeSeries: Record<string, TimeSeriesEntry>;
+  benchmarkSeries?: Record<string, TimeSeriesEntry>;
   source: {
     provider: string;
     fetched_at: number;

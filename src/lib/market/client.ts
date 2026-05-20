@@ -5,11 +5,11 @@ import { z } from 'zod';
 import {
   StockQuoteSchema,
   CompanyOverviewSchema,
-  MonthlySeriesEntrySchema,
+  TimeSeriesEntrySchema,
   type StockQuote,
   type CompanyOverview,
   type MarketData,
-  type MonthlySeriesEntry,
+  type TimeSeriesEntry,
 } from '../../types/market';
 import { getYahooMarketData } from './yahoo-client';
 
@@ -130,7 +130,7 @@ export const getCompanyOverview = async (ticker: string): Promise<CompanyOvervie
 export const getMonthlyPrices = async (
   ticker: string,
   months: number = 12
-): Promise<Record<string, MonthlySeriesEntry>> => {
+): Promise<Record<string, TimeSeriesEntry>> => {
   const symbol = toBistSymbol(ticker);
   const data = await fetchAlphaVantage({ function: 'TIME_SERIES_MONTHLY', symbol });
 
@@ -142,10 +142,10 @@ export const getMonthlyPrices = async (
   }
 
   const dates = Object.keys(series).sort().reverse().slice(0, months);
-  const result: Record<string, MonthlySeriesEntry> = {};
+  const result: Record<string, TimeSeriesEntry> = {};
 
   for (const date of dates) {
-    const entry = MonthlySeriesEntrySchema.safeParse(series[date]);
+    const entry = TimeSeriesEntrySchema.safeParse(series[date]);
     if (entry.success) {
       result[date] = entry.data;
     }
@@ -185,12 +185,12 @@ export const getFullMarketData = async (ticker: string): Promise<MarketData> => 
   await new Promise(r => setTimeout(r, 1200));
   const overview = await getCompanyOverview(ticker);
   await new Promise(r => setTimeout(r, 1200));
-  const monthlySeries = await getMonthlyPrices(ticker, 12);
+  const timeSeries = await getMonthlyPrices(ticker, 12);
 
   const data: MarketData = { 
     quote, 
     overview, 
-    monthlySeries, 
+    timeSeries, 
     source: { provider: 'alpha_vantage', fetched_at: Date.now(), ttl_remaining: 3600 } 
   };
   marketCache.set(cacheKey, { data, ts: Date.now() });
