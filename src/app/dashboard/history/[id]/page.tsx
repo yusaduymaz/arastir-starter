@@ -341,6 +341,32 @@ export default async function ReportDetailPage({ params }: { params: { id: strin
                   </div>
                 )}
 
+                {/* Temel Finansal Göstergeler */}
+                {overview && (overview.PBRatio || overview.ROE || overview.ROA || overview.Beta || overview.NetMargin || overview.FloatShares) && (
+                  <div className="bg-[#080808] border border-[#c084fc]/12 rounded-xl p-5">
+                    <span className="font-['JetBrains_Mono'] text-[9px] text-[#c084fc]/50 tracking-widest uppercase mb-3 block">
+                      // Temel Gostergeler
+                    </span>
+                    <div className="space-y-2.5">
+                      {[
+                        { label: 'F/DD (P/B)', value: overview.PBRatio },
+                        { label: 'Beta', value: overview.Beta },
+                        { label: 'ROE (Ozk. Karlılığı)', value: overview.ROE ? `%${overview.ROE}` : '' },
+                        { label: 'ROA (Varlık Karlılığı)', value: overview.ROA ? `%${overview.ROA}` : '' },
+                        { label: 'Net Kar Marjı', value: overview.NetMargin ? `%${overview.NetMargin}` : '' },
+                        { label: 'Halka Açık Hisse Adedi', value: overview.FloatShares ? formatMarketCap(overview.FloatShares).replace(' TL', ' hisse') : '' },
+                      ].map(({ label, value }) => (
+                        <div key={label} className="flex justify-between items-center">
+                          <span className="font-['JetBrains_Mono'] text-[11px] text-[#64748b]">{label}</span>
+                          <span className="font-['Montserrat'] text-sm font-bold text-[#c084fc]">
+                            {value && value !== '' ? value : '-'}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Report Stats */}
                 <div className="bg-[#080808] border border-[#1a1a1a] rounded-xl p-5">
                   <span className="font-['JetBrains_Mono'] text-[9px] text-[#45474c] tracking-widest uppercase mb-3 block">
