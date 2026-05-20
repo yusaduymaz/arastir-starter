@@ -2,7 +2,7 @@
 export const runtime = 'nodejs';
 
 import { NextResponse } from 'next/server'
-import { verifySignature } from '@upstash/qstash/nextjs'
+import { Receiver } from '@upstash/qstash'
 import { createClient } from '@supabase/supabase-js'
 import * as Sentry from '@sentry/nextjs'
 import * as path from 'path'
@@ -434,16 +434,36 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
   }
 }
 
-async function handler(request: Request) {
+const receiver = new Receiver({
+  currentSigningKey: process.env.QSTASH_CURRENT_SIGNING_KEY || '',
+  nextSigningKey: process.env.QSTASH_NEXT_SIGNING_KEY || '',
+})
+
+export async function POST(request: Request): Promise<Response> {
   try {
-    const body = await request.json()
+    const bodyText = await request.text()
+
+    // Verify QStash signature in production (App Router compatible)
+    if (process.env.NODE_ENV !== 'development') {
+      const signature = request.headers.get('upstash-signature') || ''
+      try {
+        const isValid = await receiver.verify({ signature, body: bodyText })
+        if (!isValid) {
+          return NextResponse.json({ error: 'Invalid QStash signature' }, { status: 401 })
+        }
+      } catch (sigErr: any) {
+        console.error('[QStash] Signature verification failed:', sigErr.message)
+        return NextResponse.json({ error: 'Signature verification failed' }, { status: 401 })
+      }
+    }
+
+    const body = JSON.parse(bodyText)
     const { ticker, recordId, extraction } = body
 
     if (!ticker || !recordId || !extraction) {
       return NextResponse.json({ error: 'Missing required parameters' }, { status: 400 })
     }
 
-    // Initialize Supabase Client
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
@@ -453,7 +473,6 @@ async function handler(request: Request) {
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
-    // Await the pipeline since this is a background job handler now
     await executeResearchPipeline(ticker, recordId, supabase, extraction)
 
     return NextResponse.json({ success: true })
@@ -462,16 +481,4 @@ async function handler(request: Request) {
     Sentry.captureException(err)
     return NextResponse.json({ error: err.message }, { status: 500 })
   }
-}
-
-// verifySignature handles QStash authentication automatically
-// Cast needed: verifySignature is typed for Pages Router but we use App Router
-const _verifiedHandler = process.env.NODE_ENV === 'development'
-  ? handler
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  : verifySignature(handler as any);
-
-export async function POST(request: Request): Promise<Response> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return _verifiedHandler(request as any, undefined as any) as unknown as Promise<Response>;
 }
