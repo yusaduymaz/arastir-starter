@@ -1,15 +1,16 @@
 # Project State
 
 ## Project Reference
-- **Name**: Araştır — AI-Powered Research Agent
-- **Core Value**: To provide an AI-powered research agent for the Turkish financial market that automates data collection, synthesis, and reporting.
-- **Current Focus**: Phase 22: Rapor Kalitesi & Veri Zenginleştirme (Not Started)
+See: .planning/PROJECT.md (updated 2026-05-20)
+
+**Core value:** Automate the Turkish retail investor's 2–4 hour research process into a 60-second AI report
+**Current focus:** Phase 23 (Teknik Analiz) + Phase 24 (PDF Redesign)
 
 ## Current Position
-- **Current Phase**: 22
-- **Current Plan**: all complete
-- **Status**: Verification Pending
-- **Progress**: [████████████████████] 100%
+- **Last Milestone**: v22 — Rapor Kalitesi & Veri Zenginleştirme (shipped 2026-05-20)
+- **Current Phase**: 23
+- **Status**: Ready to plan
+- **Progress**: [████████████████████] v22 complete
 
 ## Performance Metrics
 - **Velocity**: TBD
@@ -38,7 +39,7 @@
 - Phase 14, 20, 21 tamamlandı. Phases 22-23 raporun kalite eksiklerini kapatmak için eklendi.
 
 ## Session Continuity
-- **Last Session**: 2026-05-20T13:31:00+03:00
-- **Stopped at**: Phase 22 tüm planlar tamamlandı (22-00, 22-01, 22-02, 22-03). Verification pending.
-- **Last Command**: `/gsd-execute-phase 22` (tüm planlar)
-- **Next Command**: `/gsd-verify-work 22`
+- **Last Session**: 2026-05-20T14:22:00+03:00
+- **Stopped at**: Milestone v22 archived and tagged. RPT-01/02/04 gaps closed inline (commit 73eb591).
+- **Last Command**: `/gsd-complete-milestone 22`
+- **Next Command**: `/gsd-new-milestone` or `/gsd-discuss-phase 23`

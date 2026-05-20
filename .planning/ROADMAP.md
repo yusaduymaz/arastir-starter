@@ -2,6 +2,11 @@
 
 This roadmap outlines the development phases for the Araştır project. It is designed to tackle low-risk, high-value tasks first to build a functioning core, while isolating high-risk dependencies (like web scraping) into later, dedicated phases.
 
+## Milestones
+
+- ✅ **v22 Rapor Kalitesi** — Phase 22 (shipped 2026-05-20) · [archive](milestones/v22-ROADMAP.md)
+- 🚧 **v23 Teknik Analiz & PDF** — Phases 23–24 (in progress)
+
 ## Phases
 - [ ] **Phase 1: Foundation & Stable Data** - Establish the core project structure and integrate with reliable, official APIs (TCMB, TÜİK).
 - [ ] **Phase 2: Core Reporting Engine** - Build the capability to generate PDF and PPTX reports from the stable data collected in Phase 1.
@@ -314,7 +319,7 @@ Plans:
 | 18. Admin Dashboard Fixes & Enhancements | 4/4 | Not Started | Yes |
 | 20. Production Hardening & Asenkron Mimari | 4/4 | Completed | Yes |
 | 21. Error Handling & Loading States | 2/2 | Completed | Yes |
-| 22. Rapor Kalitesi & Veri Zenginleştirme | 1/4 | In Progress | No |
+| 22. Rapor Kalitesi & Veri Zenginleştirme | 4/4 | ✅ Completed (v22) | 2026-05-20 |
 | 23. Teknik Analiz & Karşılaştırmalı Göstergeler | 0/3 | Not Started | No |
 | 24. Profesyonel PDF Rapor Yeniden Tasarımı | 0/2 | Not Started | No |
 
@@ -331,21 +336,21 @@ Plans:
 - [x] 21-01-PLAN.md — Global Error Handling & Error Boundaries
 - [x] 21-02-PLAN.md — Page Transition Loading States & Skeletons
 
+<details>
+<summary>✅ v22 Rapor Kalitesi (Phase 22) — SHIPPED 2026-05-20 · <a href="milestones/v22-ROADMAP.md">archive</a></summary>
+
 ### Phase 22: Rapor Kalitesi & Veri Zenginleştirme
 **Goal**: Rapordaki kritik eksikleri kapat: AL/TUT/SAT tavsiyesini görünür kıl, TCMB verilerindeki N/A sorununu düzelt, her veri bloğuna "son güncelleme" zaman damgası ekle ve Yahoo Finance'dan çekilen temel finansal rasyoları genişlet (P/B, ROE, ROA, Beta, Free Float, Net Marj).
 **Depends on**: Phase 21
-**Requirements**: RPT-01, RPT-02, RPT-03, RPT-04
-**Success Criteria** (what must be TRUE):
-  1. Rapor sayfasının üst kısmında AL/TUT/SAT kartı (InvestmentCard) güven skoru ile birlikte her zaman görünür.
-  2. TCMB endpoint'i TÜFE ve Politika Faizi verisini dönemediğinde "N/A" yerine son bilinen değeri veya açıklayıcı fallback mesajını gösterir.
-  3. Fiyat, makro ve haber bloklarının her birinde "X dakika önce güncellendi" şeklinde zaman damgası gösterilir.
-  4. Rapor sayfasında P/B, ROE, ROA, Beta, Net Marj ve Free Float rasyoları Temel Göstergeler kartında listelenir.
-  5. Yeni rasyolar Yahoo Finance `quoteSummary` endpoint'inden çekilir; eksik alan varsa "-" ile gösterilir, sessizce patlamaz.
-**Plans**: 3 plans
+**Requirements**: RPT-01 ✅, RPT-02 ✅, RPT-03 ✅, RPT-04 ✅
+**Plans**: 4 plans
 Plans:
-- [ ] 22-01-PLAN.md — AL/TUT/SAT Kartı Entegrasyonu & TCMB Graceful Fallback
-- [ ] 22-02-PLAN.md — Stale Data Timestamp & Temel Finansal Rasyolar
-- [ ] 22-03-PLAN.md — Yahoo Finance quoteSummary Genişletmesi & Tip Güncellemeleri
+- [x] 22-00-PLAN.md — Wave 0 TDD Red Test Infrastructure
+- [x] 22-01-PLAN.md — AL/TUT/SAT Kartı Entegrasyonu & TCMB Graceful Fallback
+- [x] 22-02-PLAN.md — Stale Data Timestamp & Temel Finansal Rasyolar
+- [x] 22-03-PLAN.md — Yahoo Finance quoteSummary Genişletmesi & Tip Güncellemeleri
+
+</details>
 
 ### Phase 23: Teknik Analiz & Karşılaştırmalı Göstergeler
 **Goal**: PriceChart üzerine MA20/MA50/MA200 overlay'leri ve ayrı bir RSI paneli ekle; hacim anomali tespiti ile anormal işlem günlerini vurgula; BIST100 relative performance karşılaştırması ile hissenin endekse göre performansını göster.
