@@ -23,6 +23,16 @@ function formatMarketCap(val: string | undefined): string {
   return `${n.toLocaleString('tr-TR')} TL`;
 }
 
+function timeAgo(fetchedAt: number | string): string {
+  const ts = typeof fetchedAt === 'string' ? new Date(fetchedAt).getTime() : fetchedAt;
+  const diffMs = Date.now() - ts;
+  if (diffMs < 60_000) return 'Az önce güncellendi';
+  const diffMin = Math.round(diffMs / 60000);
+  if (diffMin < 60) return `${diffMin} dakika önce güncellendi`;
+  const diffHr = Math.round(diffMin / 60);
+  return `${diffHr} saat önce güncellendi`;
+}
+
 export default async function ReportDetailPage({ params }: { params: { id: string } }) {
   const { userId } = auth();
 
@@ -44,6 +54,16 @@ export default async function ReportDetailPage({ params }: { params: { id: strin
   if (error || !report) {
     return notFound();
   }
+
+  const { data: agentTimestamps } = await supabase
+    .from('agent_runs')
+    .select('agent_name, completed_at')
+    .eq('session_id', params.id)
+    .in('agent_name', ['macro', 'news'])
+    .not('completed_at', 'is', null);
+
+  const macroCompletedAt = agentTimestamps?.find((r: any) => r.agent_name === 'macro')?.completed_at ?? null;
+  const newsCompletedAt = agentTimestamps?.find((r: any) => r.agent_name === 'news')?.completed_at ?? null;
 
   const { kap_data, news_data, market_data, macro_data, synthesis_data } = report;
 
@@ -266,6 +286,11 @@ export default async function ReportDetailPage({ params }: { params: { id: strin
                     <span className="font-['JetBrains_Mono'] text-[9px] text-[#14b8a6]/50 tracking-widest uppercase">
                       // Makro Gostergeler (TCMB EVDS)
                     </span>
+                    {macroCompletedAt && (
+                      <span className="font-['JetBrains_Mono'] text-[9px] text-[#45474c]">
+                        {timeAgo(macroCompletedAt)}
+                      </span>
+                    )}
                   </div>
                   <MacroChart macroData={macro_data} />
                   {/* Macro data table */}
@@ -302,9 +327,16 @@ export default async function ReportDetailPage({ params }: { params: { id: strin
                 {/* Sentiment */}
                 {news_data && news_data.length > 0 && (
                   <div className="bg-[#080808] border border-[#60a5fa]/12 rounded-xl p-5">
-                    <span className="font-['JetBrains_Mono'] text-[9px] text-[#60a5fa]/50 tracking-widest uppercase mb-3 block">
-                      // Haber Duygu Analizi
-                    </span>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="font-['JetBrains_Mono'] text-[9px] text-[#60a5fa]/50 tracking-widest uppercase">
+                        // Haber Duygu Analizi
+                      </span>
+                      {newsCompletedAt && (
+                        <span className="font-['JetBrains_Mono'] text-[9px] text-[#45474c]">
+                          {timeAgo(newsCompletedAt)}
+                        </span>
+                      )}
+                    </div>
                     <SentimentChart newsData={news_data} />
                   </div>
                 )}
@@ -339,6 +371,14 @@ export default async function ReportDetailPage({ params }: { params: { id: strin
                       <div className="flex justify-between items-center border-t border-[#1a1a1a] pt-2">
                         <span className="font-['JetBrains_Mono'] text-[11px] text-[#64748b]">Veri Kaynagi</span>
                         <span className="font-['JetBrains_Mono'] text-[10px] text-[#45474c]">{market_data.source.provider}</span>
+                      </div>
+                    )}
+                    {market_data?.source?.fetched_at && (
+                      <div className="flex justify-between items-center">
+                        <span className="font-['JetBrains_Mono'] text-[11px] text-[#64748b]">Piyasa Verisi</span>
+                        <span className="font-['JetBrains_Mono'] text-[10px] text-[#45474c]">
+                          {timeAgo(market_data.source.fetched_at)}
+                        </span>
                       </div>
                     )}
                   </div>
