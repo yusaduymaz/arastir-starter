@@ -263,10 +263,26 @@ export async function POST(request: Request) {
       )
     }
 
-    await qstash.publishJSON({
-      url: webhookUrl,
-      body: jobPayload,
-    });
+    try {
+      await qstash.publishJSON({
+        url: webhookUrl,
+        body: jobPayload,
+      });
+    } catch (qstashError: any) {
+      console.error('[Orchestrator] QStash publish failed:', qstashError);
+      await supabase
+        .from('research_sessions')
+        .update({
+          status: 'failed',
+          error_message: `QStash yayinlama hatasi: ${qstashError.message}. QSTASH_TOKEN veya APP_URL yapilandirmasini kontrol edin.`,
+        })
+        .eq('id', record.id);
+      Sentry.captureException(qstashError);
+      return NextResponse.json(
+        { error: `QStash yayinlama hatasi: ${qstashError.message}` },
+        { status: 500 }
+      );
+    }
 
     // 3. Return immediately WITH the extracted ticker so frontend can show it
     return NextResponse.json({ success: true, id: record.id, ticker }, { status: 202 })

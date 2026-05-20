@@ -337,23 +337,35 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
 
     const timestamp = Date.now();
     const slug = ticker.toLowerCase();
-    const outputDir = path.resolve(process.cwd(), 'public', 'outputs', `${timestamp}-${slug}`);
+    // Vercel has a read-only filesystem except /tmp; use /tmp on Vercel, public/outputs locally
+    const isVercel = !!process.env.VERCEL;
+    const outputDir = isVercel
+      ? path.resolve('/tmp', 'outputs', `${timestamp}-${slug}`)
+      : path.resolve(process.cwd(), 'public', 'outputs', `${timestamp}-${slug}`);
 
     const { runWriterAgent } = await import('@/agents/writer-agent');
 
+    let writerSucceeded = false;
     console.log(`[Pipeline] Generating PDF and PPTX documents...`);
     try {
       await runWriterAgent(supabase, recordId, writerRunId, reportData, outputDir);
+      writerSucceeded = true;
+      await appendAgentLog(supabase, recordId, {
+        agent: 'writer',
+        status: 'completed',
+        message: `PDF ve PPTX basariyla olusturuldu`,
+        duration_ms: Date.now() - writerStartTime,
+      });
     } catch (e: any) {
-      throw e;
+      console.error('[Pipeline] Writer agent failed (non-blocking):', e);
+      await appendAgentLog(supabase, recordId, {
+        agent: 'writer',
+        status: 'failed',
+        message: `Rapor dosyalari olusturulamadi (non-blocking): ${e.message}`,
+        duration_ms: Date.now() - writerStartTime,
+        details: String(e).slice(0, 200),
+      });
     }
-
-    await appendAgentLog(supabase, recordId, {
-      agent: 'writer',
-      status: 'completed',
-      message: `PDF ve PPTX basariyla olusturuldu`,
-      duration_ms: Date.now() - writerStartTime,
-    });
 
     console.log(`[Pipeline] Completed successfully for ${ticker}.`);
 
@@ -364,13 +376,16 @@ async function executeResearchPipeline(ticker: string, recordId: string, supabas
       message: `${ticker} analizi basariyla tamamlandi! Rapor hazir.`,
     });
 
+    // result_url is only valid locally; on Vercel, files are in /tmp (not HTTP-accessible)
+    const resultUrl = (!isVercel && writerSucceeded) ? `/outputs/${timestamp}-${slug}` : null;
+
     const { error: statusError } = await supabase
       .from('research_sessions')
       .update({
         status: 'completed',
         progress: 100,
         current_step: 'Tamamlandi',
-        result_url: `/outputs/${timestamp}-${slug}`,
+        result_url: resultUrl,
       })
       .eq('id', recordId);
 
