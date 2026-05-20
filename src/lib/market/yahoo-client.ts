@@ -54,7 +54,7 @@ export async function getYahooMarketData(ticker: string): Promise<MarketData | n
     try {
       const summary: any = await yf.quoteSummary(
         symbol,
-        { modules: ['summaryDetail', 'price', 'assetProfile', 'defaultKeyStatistics'] },
+        { modules: ['summaryDetail', 'price', 'assetProfile', 'defaultKeyStatistics', 'financialData'] },
         { validateResult: false }
       );
 
@@ -62,6 +62,7 @@ export async function getYahooMarketData(ticker: string): Promise<MarketData | n
       const price = summary?.price || {};
       const detail = summary?.summaryDetail || {};
       const stats = summary?.defaultKeyStatistics || {};
+      const fd = summary?.financialData || {};
 
       overview = {
         Symbol: symbol,
@@ -78,6 +79,18 @@ export async function getYahooMarketData(ticker: string): Promise<MarketData | n
         DividendYield: fmt(detail.dividendYield?.raw ?? detail.dividendYield),
         '52WeekHigh': fmt(detail.fiftyTwoWeekHigh?.raw ?? detail.fiftyTwoWeekHigh),
         '52WeekLow': fmt(detail.fiftyTwoWeekLow?.raw ?? detail.fiftyTwoWeekLow),
+        PBRatio: fmt(stats.priceToBook?.raw ?? stats.priceToBook),
+        Beta: fmt(stats.beta?.raw ?? stats.beta),
+        FloatShares: fmt(stats.floatShares?.raw ?? stats.floatShares),
+        ROE: fd.returnOnEquity != null
+          ? fmt(((fd.returnOnEquity?.raw ?? fd.returnOnEquity) * 100).toFixed(2))
+          : '',
+        ROA: fd.returnOnAssets != null
+          ? fmt(((fd.returnOnAssets?.raw ?? fd.returnOnAssets) * 100).toFixed(2))
+          : '',
+        NetMargin: fd.profitMargins != null
+          ? fmt(((fd.profitMargins?.raw ?? fd.profitMargins) * 100).toFixed(2))
+          : '',
       } as CompanyOverview;
     } catch (err) {
       console.warn(`[Yahoo] quoteSummary failed for ${symbol}:`, (err as Error).message);
