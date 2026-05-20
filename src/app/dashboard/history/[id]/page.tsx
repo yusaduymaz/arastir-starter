@@ -33,6 +33,15 @@ function timeAgo(fetchedAt: number | string): string {
   return `${diffHr} saat önce güncellendi`;
 }
 
+function getLatestNonNull(data: Record<string, unknown>[], field: string): string | null {
+  if (!data || data.length === 0) return null;
+  for (let i = data.length - 1; i >= 0; i--) {
+    const val = data[i][field];
+    if (val != null && val !== '' && val !== 'ND') return String(val);
+  }
+  return null;
+}
+
 export default async function ReportDetailPage({ params }: { params: { id: string } }) {
   const { userId } = auth();
 
@@ -229,9 +238,7 @@ export default async function ReportDetailPage({ params }: { params: { id: strin
               )}
 
               {/* Investment Recommendation */}
-              {investmentRec && (
-                <InvestmentCard recommendation={investmentRec} ticker={ticker} />
-              )}
+              <InvestmentCard recommendation={investmentRec ?? null} ticker={ticker} />
 
               {/* If no chart but has recommendation, full width */}
               {!timeSeries && !investmentRec && null}
@@ -296,11 +303,10 @@ export default async function ReportDetailPage({ params }: { params: { id: strin
                   {/* Macro data table */}
                   <div className="mt-4 grid grid-cols-3 gap-3">
                     {(() => {
-                      const latest = macro_data[macro_data.length - 1];
-                      if (!latest) return null;
-                      const usd = latest.TP_DK_USD_A || latest.TP_DK_USD_A_YTL;
-                      const tufe = latest.TP_FG_J0;
-                      const faiz = latest.TP_MK_B_A2;
+                      if (!macro_data || macro_data.length === 0) return null;
+                      const usd = getLatestNonNull(macro_data, 'TP_DK_USD_A') ?? getLatestNonNull(macro_data, 'TP_DK_USD_A_YTL');
+                      const tufe = getLatestNonNull(macro_data, 'TP_FG_J0');
+                      const faiz = getLatestNonNull(macro_data, 'TP_MK_B_A2');
                       return (
                         <>
                           <div className="bg-[#0d0d0d] rounded-lg p-3 text-center">
@@ -309,11 +315,11 @@ export default async function ReportDetailPage({ params }: { params: { id: strin
                           </div>
                           <div className="bg-[#0d0d0d] rounded-lg p-3 text-center">
                             <p className="font-['JetBrains_Mono'] text-[8px] text-[#45474c] uppercase">TUFE</p>
-                            <p className="font-['Montserrat'] text-lg font-bold text-[#60a5fa]">{tufe ? parseFloat(tufe).toFixed(2) : 'N/A'}</p>
+                            <p className="font-['Montserrat'] text-lg font-bold text-[#60a5fa]">{tufe ? parseFloat(tufe).toFixed(2) : 'Veri henüz yayınlanmadı'}</p>
                           </div>
                           <div className="bg-[#0d0d0d] rounded-lg p-3 text-center">
                             <p className="font-['JetBrains_Mono'] text-[8px] text-[#45474c] uppercase">Politika Faizi</p>
-                            <p className="font-['Montserrat'] text-lg font-bold text-[#ef4444]">{faiz ? `%${parseFloat(faiz).toFixed(2)}` : 'N/A'}</p>
+                            <p className="font-['Montserrat'] text-lg font-bold text-[#ef4444]">{faiz ? `%${parseFloat(faiz).toFixed(2)}` : 'Veri henüz yayınlanmadı'}</p>
                           </div>
                         </>
                       );
@@ -342,7 +348,7 @@ export default async function ReportDetailPage({ params }: { params: { id: strin
                 )}
 
                 {/* Temel Finansal Göstergeler */}
-                {overview && (overview.PBRatio || overview.ROE || overview.ROA || overview.Beta || overview.NetMargin || overview.FloatShares) && (
+                {overview && (
                   <div className="bg-[#080808] border border-[#c084fc]/12 rounded-xl p-5">
                     <span className="font-['JetBrains_Mono'] text-[9px] text-[#c084fc]/50 tracking-widest uppercase mb-3 block">
                       // Temel Gostergeler
