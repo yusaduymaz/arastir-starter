@@ -28,6 +28,12 @@ export const CompanyOverviewSchema = z.object({
   DividendYield: z.string().default(''),
   '52WeekHigh': z.string().default(''),
   '52WeekLow': z.string().default(''),
+  PBRatio: z.string().default(''),
+  Beta: z.string().default(''),
+  FloatShares: z.string().default(''),
+  ROE: z.string().default(''),
+  ROA: z.string().default(''),
+  NetMargin: z.string().default(''),
 }).passthrough();
 
 export const TimeSeriesEntrySchema = z.object({
